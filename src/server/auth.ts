@@ -5,6 +5,7 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
+import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "~/env.mjs";
 import { db } from "~/server/db";
@@ -16,10 +17,12 @@ import { mysqlTable } from "~/server/db/schema";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
+
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      // user?: User;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
@@ -44,6 +47,9 @@ export const authOptions: NextAuthOptions = {
         ...session.user,
         id: user.id,
       },
+      // profile(profile) {
+      //   return {}
+      // }
     }),
   },
   adapter: DrizzleAdapter(db, mysqlTable),
@@ -52,6 +58,11 @@ export const authOptions: NextAuthOptions = {
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    })
+    
     /**
      * ...add more providers here.
      *
