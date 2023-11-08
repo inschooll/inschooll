@@ -23,7 +23,7 @@ export default {
           },
           background: {
             main: "rgb(var(--color-bkg) / <alpha-value>)",
-            sub: "rgb(var(--color-bkg-sub) / <alpha-value>)",
+            sub: "rgb(var(--color-bkg-compliment) / <alpha-value>)",
           },
           content: {
             main: "rgb(var(--color-content-main) / <alpha-value>)",
