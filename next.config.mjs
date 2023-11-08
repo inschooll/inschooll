@@ -7,7 +7,12 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: ['cdn.discordapp.com', 'lh3.googleusercontent.com']
+    remotePatterns: [
+      {protocol: 'https', hostname: 'cdn.discordapp.com'},
+      {protocol: 'https', hostname: 'lh3.googleusercontent.com'},
+      {protocol: 'https', hostname: 'binghamuni.edu.ng'},
+      {protocol: 'https', hostname: 'upload.wikimedia.org'},
+    ]
   }
 };
 
