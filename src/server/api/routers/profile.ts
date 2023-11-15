@@ -18,28 +18,21 @@ const profileFormData = {
 };
 
 export const profileRouter = createTRPCRouter({
-  getProfile: protectedProcedure
+  getProfileByUserId: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
-      // fetch users profile
-      // const userProfile = await ctx.db.select().from(profile).where(eq(profile.userId, input.userId));
       const userProfile = await ctx.db.query.profile.findFirst({
         where: (profile, { eq }) => eq(profile.userId, input.userId),
       });
+      
       return userProfile;
-
-      // if (userProfile.length) {
-      //   return userProfile[0];
-      // } else {
-      //   // create profile and return it
-      //   await ctx.db.insert(profile).values({
-      //     id: randomUUID(),
-      //     userId: input.userId,
-      //   });
-      //   const userProfile = await ctx.db.select().from(profile).where(eq(profile.userId, input.userId))
-
-      //   return userProfile[0];
-      // }
+    }),
+  getProfileByUsername: protectedProcedure
+    .input(z.object({ username: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.profile.findFirst({
+        where: (profile, { eq }) => eq(profile.username, input.username),
+      });
     }),
   createProfile: protectedProcedure
     .input(z.object(profileFormData))
