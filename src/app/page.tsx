@@ -9,21 +9,12 @@ import links from "./core/constants/links";
 import Button from "./_components/buttons/button";
 import { redirect } from "next/navigation";
 
+
 export default async function Home() {
   const session = await getServerAuthSession();
-  // const hello = await api.post.hello.query({ text: "from tRPC" });
+  const profile = session ? await api.profile.getProfileByUserId.query({userId: session?.user.id}) : null;
 
-  if (session?.user) {
-    // get user profile
-    const userProfile = await api.profile.getProfile.query({userId: session.user.id});
-    console.log('User Profile Created ✅');
-    console.log(userProfile);
-
-    // send user to a page to fill all their information
-    if (userProfile && userProfile.firstName == null) {
-      redirect(links.completeRegistration);
-    }
-  }
+  if (session?.user && !profile) redirect(links.completeRegistration);
 
   return (
     <div className="h-screen overflow-hidden bg-cc-background-main">
