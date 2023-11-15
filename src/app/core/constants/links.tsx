@@ -1,9 +1,10 @@
-const login = "/auth/login";
-const signup = "/auth/signup";
-const completeRegistration = "/auth/complete-registration";
+const login = "/login";
+const signup = "/signup";
+const completeRegistration = "/complete-registration";
 const landingPage = '/';
 const purpose = '/purpose';
 const pickSchool = '/pick-university';
+const createSchool = '/create-school';
 
 export default {
   login,
@@ -12,4 +13,5 @@ export default {
   purpose,
   pickSchool,
   completeRegistration,
-}
+  createSchool
+} as const;
