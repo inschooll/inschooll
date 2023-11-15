@@ -1,25 +1,30 @@
+import Label from "./label";
+import { MinMaxContainer } from "./label_textarea_field";
 import TextInputField, { type InputProps } from "./text_input_field";
 
-const LabelAndTextInputField = ({label, ...props} : {label: string} & InputProps) => {
-  
+
+
+export default function LabelAndTextInputField({label, explanation, errorMessage, inputIsValid, inputIsLoading, ...props} : {label: string, explanation?: string | React.ReactNode, errorMessage?: string, inputIsValid?: boolean, inputIsLoading?: boolean} & InputProps) {
+  const id = label.split(' ').join('_').toLowerCase();
   return (
-    <>
-      <Label value={label} isRequired={props.required ?? false} />
-      <div className="mt-1">
-        <TextInputField {...props} />
+    <div>
+      <div className={(props.minLength ?? props.maxLength) ? "flex items-center justify-between pb-[2px]" : ""}>
+        <Label value={label} isRequired={props.required ?? false} labelFor={id} />
+        {/* Min or Max length */}
+        {(props.maxLength ?? props.minLength) && (
+          <MinMaxContainer min={props.minLength} max={props.maxLength} />
+        )}
       </div>
-    </>
+      <div className="mt-1">
+        <TextInputField {...props} isValid={inputIsValid} isLoading={inputIsLoading} id={id} />
+      </div>
+      {explanation && <div className="mt-2 text-xs text-cc-content-main/50">
+        <p>{explanation}</p>
+      </div>}
+      {errorMessage && <div className="mt-2 text-xs text-red-500">
+        <p>{errorMessage}</p>
+      </div>}
+    </div>
   );
 };
 
-export default LabelAndTextInputField;
-
-export function Label({className, value, isRequired} : {className?: string, value: string, isRequired: boolean}) {
-  return (
-    <p className={`text-xs text-cc-content-main/80m ${className}`}>
-      {value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()}
-      {isRequired && <span className="text-red-500"> *</span>}
-
-    </p>
-  );
-}
