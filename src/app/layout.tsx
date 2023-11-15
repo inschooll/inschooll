@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { TRPCReactProvider } from "~/trpc/react";
 import type { Metadata } from "next";
 import images from "./core/constants/images";
+import PopUps from "./_components/popups/PopUps";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,8 +31,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme=''>
-      <body className={`bg-cc-background-main text-cc-content-main font-sans ${inter.variable}`}>
+    <html lang="en" data-theme='dark'>
+      <body className={`bg-cc-background-main text-cc-content-main font-sans ${inter.className} antialiased`}>
+        <PopUps />
+
         <TRPCReactProvider headers={headers()}>
           {children}
         </TRPCReactProvider>
