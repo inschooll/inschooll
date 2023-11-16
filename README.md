@@ -1,28 +1,40 @@
-# Create T3 App
+# InSchool Onboarding
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+#### Branching Strategy
+- we will be using the *GitFlow* branching strategy, here is a [video](https://www.youtube.com/watch?v=Uszj_k0DGsg&ab_channel=freeCodeCamp.org) that helps you get up to speed on professional use of git
+- where we have 3 main branches
+  - main
+  - test
+  - develop
 
-## What's next? How do I make an app with this?
+#### Service Tree
+- [General (tips to pick from)](https://miro.com/app/board/uXjVNaLxuLo=/?share_link_id=989018867386#tpicker-content)
+- [InScool's](https://miro.com/app/board/uXjVNaLxuLo=/?share_link_id=989018867386#tpicker-content)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+#### SDLC Type
+- Agile (SCRUM)
+- jira
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+#### Frontend Stacks
+- T3 Stack
+- Typescript
+- Next.js
+- TailwindCSS
+- Framer Motion
+- TRPC
+- Drizzle ORM
+- Next Auth
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
 
-## Learn More
+#### Backend Stacks
+- Node.js
+- Express
+- DrizzleORM
+- MySQL
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+#### Services
+- PlanetScale
+- Vercel
+- Axiom
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
