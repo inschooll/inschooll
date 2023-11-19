@@ -4,7 +4,7 @@ import TextInputField, { type InputProps } from "./text_input_field";
 
 
 
-export default function LabelAndTextInputField({label, explanation, errorMessage, inputIsValid, inputIsLoading, ...props} : {label: string, explanation?: string | React.ReactNode, errorMessage?: string, inputIsValid?: boolean, inputIsLoading?: boolean} & InputProps) {
+export default function LabelAndTextInputField({label, explanation, errorMessage, inputIsValid, inputIsLoading, ...props} : {label: string, explanation?: string, errorMessage?: string, inputIsValid?: boolean, inputIsLoading?: boolean} & InputProps) {
   const id = label.split(' ').join('_').toLowerCase();
   return (
     <div>

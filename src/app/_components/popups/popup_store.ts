@@ -8,7 +8,8 @@ interface Popup {
   reset: () => void;
 }
 
-
+// This store allows us display popups using the root layout.tsx file in the /app directory
+// so whenever we add a pop up here it, some code in the layout runs to show a pop up with the message of the popup and the type as well
 export const usePopUpStore = create<Popup>()((set) => ({
   popups: [],
   addPopup: (newMsg) => set((store) => {
