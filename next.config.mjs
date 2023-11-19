@@ -12,6 +12,7 @@ const config = {
       {protocol: 'https', hostname: 'lh3.googleusercontent.com'},
       {protocol: 'https', hostname: 'binghamuni.edu.ng'},
       {protocol: 'https', hostname: 'upload.wikimedia.org'},
+      {protocol: 'https', hostname: 'inschooll-dev.s3.eu-central-1.amazonaws.com'},
     ]
   }
 };
