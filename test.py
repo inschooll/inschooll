@@ -9,3 +9,8 @@ Key findings from this research reveal a notable increase in the efficiency of t
 
 In conclusion, this research project recommends the adoption of the web application by educational institutions with disciplinary councils to improve their efficiency and effectiveness in managing disciplinary matters. The application's user-friendly design and functionalities make it a valuable tool for promoting discipline and maintaining a safe and conducive learning environment.
 '''.split()))
+
+
+print(len('''
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15764.632348399182!2d7.7021505!3d8.9575769!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e03611fcc4745%3A0xaa5df3fb10e2a901!2sOmega%20Cafeteria!5e0!3m2!1sen!2sng!4v1699430069957!5m2!1sen!2sng" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+'''));

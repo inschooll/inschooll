@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../_components/navbar/navbar";
+import Navbar from "~/app/_components/navbar/navbar";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

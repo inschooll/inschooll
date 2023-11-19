@@ -1,8 +1,8 @@
 'use client';
 import React from "react";
-import Button from "../_components/buttons/button";
+import Button from "~/app/_components/buttons/button";
 import Link from "next/link";
-import links from "../core/constants/links";
+import links from "~/app/core/constants/links";
 
 export default function PurposeBody() {
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);

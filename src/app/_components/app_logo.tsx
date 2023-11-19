@@ -1,6 +1,6 @@
 import Image from "next/image";
-import constants from "../core/constants/constants";
-import images from "../core/constants/images";
+import constants from '~/app/core/constants/constants';
+import images from "~/app/core/constants/images";
 import { Gabarito } from "next/font/google";
 
 const gabarito = Gabarito({subsets: ["latin"]});

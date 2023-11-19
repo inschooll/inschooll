@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import Cropper, { type Area } from "react-easy-crop";
 import Button from "./buttons/button";
-import getCroppedImg from "../core/cropper/crop_image";
+import getCroppedImg from "~/app/core/cropper/crop_image";
 
 export default function CropperPopup({
   img,

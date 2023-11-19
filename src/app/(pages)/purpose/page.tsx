@@ -1,4 +1,5 @@
-import Navbar from "../_components/navbar/navbar";
+
+import Navbar from "~/app/_components/navbar/navbar";
 import PurposeBody from "./PurposeBody";
 import { protectPage } from "~/core/utils";
 

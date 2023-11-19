@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Button from "../_components/buttons/button";
+import Button from "~/app/_components/buttons/button";
 import { FcGoogle } from "react-icons/fc";
 
 export default function AuthGoogleButton() {
