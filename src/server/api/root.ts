@@ -2,6 +2,7 @@ import { postRouter } from "~/server/api/routers/post";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { profileRouter } from "./routers/profile";
 import { schoolRouter } from "./routers/school";
+import { awsRouter } from "./routers/aws";
 
 /**
  * This is the primary router for your server.
@@ -12,6 +13,7 @@ export const appRouter = createTRPCRouter({
   post: postRouter,
   profile: profileRouter,
   school: schoolRouter,
+  aws: awsRouter,
 });
 
 // export type definition of API
