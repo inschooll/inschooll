@@ -3,15 +3,18 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { school, user_school_role } from "~/server/db/schema";
 import { randomUUID } from "crypto";
 import roles from "~/app/core/constants/roles";
-import { eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { bucketName, s3Client } from "./aws";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const schoolType = {
   name: z.string(),
   about: z.string(),
   motto: z.string(),
   acronym: z.string(),
-  coverUrl: z.string(),
-  logoUrl: z.string(),
+  cover: z.string(),
+  logo: z.string(),
 
   country: z.string(),
   state: z.string(),
@@ -34,8 +37,8 @@ const schoolOptionalType = {
   about: z.string().optional(),
   motto: z.string().optional(),
   acronym: z.string().optional(),
-  coverUrl: z.string().optional(),
-  logoUrl: z.string().optional(),
+  cover: z.string().optional(),
+  logo: z.string().optional(),
   address: z.string().optional(),
   phone1: z.string().optional(),
   phone2: z.string().optional(),
@@ -47,6 +50,8 @@ const schoolOptionalType = {
   country: z.string().optional(),
   state: z.string().optional(),
 }
+
+const getAllTypes = {skip: z.number().optional(), limit: z.number().optional(), country: z.string().optional(), state: z.string().optional()}
 
 export const schoolRouter = createTRPCRouter({
   create: protectedProcedure
@@ -64,12 +69,12 @@ export const schoolRouter = createTRPCRouter({
       // create school form data
       const data = {
         id: randomUUID(),
+        cover: input.cover,
+        logo: input.logo,
         name: input.name,
         about: input.about,
         motto: input.motto,
         acronym: input.acronym,
-        coverUrl: input.coverUrl,
-        logoUrl: input.logoUrl,
         address: input.address,
         phone1: input.phone1,
         phone2: input.phone2,
@@ -86,46 +91,107 @@ export const schoolRouter = createTRPCRouter({
 
       // create school
       const newSchool = await ctx.db.insert(school).values(data);
-      console.log('school: created successfully! ✅ ... step1');
-      // fetch school that was just created
       const newSchoolData = await ctx.db.query.school.findFirst({
         where: (school, { eq }) => eq(school.name, input.name)
       })
 
-      // create chancellor user_role for current user
-      // - get chancellor role from db
+      // create user_school_role relationship
       const role = await ctx.db.query.role.findFirst({
         where: (role, { eq }) => eq(role.name, roles.chancellor)
       });
       
-      // ensure the role was fetched
       if (!role) throw new Error(`The chancellor role was not found`);
-      console.log(`User: ${ctx.session.user.id}`);
-      console.log(`School: ${newSchoolData?.id}`);
-      console.log(`Role: ${role?.id}`);
 
-      const data2 = {
+      const userSchoolRole = {
         user_id: ctx.session.user.id,
         school_id: newSchoolData?.id ?? '',
         role_id: role.id,
       };
 
-      // - create user_school_role relationship
-      const userSchoolRole = await ctx.db.insert(user_school_role).values(data2);
-      console.log('user_school_role: created successfully! ✅ ...step2 (done)');
+      await ctx.db.insert(user_school_role).values(userSchoolRole);
 
       // return new school
       return newSchool.insertId;
+    }),
+  getAll: protectedProcedure
+    .input(z.object(getAllTypes))
+    .query(async ({ctx, input}) => {
+      const schools = await ctx.db.query.school.findMany({
+        limit: input.limit,
+        offset: (input.skip ?? 0) * (input.limit ?? 1),
+        orderBy: [asc(school.name)]
+      });
+      const newSchools: ({coverUrl: string, logoUrl: string} & typeof school.$inferSelect)[] = [];
+      console.log(schools);
+
+      await Promise.all(schools.map(async (school) => {
+        let coverUrl = '';
+        let logoUrl = '';
+
+        const setCoverAndLogo = async () => {
+          if (school?.cover) {
+            const command = new GetObjectCommand({
+              Bucket: bucketName,
+              Key: school.cover,
+            });
+            coverUrl = await getSignedUrl(s3Client, command, {expiresIn: 60});
+          }
+          if (school?.logo) {
+            const command = new GetObjectCommand({
+              Bucket: bucketName,
+              Key: school.logo,
+            });
+            logoUrl = await getSignedUrl(s3Client, command, {expiresIn: 60});
+          }
+
+        }
+        
+        await setCoverAndLogo();
+        newSchools.push({coverUrl, logoUrl, ...school});
+      }));
+
+      return newSchools;
+      
     }),
   getById: protectedProcedure
     .input(z.object({ id: z.string()}))
     .query( async ({ ctx, input }) => {
       return await ctx.db.query.school.findFirst({where: (school, { eq }) => eq(school.id, input.id)});
     }),
+  // TODO: Not yet tested the presignedURL for cover and logo images if they work
   getByName: protectedProcedure
     .input(z.object({ name: z.string()}))
     .query( async ({ ctx, input }) => {
-      return await ctx.db.query.school.findFirst({where: (school, { eq }) => eq(school.name, input.name)});
+      
+      if (school) {
+        let coverUrl = '';
+        let logoUrl = '';
+
+        const school = await ctx.db.query.school.findFirst({where: (school, { eq }) => eq(school.name, input.name)});
+
+        const setCoverAndLogo = async () => {
+          if (school?.cover) {
+            const command = new GetObjectCommand({
+              Bucket: bucketName,
+              Key: school.cover,
+            });
+            coverUrl = await getSignedUrl(s3Client, command, {expiresIn: 60});
+          }
+          if (school?.logo) {
+            const command = new GetObjectCommand({
+              Bucket: bucketName,
+              Key: school.logo,
+            });
+            logoUrl = await getSignedUrl(s3Client, command, {expiresIn: 60});
+          }
+        }
+
+        await setCoverAndLogo();
+
+        return {coverUrl: coverUrl, logoUrl: logoUrl, ...school};
+      }
+
+      return undefined;
     }),
     // TODO: who exactly can update a schools information (chancellor, vice chancellor or those with specific permission)
   update: protectedProcedure
@@ -140,7 +206,7 @@ export const schoolRouter = createTRPCRouter({
       });
       console.log(userSchoolRole);
       
-      // TODO: ensure user is only able to delete a school if they are the vice chancellor
+      // TODO: ensure user is only able to delete a school if they are the chancellor
       
       // make changes
 
