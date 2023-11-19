@@ -25,7 +25,6 @@
 - Drizzle ORM
 - Next Auth
 
-
 #### Backend Stacks
 - Node.js
 - Express
