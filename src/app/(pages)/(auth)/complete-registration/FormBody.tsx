@@ -210,7 +210,7 @@ export default function FormBody() {
         {/* gender */}
         {stage > 5 && (
           <div className="col-span-3 mt-4">
-            <Label className="mt-4" value={"Gender"} isRequired={false} />
+            <Label labelFor="" className="mt-4" value={"Gender"} isRequired={false} />
             <SelectInputField
               name="gender"
               options={["male", "female"]}
@@ -223,6 +223,7 @@ export default function FormBody() {
         {stage > 6 && (
           <>
             <Label
+              labelFor=""
               className="mt-4"
               value={"Date of birth"}
               isRequired={false}
