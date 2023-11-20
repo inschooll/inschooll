@@ -4,9 +4,9 @@ import Image from "next/image";
 import type { RouterOutputs } from "~/trpc/shared";
 import { api } from "~/trpc/react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { SyncLoader } from "react-spinners";
 import TextInputField from "~/app/_components/inputs/text_input_field";
 import Button from "~/app/_components/buttons/button";
+import AppSpinner from "~/app/_components/app-spinner";
 
 type schoolType = RouterOutputs["school"]["getAll"][0];
 
@@ -25,8 +25,6 @@ export default function PickUniversityBody({
 
   async function refetchData() {
     await refetch().then(({data}) => {
-      // alert(`Page: ${page}`)
-      // alert(data);
       if (data && data?.length > 0) {
         setSchools([...schools, ...data])
         setPage(page + 1);
@@ -86,19 +84,6 @@ export default function PickUniversityBody({
         </div>
       )}
     </>
-  );
-}
-
-function AppSpinner() {
-  return (
-    <div className="flex justify-center ">
-      <div className="h-10 w-10">
-        <SyncLoader
-          color={"rgb(230,230,230)"}
-          size={8}
-        />
-      </div>
-    </div>
   );
 }
 

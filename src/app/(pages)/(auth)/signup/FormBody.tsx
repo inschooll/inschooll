@@ -215,13 +215,13 @@ interface PhoneCountryProps {
 
 
 const PhoneLabelInputField = ({pressOnChangeCountry} : PhoneCountryProps) => {
-  const [showCountries, setShowCountries] = React.useState(false);
-  const [selectedCountry, setSelectedCountry] = React.useState('Nigeria');
-  const [selectedCountryImg, setSelectedCountryImg] = React.useState(countries_icons.Nigeria);
+  const [showCountries, setShowCountries] = React.useState<boolean>(false);
+  const [selectedCountry, setSelectedCountry] = React.useState<string>('Nigeria');
+  const [selectedCountryImg, setSelectedCountryImg] = React.useState<string>(countries_icons.Nigeria);
 
   const update = (image: string, name: string) => {
     setSelectedCountry(name);
-    setSelectedCountryImg(image);
+    setSelectedCountryImg(`${image}`);
     setShowCountries(false);
   }
 
