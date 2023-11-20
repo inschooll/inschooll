@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import Cropper, { type Area } from "react-easy-crop";
 import Button from "./buttons/button";
 import getCroppedImg from "~/app/core/cropper/crop_image";
+import { any } from "zod";
 
 export default function CropperPopup({
   img,
@@ -42,11 +43,12 @@ export default function CropperPopup({
 
   useEffect(() => {
     // Ensure cropper displays above other html elements when it loads on the screen
+    // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
     const cropperContainer = document.querySelector('[data-testid="container"]') as HTMLDivElement;
 
     if (cropperContainer) {
-      cropperContainer.style["z-index"] = 50;
-      cropperContainer.style["position"] = "fixed";
+      cropperContainer.style.zIndex = "50";
+      cropperContainer.style.position = "fixed";
       // cropperContainer.style['height'] = '80vh';
     }
   }, []);
