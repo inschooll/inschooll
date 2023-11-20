@@ -21,4 +21,4 @@ export default {
   pink,
   grey,
   lightGrey,
-}
+} as const;

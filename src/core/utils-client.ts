@@ -14,6 +14,7 @@ export async function uploadImage({ file, getPresignedURL }: UploadImageProp) {
     file,
   };
   for (const key in data) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     formData.append(key, data[key]);
   }
 
@@ -34,5 +35,5 @@ interface UploadImageProp {
     fileType,
   }: {
     fileType: string;
-  }) => Promise<{ url: string; fields: Record<string, any>; imageKey: string }>;
+  }) => Promise<{ url: string; fields: Record<string, unknown>; imageKey: string }>;
 }

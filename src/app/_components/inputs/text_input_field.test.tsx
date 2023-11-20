@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import {render, screen } from '@testing-library/react';
 import TextInputField from './text_input_field';
 
 describe('TextInputField Component', () => {

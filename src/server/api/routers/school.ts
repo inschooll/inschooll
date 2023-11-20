@@ -3,7 +3,7 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { school, user_school_role } from "~/server/db/schema";
 import { randomUUID } from "crypto";
 import roles from "~/app/core/constants/roles";
-import { asc, desc, eq } from "drizzle-orm";
+import { asc } from "drizzle-orm";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { bucketName, s3Client } from "./aws";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";

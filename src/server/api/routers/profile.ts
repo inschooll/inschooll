@@ -2,7 +2,6 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { profile } from "~/server/db/schema";
 import { randomUUID } from "crypto";
-import { timestamp, year } from "drizzle-orm/mysql-core";
 
 const profileFormData = { 
   firstName: z.string(), 

@@ -1,6 +1,5 @@
 import { relations, sql } from "drizzle-orm";
 import {
-  bigint,
   boolean,
   date,
   index,
@@ -10,7 +9,6 @@ import {
   smallint,
   text,
   timestamp,
-  tinyint,
   unique,
   varchar,
 } from "drizzle-orm/mysql-core";

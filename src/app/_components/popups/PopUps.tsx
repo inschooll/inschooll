@@ -4,7 +4,7 @@ import { type popupType, usePopUpStore } from "./popup_store";
 import { motion } from "framer-motion";
 
 export default function PopUps() {
-  const { popups, reset: removeLastPopup } = usePopUpStore();
+  const { popups } = usePopUpStore();
 
   return (
     <>

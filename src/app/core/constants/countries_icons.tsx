@@ -255,4 +255,4 @@ export default  {
   'South Africa': '/icons/countries/za.svg',
   'Zambia': '/icons/countries/zm.svg',
   'Zimbabwe': '/icons/countries/zw.svg',
-};
+} as const;

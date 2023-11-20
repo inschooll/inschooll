@@ -1,5 +1,5 @@
 // import links from '@/app/core/constants/links';
-import { fireEvent, render, screen} from '@testing-library/react';
+import { render, screen} from '@testing-library/react';
 import Navbar from './navbar';
 import links from '~/app/core/constants/links';
 

@@ -35,4 +35,4 @@ export default {
   schoolLogo,
   random1,
   spinner,
-};
+} as const;

@@ -34,6 +34,7 @@ export function FormBody() {
 
   function formIsValid () {
     // Run some logic to validate data
+    // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
     const schoolName = document.querySelector('input[name="school_name"]') as HTMLInputElement;
     if (schoolName.value.length > 0 && !schoolNameIsValid) {
       addPopup({text: 'The school name you entered already exists!', type: 'error'});

@@ -6,7 +6,7 @@ import links from "~/app/core/constants/links";
 import Button from "../buttons/button";
 import MenuCancelButton from "../buttons/menu_cancel_button";
 import Image from "next/image";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 interface UserProps {
   user?: {

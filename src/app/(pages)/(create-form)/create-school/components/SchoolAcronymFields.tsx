@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import { findSchoolByName } from "../_action";
 import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
-import { api } from "~/trpc/react";
 
 // Both fields have some logic relating to each other
 // when the school name is entered an acronym of the school name
