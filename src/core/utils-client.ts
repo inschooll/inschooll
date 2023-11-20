@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 'use client';
 
 export async function uploadImage({ file, getPresignedURL }: UploadImageProp) {
@@ -14,8 +15,10 @@ export async function uploadImage({ file, getPresignedURL }: UploadImageProp) {
     file,
   };
   for (const key in data) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    formData.append(key, data[key]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const value = data[key];
+    formData.append(key, value as string | Blob);
   }
 
   // send fetch request to add image to s3 bucket
