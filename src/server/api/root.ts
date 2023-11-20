@@ -1,4 +1,3 @@
-import { postRouter } from "~/server/api/routers/post";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { profileRouter } from "./routers/profile";
 import { schoolRouter } from "./routers/school";
@@ -10,7 +9,6 @@ import { awsRouter } from "./routers/aws";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: postRouter,
   profile: profileRouter,
   school: schoolRouter,
   aws: awsRouter,
