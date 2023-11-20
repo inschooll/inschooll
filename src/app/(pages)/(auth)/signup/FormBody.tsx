@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import LabelAndTextInputField, { Label } from "~/app/_components/inputs/label_text_input_field";
+import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
 import Button from "~/app/_components/buttons/button";
 import SelectInputField from "~/app/_components/inputs/select_input_field";
 import constants from "~/app/core/constants/constants";
@@ -11,6 +11,7 @@ import TextInputField from "~/app/_components/inputs/text_input_field";
 
 import { PiWarningBold } from 'react-icons/pi'
 import { ChevronDownIcon } from "@radix-ui/react-icons";
+import Label from "~/app/_components/inputs/label";
 
 export default function FormBody() {
   const [stage, setStage] = useState(1);
@@ -160,7 +161,7 @@ export default function FormBody() {
 
         {/* gender */}
         {stage > 5 && <div className="col-span-3 mt-4">
-          <Label className="mt-4" value={"Gender"} isRequired={false} />
+          <Label labelFor="gender" className="mt-4" value={"Gender"} isRequired={false} />
           <SelectInputField
             name="gender"
             options={["male", "female"]}
