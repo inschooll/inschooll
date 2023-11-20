@@ -271,7 +271,7 @@ interface PhoneCountryProps {
 
 const PhoneLabelInputField = ({ pressOnChangeCountry }: PhoneCountryProps) => {
   const [showCountries, setShowCountries] = React.useState(false);
-  const [selectedCountry, setSelectedCountry] = React.useState("Nigeria");
+  const [selectedCountry, setSelectedCountry] = React.useState<string>("Nigeria");
   const [selectedCountryImg, setSelectedCountryImg] = React.useState<string>(
     countries_icons.Nigeria,
   );
