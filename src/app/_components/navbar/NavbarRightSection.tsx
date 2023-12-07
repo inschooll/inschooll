@@ -7,6 +7,7 @@ import Button from "../buttons/button";
 import MenuCancelButton from "../buttons/menu_cancel_button";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
+import ChangeThemeButtons from "./change-theme-buttons";
 
 interface UserProps {
   user?: {
@@ -26,6 +27,7 @@ export function NavbarRightSection({ user }: UserProps) {
   
   return (
     <>
+    <div className="flex gap-4">
       {/* links / buttons */}
       {!user ? (
         <>
@@ -73,7 +75,13 @@ export function NavbarRightSection({ user }: UserProps) {
           pressCloseDropdownMenu={() => setShowMenuDropdown(false)}
         />
       )}
+
+      {/* Buttons to toggle Light mode and dark mode */}
+      <ChangeThemeButtons />
+
+    </div>
     </>
+
   );
 }
 
