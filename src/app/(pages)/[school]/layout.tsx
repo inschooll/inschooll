@@ -8,7 +8,6 @@ export default function Layout({ children, params }: PageProps) {
   console.log(params);
 
   return (
-    // <div className="h-[94vh]">
     <div className="h-[100vh]">
       {/* This fragment component helps add unique css properties to the body element when it mounts */}
       <StyleAdder />
