@@ -5,7 +5,7 @@ export default function BreadCrumbs({patterns}: {patterns: Record<string, string
   const pages = Object.keys(patterns);
 
   return (
-    <div className="flex">
+    <div className="flex h-5">
       {pages.map((page, i) => (
         <div key={page} className="flex text-cc-content-sub/50">
           <Link href={patterns[page]!}>
@@ -14,7 +14,7 @@ export default function BreadCrumbs({patterns}: {patterns: Record<string, string
             </p>
           </Link>
 
-          {i < pages.length-1 && <div className="px-5 font-semibold">/</div>}
+          {i < pages.length-1 && <span className="px-5 font-semibold -translate-y-1">/</span>}
         </div>
       ))}
     </div>
