@@ -2,27 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
-
 *,
 ::before,
 ::after {
   border-color: transparent; /* 2 */
 }
 
+@layer components {
+  .app-hover {
+    @apply  transition duration-200 hover:bg-cc-border-main/50 active:bg-cc-border-main/90;
+  }
+  .app-transition {
+    @apply transition duration-200
+  }
+}
+
 @layer base {
+  /* light mode */
   :root {
     --color-bkg: 250 250 250;
     --color-bkg-compliment: 255 255 255;
@@ -30,18 +26,35 @@
     --color-content-sub: 45 45 45;
     --color-primary: 85 161 255;
     --color-primary-deep: 10 118 196;
-    /* --color-border: 240 244 245; */
     --color-border: 231 234 235;
     --color-input-bg: 243 244 246;
     --color-input-text: 00 00 00;
+    --color-scrollbar: 113, 128, 147;
+    --color-sidebar: ;
+    
+    --color-button-blue: ;
+    --color-button-light-blue: ;
+    --color-button-red: ;
+    --color-button-light-red: ;
+    --color-button-green: ;
+    --color-button-light-green: ;
+    --color-button-gray: 33 38 45;
+    --color-button-light-gray: 33 38 45;
   }
-  /* :root[data-theme="light"] {
-    --color-bkg: 255 255 255;
-    --color-bkg-compliment: 245 245 245;
+  /* light mode - same with the above */
+  :root[data-theme="light"] {
+    --color-bkg: 250 250 250;
+    --color-bkg-compliment: 255 255 255;
     --color-content-main: 12 12 12;
     --color-content-sub: 45 45 45;
-    --color-border: 240 244 245;
-  } */
+    --color-primary: 85 161 255;
+    --color-primary-deep: 10 118 196;
+    --color-border: 231 234 235;
+    --color-input-bg: 243 244 246;
+    --color-input-text: 00 00 00;
+    --color-scrollbar: 113, 128, 147;
+  }
+  /* dark mode - same with the below */
   :root[data-theme="dark"] {
     --color-bkg: 27 30 33;
     --color-bkg-compliment: 24 27 30;
@@ -50,15 +63,21 @@
     --color-border: 42 42 42;
     --color-input-bg: 43 45 49;
     --color-input-text: 255 255 255;
+    --color-scrollbar: 73 74 78;
   }
-  /* @media(prefers-color-scheme: dark) {
+  @media(prefers-color-scheme: dark) {
+    /* same with the above dark mode */
     :root {
-      --color-bkg: 1 1 1;
-      --color-bkg-compliment: 26 26 26;
+      --color-bkg: 27 30 33;
+      --color-bkg-compliment: 24 27 30;
       --color-content-main: 255 255 255;
-      --color-content-sub: 242 242 242;
+      --color-content-sub: 245 245 245;
+      --color-border: 42 42 42;
+      --color-input-bg: 43 45 49;
+      --color-input-text: 255 255 255;
+      --color-scrollbar: 73 74 78;
     }
-  } */
+  }
 }
 
 body {
@@ -69,4 +88,21 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+/* ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+} */
+::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--color-scrollbar));
+  opacity: .4;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(var(--color-scrollbar));
+  opacity: .8;
+  border-radius: 10px;
 }
