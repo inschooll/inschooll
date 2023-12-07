@@ -16,7 +16,7 @@ export default async function Navbar() {
           <div className="flex items-center justify-between">
             {/* logo */}
             <Link href={links.landingPage} data-testid="logo-button">
-              <AppLogo />
+              <AppLogo/>
             </Link>
 
             <NavbarRightSection user={user} />
