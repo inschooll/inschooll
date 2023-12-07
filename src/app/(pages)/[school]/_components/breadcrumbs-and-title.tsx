@@ -9,7 +9,7 @@ export default function BreadCrumbsAndTitle({ title, breadCrumbData }: { title: 
       <BreadCrumbs patterns={breadCrumbData} />
 
       {/* Title */}
-      <div className="mt-2">
+      <div className="mt-3">
         <T3 weight="semibold">{title}</T3>
       </div>
     </div>

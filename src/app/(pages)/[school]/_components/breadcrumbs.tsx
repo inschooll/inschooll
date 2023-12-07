@@ -14,7 +14,7 @@ export default function BreadCrumbs({patterns}: {patterns: Record<string, string
             </p>
           </Link>
 
-          {i < pages.length-1 && <span className="px-5 font-semibold -translate-y-1">/</span>}
+          {i < pages.length-1 && <span className="px-5 font-semibold -translate-y-[2px]">/</span>}
         </div>
       ))}
     </div>
