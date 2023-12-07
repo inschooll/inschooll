@@ -17,6 +17,7 @@ export function FormBody() {
   const [logoFile, setLogoFile] = useState<File>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   
+  const [redirectSchoolName, setRedirectSchoolName] = useState<string>();
   const [schoolNameIsValid, setSchoolNameIsValid] = useState<boolean>();
   // zustand - popup
   const {addPopup} = usePopUpStore();
@@ -25,7 +26,10 @@ export function FormBody() {
   const {mutateAsync: getPresignedURL} = api.aws.getPresignedURL.useMutation();
   const { isLoading, mutate: createSchool } = api.school.create.useMutation({
     onSuccess: (_data, _variables, _context) => {
-      addPopup({text: 'School was successfully created!', type: 'success'})
+      addPopup({text: 'School was successfully created!', type: 'success'});
+      if (redirectSchoolName) {
+      }
+
     },
     onError: (error) => {
       addPopup({text: getErrorMessage(error.message), type: 'error'})
@@ -100,6 +104,7 @@ export function FormBody() {
     
     // create school
     setIsSubmitting(false);
+    setRedirectSchoolName(name.value);
     createSchool(schoolData);
   }
 
