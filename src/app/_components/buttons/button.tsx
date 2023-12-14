@@ -1,4 +1,9 @@
 'use client';
+// import { cn } from "@/app/core/utils";
+// import { VariantProps, cva } from "class-variance-authority";
+// import Link from "next/link";
+// import React, { FormEvent } from "react";
+
 import Lottie from "lottie-react";
 import type { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import spinner from '../../../../public/lottie/spinner.json';
@@ -31,15 +36,11 @@ export default function Button({
 }: ButtonProps) {
   const sizeClasses = getSizeClasses(size);
   const variantClasses = getVariantClasses(variant);
-  const colorClasses = !isLoading 
-  ? "bg-cc-primary-main/50 hover:bg-cc-primary-main/80 active:bg-cc-primary-main/50 border-cc-primary-main" 
-  : "bg-cc-primary-sub active:bg-cc-primary-sub";
+  const colorClasses = !isLoading ? "bg-cc-primary-main active:bg-cc-primary-main" : "bg-cc-primary-sub active:bg-cc-primary-sub";
 
   return (
     <button
-      className={`flex justify-center items-center whitespace-nowrap rounded-md text-sm 
-      text-cc-content-main border-2 border-cc-primary-main 
-      font-semibold shadow transition-all duration-[500] disabled:cursor-not-allowed ${colorClasses} ${sizeClasses} ${variantClasses} ${className}`}
+      className={`flex justify-center items-center whitespace-nowrap rounded-[4px] text-sm font-semibold shadow transition-all duration-[500] disabled:cursor-not-allowed ${colorClasses} ${sizeClasses} ${variantClasses} ${className}`}
       {...props}
       disabled={isLoading}
     >
@@ -80,12 +81,12 @@ function getSizeClasses(size?: sizeType) {
 function getVariantClasses(variant?: variantType) {
 
   const variants = {
-    default: "text-white",
+    default: "text-white md:hover:bg-cc-primary-sub",
     noBackground:
       "bg-transparent text-cc-content-main active:bg-transparent hover:bg-cc-input-bg shadow-none",
     outline:
       "bg-transparent text-cc-content-main border-2 border-cc-border-main active:bg-transparent hover:bg-cc-input-bg shadow-none",
-    defaultFull: "text-white w-full",
+    defaultFull: "text-white w-full md:hover:bg-cc-primary-sub",
     noBackgroundFull:
       "bg-transparent text-cc-content-main w-full md:hover:bg-bg-cc-content-sub/10 active:bg-cc-primary-main hover:bg-cc-input-bg shadow-none",
     outlineFull:
