@@ -9,23 +9,22 @@
 
 #### Service Tree
 - [General (tips to pick from)](https://miro.com/app/board/uXjVNaLxuLo=/?share_link_id=989018867386#tpicker-content)
-- [InScool's](https://miro.com/app/board/uXjVNaLxuLo=/?share_link_id=989018867386#tpicker-content)
+- [InSchool's](https://miro.com/app/board/uXjVNaLxuLo=/?share_link_id=989018867386#tpicker-content)
 
 #### SDLC Type
 - Agile (SCRUM)
-- jira
+- jira (software)
 
-#### Frontend Stacks
-- T3 Stack
+#### T3 Stacks (For web)
 - Typescript
 - Next.js
 - TailwindCSS
-- Framer Motion
 - TRPC
 - Drizzle ORM
 - Next Auth
 
-#### Backend Stacks
+#### Stacks (For mobile)
+- Flutter
 - Node.js
 - Express
 - DrizzleORM
