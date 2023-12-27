@@ -70,17 +70,10 @@ export default function CoverAndLogoSection({setCoverFile, setLogoFile} : PagePr
         <CropperPopup
           img={cover}
           aspectRaito={4 / 1.5}
-          setNewImage={async (croppedImg) => {
-            setCover(croppedImg);
+          setNewImage={({croppedImage, file}) => {
+            setCover(croppedImage);
             setCoverCropperIsActive(false);
-
-            // set new cover
-            await fetch(croppedImg)
-              .then(b => b.blob())
-              .then(blobFile => {
-                const file = new File([blobFile], 'cover-image', {type: 'image/jpeg'});
-                setCoverFile(file);
-              })
+            setCoverFile(file);
           }}
         />
       )}
@@ -88,8 +81,8 @@ export default function CoverAndLogoSection({setCoverFile, setLogoFile} : PagePr
         <CropperPopup
           img={logo}
           aspectRaito={1}
-          setNewImage={(croppedImg) => {
-            setLogo(croppedImg);
+          setNewImage={({croppedImage, file}) => {
+            setLogo(croppedImage);
             setLogoCropperIsActive(false);
           }}
         />
