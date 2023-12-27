@@ -2,9 +2,12 @@ import React from "react";
 import StyleAdder from "./style-adder";
 import Sidebar from "./_components/sidebar";
 
-type PageProps = { children: React.ReactNode; params: { school: string } };
+export interface LayoutProps { 
+  children: React.ReactNode; 
+  params: { school: string } 
+}
 
-export default function Layout({ children, params }: PageProps) {
+export default function Layout({ children, params }: LayoutProps) {
   console.log(params);
 
   return (
