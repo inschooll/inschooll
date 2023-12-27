@@ -13,7 +13,7 @@ export default function CropperPopup({
   img: string;
   aspectRaito: number,
   cropShape?: "rect" | "round";
-  setNewImage: (croppedImage: string) => void;
+  setNewImage: ({croppedImage, file} : {croppedImage: string, file: File}) => void;
 }) {
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -68,8 +68,15 @@ export default function CropperPopup({
 
       <div className="fixed bottom-0 left-1/2 z-50 -translate-x-1/2">
         <div className="w-full" style={{ height: "20vh" }}>
-          <Button variant="defaultFull" disabled={croppedImage ? false : true} type="button" onClick={() => {
-            if (croppedImage) setNewImage(croppedImage);
+          <Button variant="defaultFull" disabled={croppedImage ? false : true} type="button" onClick={async () => {
+            if (croppedImage) {
+              await fetch(croppedImage)
+              .then(b => b.blob())
+              .then(blobFile => {
+                const file = new File([blobFile], 'cover-image', {type: 'image/jpeg'});
+                setNewImage({croppedImage, file});
+              })
+            }
           }}>
             Save Image
           </Button>
