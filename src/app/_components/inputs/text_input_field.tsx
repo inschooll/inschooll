@@ -23,7 +23,7 @@ export default function TextInputField({
       <input
         alt={isValid === false ? 'invalid' : undefined}
         className={
-          `focus:border-1 h-10 w-full rounded border-2 bg-cc-input-bg px-2 text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 focus:border-cc-primary-main ${padRight}`
+          `focus:border-1 h-10 w-full rounded border-2 bg-cc-input-bg px-2 text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 border-cc-border-main focus:border-cc-primary-main ${padRight}`
         }
         {...props}
       />
