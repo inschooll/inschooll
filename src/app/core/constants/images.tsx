@@ -12,6 +12,8 @@ const googleLogo = '/icons/google-logo.svg';
 const nigeriaFlag = '/icons/countries/nigeria.svg';
 const downArrow = '/icons/down-arrow.svg';
 const schoolLogo = '/images/schools/bingham.png';
+const maleAvatarDefault = '/icons/male-avatar-default.svg';
+const femaleAvatarDefault = '/icons/female-avatar-default.svg';
 
 // lottie
 const spinner = '/images/lottie/spinner.json'
@@ -35,4 +37,6 @@ export default {
   schoolLogo,
   random1,
   spinner,
+  maleAvatarDefault,
+  femaleAvatarDefault,
 } as const;
