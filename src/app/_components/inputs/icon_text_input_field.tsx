@@ -33,7 +33,7 @@ export default function IconTextInputField({
         onChange={updateInputValue}
         {...props}
         className={
-          `focus:border-1 h-9 w-full pb-[2px] rounded-lg border-2 bg-cc-input-bg text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 border-cc-content-main/10 focus:border-cc-primary-main ${iconStyles}` 
+          `focus:border-1 h-9 w-full rounded-lg border-2 bg-cc-input-bg text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 border-cc-content-main/10 focus:border-cc-primary-main ${iconStyles}` 
         }
       />
 
