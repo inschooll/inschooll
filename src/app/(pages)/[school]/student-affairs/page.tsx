@@ -1,7 +1,7 @@
 import React from "react";
 import { T4, T5 } from "~/app/_components/texts/title";
 import links from "~/app/core/constants/links";
-import { CaseTableTTO } from "../_components/cases-tables/cases-tables";
+import { CaseTableTTO } from "../_components/tables/cases-tables";
 import Link from "next/link";
 import BreadCrumbsAndTitle from "../_components/breadcrumbs-and-title";
 
