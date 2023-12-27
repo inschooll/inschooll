@@ -13,6 +13,7 @@ const studentAffairs = (schoolName: string) => `/${toLinkFormat(schoolName)}/stu
 const sdc = (schoolName: string) => `/${toLinkFormat(schoolName)}/student-affairs/sdc`;
 const src = (schoolName: string) => `/${toLinkFormat(schoolName)}/student-affairs/src`;
 const cases = (schoolName: string) => `/${toLinkFormat(schoolName)}/student-affairs/sdc/cases`;
+const aCase = (schoolName: string, id: string) => `/${toLinkFormat(schoolName)}/student-affairs/sdc/cases/${id}`;
 
 export default {
   login,
@@ -27,5 +28,6 @@ export default {
   studentAffairs,
   sdc,
   src,
-  cases
+  cases,
+  aCase,
 } as const;
