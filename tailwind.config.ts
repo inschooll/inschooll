@@ -15,12 +15,21 @@ export default {
   // },
   theme: {
     extend: {
+      gridTemplateColumns: {
+        '16': 'repeat(16, minmax(0, 1fr))',
+      },
       colors: {
         // custom colors
         cc: {
           primary: {
             main: "rgb(var(--color-primary) / <alpha-value>)",
             sub: "rgb(var(--color-primary-deep) / <alpha-value>)",
+          },
+          red: {
+            main: "rgb(var(--color-red) / <alpha-value>)",
+          },
+          green: {
+            main: "rgb(var(--color-green) / <alpha-value>)",
           },
           background: {
             main: "rgb(var(--color-bkg) / <alpha-value>)",

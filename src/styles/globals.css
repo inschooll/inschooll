@@ -15,6 +15,9 @@
   .app-transition {
     @apply transition duration-200
   }
+  .dropdown-button {
+    @apply flex w-full cursor-pointer items-center justify-between rounded border hover:border-cc-content-main/30 border-cc-border-main px-4 py-2 hover:bg-cc-content-main/5 transition duration-200;
+  }
 }
 
 @layer base {
@@ -26,20 +29,12 @@
     --color-content-sub: 45 45 45;
     --color-primary: 85 161 255;
     --color-primary-deep: 10 118 196;
+    --color-red: 255 59 59;
+    --color-green: 29 209 161;
     --color-border: 231 234 235;
     --color-input-bg: 243 244 246;
     --color-input-text: 00 00 00;
     --color-scrollbar: 113, 128, 147;
-    --color-sidebar: ;
-    
-    --color-button-blue: ;
-    --color-button-light-blue: ;
-    --color-button-red: ;
-    --color-button-light-red: ;
-    --color-button-green: ;
-    --color-button-light-green: ;
-    --color-button-gray: 33 38 45;
-    --color-button-light-gray: 33 38 45;
   }
   /* light mode - same with the above */
   :root[data-theme="light"] {
@@ -49,6 +44,8 @@
     --color-content-sub: 45 45 45;
     --color-primary: 85 161 255;
     --color-primary-deep: 10 118 196;
+    --color-red: 255 59 59;
+    --color-green: 29 209 161;
     --color-border: 231 234 235;
     --color-input-bg: 243 244 246;
     --color-input-text: 00 00 00;
@@ -60,7 +57,7 @@
     --color-bkg-compliment: 24 27 30;
     --color-content-main: 255 255 255;
     --color-content-sub: 245 245 245;
-    --color-border: 42 42 42;
+    --color-border: 40 46 52;
     --color-input-bg: 43 45 49;
     --color-input-text: 255 255 255;
     --color-scrollbar: 73 74 78;
@@ -72,7 +69,7 @@
       --color-bkg-compliment: 24 27 30;
       --color-content-main: 255 255 255;
       --color-content-sub: 245 245 245;
-      --color-border: 42 42 42;
+      --color-border: 40 46 52;
       --color-input-bg: 43 45 49;
       --color-input-text: 255 255 255;
       --color-scrollbar: 73 74 78;
