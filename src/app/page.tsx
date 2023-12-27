@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
-import Navbar from "./_components/navbar/navbar";
+import TopNavbar from "./_components/navbar/navbar";
 import images from "./core/constants/images";
 import constants from "./core/constants/constants";
 import links from "./core/constants/links";
@@ -20,7 +20,7 @@ export default async function Home() {
   return (
     <div className="h-screen overflow-hidden bg-cc-background-main">
       {/* Navbar */}
-      <Navbar />
+      <TopNavbar />
 
       {/* Main */}
       <main>

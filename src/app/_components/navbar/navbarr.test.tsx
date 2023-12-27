@@ -1,12 +1,12 @@
 // import links from '@/app/core/constants/links';
 import { render, screen} from '@testing-library/react';
-import Navbar from './navbar';
+import TopNavbar from './navbar';
 import links from '~/app/core/constants/links';
 
 describe('AuthNavbar component ', () => {
   it(`should have logo that navigates to ${links.landingPage} `, () => {
     // Arrange
-    render(<Navbar />);
+    render(<TopNavbar />);
     // Act
     const logoButton = screen.getByTestId('logo-button');
     
@@ -17,7 +17,7 @@ describe('AuthNavbar component ', () => {
 
   it(`should have sign up button that navigates to ${links.signup} page`, () => {
     // arrange
-    render(<Navbar />);
+    render(<TopNavbar />);
 
     // act
     const signupButton = screen.getByTestId('signup-button');
@@ -31,7 +31,7 @@ describe('AuthNavbar component ', () => {
   
   it(`should have log in button that navigates to ${links.login} page`, () => {
     // arrange
-    render(<Navbar />);
+    render(<TopNavbar />);
 
     // act
     const loginButton = screen.getByTestId('login-button');
