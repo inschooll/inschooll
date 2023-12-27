@@ -4,7 +4,7 @@ import links from "~/app/core/constants/links";
 import { getServerAuthSession } from "~/server/auth";
 import { NavbarRightSection } from "./NavbarRightSection";
 
-export default async function Navbar() {
+export default async function TopNavbar() {
   const session = await getServerAuthSession()
   const user = session?.user;
   
