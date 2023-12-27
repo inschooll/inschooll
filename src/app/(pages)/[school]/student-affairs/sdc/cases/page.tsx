@@ -1,7 +1,7 @@
 import React from "react";
 import BreadCrumbsAndTitle from "../../../_components/breadcrumbs-and-title";
 import links from "~/app/core/constants/links";
-import CaseNavbar from "./_components/CaseNavbar";
+import Navbar from "../../../../../_components/navbar";
 import Body from "./_components/body";
 
 export default function CasesPage({ params }: { params: { school: string } }) {
@@ -12,14 +12,12 @@ export default function CasesPage({ params }: { params: { school: string } }) {
   };
 
   return (
-    <main>
+    <>
       <BreadCrumbsAndTitle title="SDC Cases" breadCrumbData={breadCrumbData} />
 
       <div className="mt-5">
-        <CaseNavbar />
         <Body />
-
       </div>
-    </main>
+    </>
   );
 }
