@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { currentDayName, currentMonthName } from './lib/utils';
 
 // Main sidebar
 type leftSidebarStore = {
@@ -27,3 +28,24 @@ export const useRightDashboardSidebarStore = create<rightDashboardSidebarStore>(
   setIsActive: (isActive: boolean) => set({isActive}),
   setMobileIsActive: (isMobileActive: boolean) => set({isMobileActive}),
 }));
+
+// Current date
+type dateStore = {
+  dayName: string,
+  day: number,
+  month: string,
+  updateDate: () => void
+}
+/**
+ * This is a zustand state management store that keeps track of 
+ * the current dates day (e.g 11th), day name (e.g Monday) and month (e.g 
+ * Wednesday)
+ */
+export const useDateStore = create<dateStore>((set) => ({
+  day: new Date().getDate(),
+  dayName: currentDayName(),
+  month: currentMonthName(),
+  updateDate: () => {
+    set({day: new Date().getDate(), month: currentMonthName(), dayName: currentDayName()})
+  }
+}))
