@@ -91,12 +91,12 @@ export const getDaySuffix = (day: number): string => {
 
   switch (day % 10) {
     case 1:
-      return `${day} st`;
+      return `${day}st`;
     case 2:
-      return `${day} nd`;
+      return `${day}nd`;
     case 3:
-      return `${day} rd`;
+      return `${day}rd`;
     default:
-      return `${day} th`;
+      return `${day}th`;
   }
 };
