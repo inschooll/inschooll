@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import "../page.css";
 import HourCardList from "./hour-card-list";
 import TimeList from "./time-list";
+import TimelineHeader from "./timeline-header";
 
 export const HoursData = [
   "12am",
@@ -28,7 +29,8 @@ export default function Timeline() {
   } = useSyncScroll();
 
   return (
-    <div className="pt-4">
+    <div className="">
+      <TimelineHeader />
       <TimeList ref={timeContainerRef} />
       <HourCardList ref={hourCardContainerRef} ref2={tickContainerRef} />
     </div>

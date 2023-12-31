@@ -18,8 +18,6 @@ export default function Dashboard() {
           <DashboardMainWrapper>
             <DashboardNavbar />
 
-            <TimelineHeader />
-
             <Timeline />
           </DashboardMainWrapper>
           {/* Right sidebar */}
@@ -30,33 +28,5 @@ export default function Dashboard() {
   );
 }
 
-function TimelineHeader() {
-  const day = new Date().getDate();
-  const dayName = currentDayName();
-  const monthName = currentMonthName();
 
-  return (
-    <div className="bg-red-5000 flex flex-1 gap-4">
-      {/* Date & My Day */}
-      <div className="flex-1">
-        <p className="text-cc-content/50">{monthName} {getDaySuffix(day)}</p>
-        <div className="flex items-end justify-between">
-          <T3 className="font-bold">{dayName}</T3>
-          {/* today, <> */}
-          <div className="flex items-center gap-2">
-            <Button variant="secondary" className="h-7">
-              today
-            </Button>
-            <div className="flex">
-              {<icons.left className="text-cc-content/50" />}
-              {<icons.right className="text-cc-content/80" />}
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Calendar */}
-      {/* <DashboardCalendar /> */}
-    </div>
-  );
-}
 

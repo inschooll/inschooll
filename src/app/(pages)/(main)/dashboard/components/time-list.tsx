@@ -5,7 +5,7 @@ import { HOUR_CARD_SIZE } from "./hour-card-list";
 const TimeList = React.forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <div
-      className="flex overflow-auto"
+      className="flex overflow-auto pt-4"
       ref={ref}
       style={{
         scrollbarWidth: "none",
