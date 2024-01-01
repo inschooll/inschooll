@@ -1,294 +1,430 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { type ChangeEvent, useState, useEffect } from "react";
 import Image from "next/image";
 import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
 import Button from "~/app/_components/buttons/button";
-import SelectInputField from "~/app/_components/inputs/select_input_field";
-import constants from "~/app/core/constants/constants";
-import countries_icons from "~/app/core/constants/countries_icons";
-import TapOutsideLayout from "~/app/_components/layout/tap_outside_layout";
-import TextInputField from "~/app/_components/inputs/text_input_field";
+import constants, { type monthsType } from "~/app/core/constants/constants";
+import countries_icons from "~/app/core/constants/country-icons";
 
-import { PiWarningBold } from 'react-icons/pi'
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { PiWarningBold } from "react-icons/pi";
 import Label from "~/app/_components/inputs/label";
+import DropdownButton from "~/app/_components/inputs/dropdown-button";
+import { isFebruaryAndLeapYear, toTitleCase, useHandleError } from "~/core/utils-client";
+import { api } from "~/trpc/react";
+import { usePopUpStore } from "~/app/_components/popups/popup_store";
+import TextInputField from "~/app/_components/inputs/text_input_field";
+import images from "~/app/core/constants/images";
+import validator from 'validator';
+import { countries_data } from "scripts/data/countries_data";
 
-export default function FormBody() {
+export default function FormBody({ setAuthToken } : {setAuthToken: (token: string) => void}) {
+  // store
+  const { addPopup } = usePopUpStore();
+  const { handleError } = useHandleError();
+  // TRPC
+  const { mutate: signup, isLoading, isError } = api.auth.signup.useMutation({
+    onError: (err) => {
+      console.log(err.message);
+      console.log(err.shape?.code);
+      console.log(err.shape?.data.path);
+      console.log(err.shape?.data.httpStatus);
+      console.log(err.shape?.data.stack);
+      console.log(err.shape?.data.zodError);
+      console.log(err.shape?.message);
+      console.log(err.data);
+      addPopup({text: 'Something went wrong', type: 'error'})
+    },
+    onSuccess: ({ authToken }) => {
+      setAuthToken(authToken);
+      addPopup({text: 'Your Account was successfully created!', type: 'success'})
+    }
+  });
+
+  // countries & states
+  const countries = countries_data;
+  const [states, setStates] = useState(countries_data[0]!.states);
+
+  // username (verification)
+  const [usernameIsValid, setUsernameIsValid] = useState(false);
+  const { mutate: findUserByUsername, isLoading: usernameIsLoading, isError: usernameIsError } = api.user.findUserByUsername.useMutation({
+    onError: (error) => {
+      handleError({msg: error.message})
+      setUsernameIsValid(false);
+    },
+    onSuccess: (data) => {
+      if (!data) return setUsernameIsValid(true);  // username doesn't exist
+      else setUsernameIsValid(false);  // username exists
+    }
+  });
+  // email (verification)
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const { mutate: findUserByEmail, isLoading: emailIsLoading, isError: emailIsError } = api.user.findUserByEmail.useMutation({
+    onError: (error) => {
+      handleError({msg: error.message})
+      setEmailIsValid(false);
+    },
+    onSuccess: (data) => {
+      if (!data) return setEmailIsValid(true);  // Email doesn't exist
+      else setEmailIsValid(false);  // Email exists
+    }
+  });
+
+  // fields
+  const [input, setInput] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    nationality: "",
+    stateOfOrigin: "",
+    password: "",
+    confirmPassword: "",
+    phoneNumber: "",
+    gender: "",
+    dob_day: 0,
+    dob_month: "January" as monthsType,
+    dob_year: 0,
+  });
+
   const [stage, setStage] = useState(1);
   const [inputErrorMessage, setInputErrorMessage] = useState("");
 
-  const formRef = useRef<HTMLFormElement>(null);
-  const [country, setCountry] = useState('');
-  const [gender, setGender] = useState('');
-  const [month, setMonth] = useState('');
-  const [day, setDay] = useState('');
-  const [year, setYear] = useState('');
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: 100 },
+    (_, index) => `${currentYear - index}`,
+  );
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function formIsValid() {
     setInputErrorMessage("");
-    const form = formRef.current;
-    const firstName = form?.elements.namedItem('first_name') as HTMLInputElement;
-    const lastName = form?.elements.namedItem('last_name') as HTMLInputElement;
+
+    // first name, last name
+    if (!input.firstName && !input.firstName) return showTopErrorMsg("Enter your first and last name");
+    if (stage === 1 && input.firstName && input.firstName) return setStage(2);
+
+    // username
+    if (input.username === '') return showTopErrorMsg("Please enter your username")
+    if (!usernameIsValid) return showTopErrorMsg("Username already exists. Try something else")
+    if (stage === 2 && input.username) return setStage(3);
     
-    if (stage == 1 && firstName.value && lastName.value) {
-      setStage(2);
-      return;
-    }
+    // email
+    if(!validator.isEmail(input.email)) return showTopErrorMsg("Please enter a valid email")
+    if (!emailIsValid) return showTopErrorMsg("Email already exists. Try something else")
+    if (stage === 3 && input.email) return setStage(4);
 
-    const username = form?.elements.namedItem('username') as HTMLInputElement;
-    if (stage == 2 && username.value) {
-      setStage(3);
-      return;
-    }
+    // password
+    if (input.password.length < 6) return showTopErrorMsg("Password should be 6 or more characters long!")
+    if (input.password !== input.confirmPassword) return showTopErrorMsg("Passwords do not match!")
+    if (stage === 4 && input.password && input.confirmPassword) return setStage(5);
 
-    const email = form?.elements.namedItem('email') as HTMLInputElement;
-    if (stage == 3 && email.value) {
-      setStage(4);
-      return;
-    }
+    // nationality
+    if (!input.nationality) return showTopErrorMsg("Select your Nationality")
+    if (!input.stateOfOrigin) return showTopErrorMsg("Select your State of Origin")
+    if (stage === 5 && input.nationality && input.stateOfOrigin) return setStage(6);
 
-    const password = form?.elements.namedItem('password') as HTMLInputElement;
-    const confirm = form?.elements.namedItem('confirm') as HTMLInputElement;
-    if (password.value.length < 6) {
-      setInputErrorMessage("Password should be 6 or more characters long!")
-      return;
-    }
-    if (password.value !== confirm.value) {
-      setInputErrorMessage("Passwords do not match!")
-      return;
-    }
-    if (stage === 4 && password.value && confirm.value) {
-      setStage(5);
-      return;
-    }
+    // phone number
+    if (input.phoneNumber.length < 7 || input.phoneNumber.length > 20) return showTopErrorMsg("Please enter a valid phone number")
+    if (!input.phoneNumber) return showTopErrorMsg("Please enter your Phone Number")
+    if (stage === 6 && input.phoneNumber) return setStage(7);
 
-    const phone = form?.elements.namedItem('phone') as HTMLInputElement;
-    if (stage === 5 && phone.value && country) {
-      setStage(6);
-      return;
-    }
+    // gender
+    if (!input.gender) return showTopErrorMsg("Please select your Gender")
+    if (stage === 7 && input.gender) return setStage(8);
+    
+    // date of birth
+    if (!input.dob_month || !input.dob_day || !input.dob_year) return showTopErrorMsg("Please enter your Date of Birth!");
+    // if (stage === 8 && (input.dob_month || input.dob_day || input.dob_year)) return setStage(9)
 
-    if (stage === 6 && gender) {
-      setStage(7);
-      return;
-    }
+    // form is valid
+    setInputErrorMessage("");
+    return true;
+  }
+  const showTopErrorMsg = (msg: string) => {
+    window.scrollTo({top: 0, behavior: 'smooth'})
+    return setInputErrorMessage(msg)
+  }
 
-    if (stage === 7 && (!month || !day || !year)) {
-      setInputErrorMessage("Enter your date of birth!");
-      return;
-    }
-
-    // Create user
+  function onChange(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setInput((data) => ({ ...data, [name]: value }));
   }
 
   return (
-    <form onSubmit={handleSubmit} ref={formRef}>
-      {inputErrorMessage && 
-      <div className="flex gap-4 items-center leading-5 w-full rounded bg-red-500 my-4 px-5 py-4">
-        <PiWarningBold className="text-white" size={20} />
-        <p className="text-white">{inputErrorMessage}</p>
-      </div>}
+    <form>
+      {inputErrorMessage && (
+        <div className="my-4 flex w-full items-center gap-4 rounded bg-red-500 px-5 py-4 leading-5">
+          <PiWarningBold className="text-white" size={20} />
+          <p className="text-white">{inputErrorMessage}</p>
+        </div>
+      )}
 
       <div className="mt-5 grid grid-cols-2 gap-4">
         {/* first name */}
-        {stage > 0 && <div className="col-span-1">
-          <LabelAndTextInputField
-            label="first name"
-            name="first_name"
-            placeholder="First name"
-            required
-          />
-        </div>}
+        {stage > 0 && (
+          <div className="col-span-1">
+            <LabelAndTextInputField
+              label="first name"
+              name="firstName"
+              value={input.firstName}
+              onChange={onChange}
+              placeholder="First name"
+              required
+            />
+          </div>
+        )}
         {/* Last name */}
-        {stage > 0 && <div className="col-span-1">
-          <LabelAndTextInputField
-            label="last name"
-            name="last_name"
-            placeholder="Enter your last name..."
-            required
-          />
-        </div>}
+        {stage > 0 && (
+          <div className="col-span-1">
+            <LabelAndTextInputField
+              label="last name"
+              name="lastName"
+              value={input.lastName}
+              onChange={onChange}
+              placeholder="Enter your last name..."
+              required
+            />
+          </div>
+        )}
 
-        {/* other names */}
-        {stage > 1 && <div className="col-span-2">
-          <LabelAndTextInputField
+        {/* username */}
+        {stage > 1 && (
+          <div className="col-span-2">
+            <LabelAndTextInputField
               label="username"
               name="username"
+              value={input.username}
+              inputIsLoading={usernameIsLoading}
+              inputIsValid={input.username === '' ? undefined :  usernameIsValid}
+              onChange={(e) => {
+                onChange(e);
+                if (e.target.value === '') return;
+                findUserByUsername({username: e.target.value});
+              }}
               placeholder="Enter your username..."
               required
             />
-        </div>}
+          </div>
+        )}
 
         {/* email */}
-        {stage > 2 && <div className="col-span-2">
-          <LabelAndTextInputField
-            label="email"
-            name="email"
-            placeholder="email"
-            required
-          />
-        </div>}
-
-        {/* password, confirm password */}
-        {stage > 3 && <div className="col-span-1">
-          <LabelAndTextInputField
-            label="password"
-            name="password"
-            type="password"
-            placeholder="password"
-            required
-          />
-        </div>}
-        {stage > 3 && <div className="col-span-1">
-          <LabelAndTextInputField
-            label="confirm password"
-            name="confirm"
-            type="password"
-            placeholder="re-type password"
-            required
-          />
-        </div>}
-      </div>
-
-      <div className="mt-5">
-        {/* phone */}
-        {stage > 4 && <PhoneLabelInputField
-          pressOnChangeCountry={(value: string) => {
-            setCountry(value);
-          }}
-        />}
-
-        {/* gender */}
-        {stage > 5 && <div className="col-span-3 mt-4">
-          <Label labelFor="gender" className="mt-4" value={"Gender"} isRequired={false} />
-          <SelectInputField
-            name="gender"
-            options={["male", "female"]}
-            pressOnChange={setGender}
-          />
-        </div>}
-
-        {/* date of birth */}
-        {stage > 6 && <>
-          <Label className="mt-4" value={"Date of birth"} isRequired={false} />
-          <div className="grid grid-cols-3 gap-4">
-            <SelectInputField
-              name="month"
-              options={constants.months}
-              pressOnChange={setMonth}
-            />
-            <SelectInputField
-              name="day"
-              options={Array.from({ length: 31 }, (_, index) => `${index + 1}`)}
-              pressOnChange={setDay}
-            />
-            <SelectInputField
-              name="year"
-              options={Array.from(
-                { length: 60 },
-                (_, index) => `${new Date().getFullYear() - index}`,
-              )}
-              pressOnChange={setYear}
+        {stage > 2 && (
+          <div className="col-span-2">
+            <LabelAndTextInputField
+              label="email"
+              name="email"
+              value={input.email}
+              inputIsLoading={emailIsLoading}
+              inputIsValid={validator.isEmail(input.email) === false ? undefined :  emailIsValid}
+              onChange={(e) => {
+                onChange(e);
+                if (!validator.isEmail(e.target.value)) return
+                findUserByEmail({email: e.target.value});
+              }}
+              placeholder="email"
+              required
             />
           </div>
-        </>}
+        )}
+
+        {/* password, confirm password */}
+        {stage > 3 && (
+          <div className="col-span-1">
+            <LabelAndTextInputField
+              label="password"
+              name="password"
+              type="password"
+              value={input.password}
+              onChange={onChange}
+              placeholder="password"
+              required
+            />
+          </div>
+        )}
+        {stage > 3 && (
+          <div className="col-span-1">
+            <LabelAndTextInputField
+              label="confirm password"
+              name="confirmPassword"
+              type="text"
+              value={input.confirmPassword}
+              onChange={(e) =>
+                setInput((inputs) => ({
+                  ...inputs,
+                  confirmPassword: e.target.value,
+                }))
+              }
+              placeholder="re-type password"
+              required
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="mt-5 flex flex-col gap-4">
+
+        {/* nationality */}
+        {stage > 4 && (<div className="col-span-3">
+              <Label value="Nationality" isRequired={true} />
+              <div className="mt-1">
+                <DropdownButton 
+                  name="Nationality"
+                  options={countries.map(({name}) => ({
+                    icon: <Image src={images.countryFlag(name)} alt={name} height={20} width={20} />,
+                    title: name,
+                  }))}
+                  updateSelected={(index) => {
+                    setInput((data) => ({...data, stateOfOrigin: '', nationality: countries[index]!.name}))
+                    // update states
+                    setStates(countries[index]!.states);
+                  }}
+                />
+              </div>
+            </div>
+        )}
+        {/* state of origin */}
+        {stage > 4 && (
+          <div className="col-span-3">
+            <Label value="State of Origin" isRequired={true} />
+            <div className="mt-1">
+              <DropdownButton 
+                name="State of origin"
+                options={states.map(state => state.name)}
+                updateSelected={(index) => {
+                  setInput((data) => ({...data, stateOfOrigin: states[index]!.name}))
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* phone */}
+        {stage > 5 && (
+          <div className="col-span-3">
+            <Label value="Phone number" isRequired={true} />
+            <div className="mt-1">
+              <TextInputField
+                name="phoneNumber"
+                type="text"
+                value={input.phoneNumber}
+                onChange={(e) =>
+                  setInput((inputs) => ({
+                    ...inputs,
+                    phoneNumber: e.target.value,
+                  }))
+                }
+                placeholder={"Phone number"}
+                required
+              />
+            </div>
+          </div>
+        )}
+
+        {/* gender */}
+        {stage > 6 && (
+          <div className="col-span-3">
+            <Label
+              labelFor="gender"
+              className="mt-4"
+              value={"Gender"}
+              isRequired={false}
+            />
+            <div className="mt-1">
+              <DropdownButton
+                name="gender"
+                options={constants.gender}
+                defaultSelectedOptionIndex={0}
+                updateSelected={(index) =>
+                  setInput((inputs) => ({
+                    ...inputs,
+                    gender: constants.gender[index]!,
+                  }))
+                }
+              />
+            </div>
+          </div>
+        )}
+
+        {/* date of birth */}
+        {stage > 7 && (
+          <>
+            <Label value={"Date of birth"} isRequired={false} />
+            <div className="grid grid-cols-3 gap-4">
+              {/* month */}
+              <DropdownButton
+                name="month"
+                options={constants.months}
+                defaultSelectedOptionIndex={0}
+                updateSelected={(index) => {
+                  setInput((inputs) => ({
+                    ...inputs,
+                    dob_month: constants.months[index] as monthsType,
+                  }));
+                  const daysInCurrentMonth =
+                    constants.daysInMonth[
+                      constants.months[index] as monthsType
+                    ];
+                  // if chosen day number exceeds selected month days number, we set the dob_day = last day of current month
+                  if (daysInCurrentMonth < input.dob_day) {
+                    setInput((data) => ({
+                      ...data,
+                      dob_day: daysInCurrentMonth,
+                    }));
+                  }
+                }}
+              />
+              {/* day */}
+              <DropdownButton
+                name="day"
+                options={Array.from(
+                  {
+                    length: isFebruaryAndLeapYear(
+                      input.dob_year,
+                      input.dob_month,
+                    )
+                      ? 29
+                      : constants.daysInMonth[input.dob_month],
+                  },
+                  (_, index) => `${index + 1}`,
+                )}
+                defaultSelectedOptionIndex={0}
+                updateSelected={(index) =>
+                  setInput((inputs) => ({ ...inputs, dob_day: index + 1 }))
+                }
+              />
+              {/* year */}
+              <DropdownButton
+                name="year"
+                options={years}
+                defaultSelectedOptionIndex={0}
+                updateSelected={(index) =>
+                  setInput((inputs) => ({
+                    ...inputs,
+                    dob_year: parseInt(years[index]!),
+                  }))
+                }
+              />
+            </div>
+          </>
+        )}
 
         {/* sign up button */}
         <div className="mt-5">
           <Button
             variant={"defaultFull"}
             size={"md"}
-            type="submit"
+            type="button"
+            disabled={usernameIsLoading || emailIsLoading}
+            isLoading={isLoading && !isError}
+            onClick={() => {
+              if (usernameIsError || emailIsError) return;
+              const formIsValid_ = formIsValid();
+              if (formIsValid_ === true) signup(input);
+            }}
           >
             Submit
           </Button>
         </div>
       </div>
     </form>
-  );
-}
-
-interface PhoneCountryProps {
-  pressOnChangeCountry: (value: string) => void;
-}
-
-
-const PhoneLabelInputField = ({pressOnChangeCountry} : PhoneCountryProps) => {
-  const [showCountries, setShowCountries] = React.useState<boolean>(false);
-  const [selectedCountry, setSelectedCountry] = React.useState<string>('Nigeria');
-  const [selectedCountryImg, setSelectedCountryImg] = React.useState<string>(countries_icons.Nigeria);
-
-  const update = (image: string, name: string) => {
-    setSelectedCountry(name);
-    setSelectedCountryImg(`${image}`);
-    setShowCountries(false);
-  }
-
-  return ( 
-  <div className="col-span-3">
-    <p className="text-xs text-cc-content-main/50">{'Phone'}</p>
-    <div className="mt-1 flex">
-      {/* Select country */}
-      <div className="relative">
-        <button onClick={(e) => {
-          e.preventDefault();
-          setShowCountries(true);
-        }} className="h-full">
-          <div className="flex items-center">
-            <Image src={selectedCountryImg} alt="country flag" width={0} height={0} className="w-5 h-5"/>
-            <div className="ml-2 flex item">
-              <ChevronDownIcon />
-            </div>
-          </div>
-        </button>
-
-        {showCountries &&
-        <TapOutsideLayout onClick={() => setShowCountries(false)}>
-          
-          <div className="absolute z-20">
-            <div className="bg-cc-background-main border border-cc-content-main/20 shadow px-2 py-4 rounded overflow-scroll overflow-x-hidden" style={{maxHeight: '50vh'}}>
-              {Object.entries(countries_icons).map(([name, image], index) => (
-                <CountryTile key={index} image={image} name={name} onClick={() => {
-                  update(image, name)
-                  pressOnChangeCountry(name);
-                } 
-              }/>
-              ))}
-            </div>
-          </div>
-
-        </TapOutsideLayout>
-        }
-      </div>
-      
-      {/* input field */}
-      <div className="ml-4 w-full">
-        <TextInputField
-          name='phone'
-          type='number'
-          placeholder={'Phone number'}
-          required
-        />
-      </div>
-    </div>
-  </div>
-  )
-}
-
-const CountryTile = ({image, name, onClick,} : {image: string, name: string, onClick: React.MouseEventHandler<HTMLDivElement>}) => {
-  const maxWordsCount = 25;
-  const getName = (name: string) => {
-    if (name.length > maxWordsCount) {
-      return name.substring(0, maxWordsCount) + '...';
-    }
-    return name;
-  }
-
-  return (
-    <div className="flex py-2 px-3 md:hover:bg-gray-200 rounded cursor-pointer" onClick={onClick}>
-      <Image src={image} alt="country flag" className="opacity-50" width={16} height={16}/>
-      <p className="whitespace-nowrap ml-5">{getName(name)}</p>
-    </div>
   );
 }
