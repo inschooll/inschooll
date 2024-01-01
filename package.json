@@ -2,7 +2,9 @@
   "name": "inschooll",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
+    "db:push:default": "dotenv tsx ./scripts/db_setup.ts",
     "build": "next build",
     "db:push": "dotenv drizzle-kit push:mysql",
     "db:studio": "dotenv drizzle-kit studio",
