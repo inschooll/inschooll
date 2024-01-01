@@ -1,21 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
 import TopNavbar from "./_components/navbar/navbar";
 import images from "./core/constants/images";
 import constants from "./core/constants/constants";
 import links from "./core/constants/links";
 import Button from "./_components/buttons/button";
-import { redirect } from "next/navigation";
 
-export default async function Home() {
-  const session = await getServerAuthSession();
-  const profile = session
-    ? await api.profile.getProfileByUserId.query({ userId: session?.user.id })
-    : null;
+export default function Home() {
+  // const session = await getServerAuthSession();
+  
+  // const profile = session
+  //   ? await api.profile.getProfileByUserId.query({ userId: session?.user.id })
+  //   : null;
 
-  if (session?.user && !profile) redirect(links.completeRegistration);
+  // if (session?.user && !profile) redirect(links.completeRegistration);
 
   return (
     <div className="h-screen overflow-hidden bg-cc-background-main">
