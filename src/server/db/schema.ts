@@ -1,13 +1,8 @@
-import { relations, sql } from "drizzle-orm";
 import {
   boolean,
-  date,
   index,
-  int,
   mysqlTableCreator,
-  primaryKey,
   smallint,
-  text,
   timestamp,
   unique,
   varchar,
@@ -29,19 +24,20 @@ export const user = mysqlTable("user", {
   firstName: varchar("first_name", { length: 50 }).notNull(),
   lastName: varchar("last_name", { length: 50 }).notNull(),
   username: varchar("username", { length: 30 }).notNull().unique(),
-  countryId: varchar("country_id", { length: 256 }).notNull(),
-  stateId: varchar("state_id", { length: 256 }).notNull(),
   bio: varchar("bio", { length: 1000 }),
   password: varchar("password", { length: 256 }).notNull(),
   gender: varchar("gender", { length: 10, enum: ["male", "female"] }).notNull(),
   dateOfBirth: varchar("date_of_birth", { length: 30 }).notNull(), // 01-13-23 (mm-dd-yy)
   phone1: varchar("phone1", { length: 20 }).notNull(),
   phone2: varchar("phone2", { length: 20 }),
+  country_id: varchar("country_id", { length: 256 }).references(() => country.id, {onDelete: 'set null'}),
+  state_id: varchar("state_id", { length: 256 }).references(() => state.id, {onDelete: 'set null'}),
 
   // updatedAt: timestamp("updated_at", { mode: "date" }).onUpdateNow(),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
 }, (table) => ({
-  username_idx: index("username_idx").on(table.username)
+  username_idx: index("username_idx").on(table.username),
+  email_idx: index("email_idx").on(table.email),
 }));
 export const userInsertType = typeof user.$inferInsert;
 
@@ -64,20 +60,19 @@ export const school = mysqlTable("school", {
   instagram_url: varchar("instagram_url", { length: 256 }),
   facebook_url: varchar("facebook_url", { length: 256 }),
 
-  chancellor_id: varchar("chancellor_id", { length: 256 }).notNull(),
-  country_id: varchar("country_id", { length: 256 }),
-  state_id: varchar("state_id", { length: 256 }),
+  // chancellor_id: varchar("chancellor_id", { length: 256 }).notNull(),
+  country_id: varchar("country_id", { length: 256 }).references(() => country.id, {onDelete: 'set null'}),
+  state_id: varchar("state_id", { length: 256 }).references(() => state.id, {onDelete: 'set null'}),
 
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
 });
 
-export const schoolRelations = relations(school, ({ one, many }) => ({
-  chancellor: one(user, {
-    fields: [school.chancellor_id],
-    references: [user.id],
-  }),
-  // countryId: one(country)
-}));
+// export const schoolRelations = relations(school, ({ one, many }) => ({
+//   chancellor: one(user, {
+//     fields: [school.chancellor_id],
+//     references: [user.id],
+//   }),
+// }));
 
 // FACULTY
 export const faculty = mysqlTable(
@@ -89,20 +84,20 @@ export const faculty = mysqlTable(
     description: varchar("name", { length: 256 }),
     facNo: smallint("facultyNo").notNull(),
 
-    deanId: varchar("dean_id", { length: 256 }).notNull(),
-    schoolId: varchar("school_id", { length: 256 }).notNull(),
+    // dean_id: varchar("dean_id", { length: 256 }).notNull(),
+    school_id: varchar("school_id", { length: 256 }).notNull().references(() => school.id, {onDelete: 'cascade'}),
 
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   },
   (table) => ({
-    unq: unique().on(table.name, table.schoolId),
+    unq: unique().on(table.name, table.school_id),
   }),
 );
 
-export const facultyRelations = relations(faculty, ({ one }) => ({
-  dean: one(user, { fields: [faculty.deanId], references: [user.id] }),
-  school: one(school, { fields: [faculty.schoolId], references: [school.id] }),
-}));
+// export const facultyRelations = relations(faculty, ({ one }) => ({
+//   dean: one(user, { fields: [faculty.dean_id], references: [user.id] }),
+//   school: one(school, { fields: [faculty.school_id], references: [school.id] }),
+// }));
 
 // DEPARTMENT
 export const department = mysqlTable(
@@ -111,36 +106,37 @@ export const department = mysqlTable(
     id: varchar("id", { length: 256 }).notNull().primaryKey(),
     name: varchar("name", { length: 256 }).notNull(),
     cover_url: varchar("cover_url", { length: 256 }),
+    avatar_url: varchar("avatar_url", { length: 256 }),
     description: varchar("name", { length: 256 }),
     depNo: smallint("departmentNo").notNull(),
 
-    headOfDepartmentId: varchar("head_of_department_id", {
-      length: 256,
-    }).notNull(),
-    facultyId: varchar("faculty_id", { length: 256 }).notNull(),
-    schoolId: varchar("school_id", { length: 256 }).notNull(),
+    // hod_id: varchar("head_of_department_id", {
+    //   length: 256,
+    // }).notNull().references(() => user.id),
+    faculty_id: varchar("faculty_id", { length: 256 }).notNull().references(() => faculty.id, {onDelete: 'cascade'}),
+    school_id: varchar("school_id", { length: 256 }).notNull().references(() => school.id, {onDelete: 'cascade'}),
 
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   },
   (table) => ({
-    unq: unique().on(table.name, table.schoolId),
+    unq: unique().on(table.name, table.school_id),
   }),
 );
 
-export const departmentRelations = relations(department, ({ one }) => ({
-  headOfDepartment: one(user, {
-    fields: [department.headOfDepartmentId],
-    references: [user.id],
-  }),
-  faculty: one(faculty, {
-    fields: [department.facultyId],
-    references: [faculty.id],
-  }),
-  school: one(school, {
-    fields: [department.schoolId],
-    references: [school.id],
-  }),
-}));
+// export const departmentRelations = relations(department, ({ one }) => ({
+//   headOfDepartment: one(user, {
+//     fields: [department.hod_id],
+//     references: [user.id],
+//   }),
+//   faculty: one(faculty, {
+//     fields: [department.faculty_id],
+//     references: [faculty.id],
+//   }),
+//   school: one(school, {
+//     fields: [department.school_id],
+//     references: [school.id],
+//   }),
+// }));
 
 // COUNTRY
 export const country = mysqlTable(
@@ -159,9 +155,9 @@ export const country = mysqlTable(
   }),
 );
 
-export const countryRelations = relations(country, ({ one }) => ({
-  state: one(state, { fields: [country.id], references: [state.countryId] }),
-}));
+// export const countryRelations = relations(country, ({ one }) => ({
+//   state: one(state, { fields: [country.id], references: [state.countryId] }),
+// }));
 
 // STATE
 export const state = mysqlTable(
@@ -170,16 +166,16 @@ export const state = mysqlTable(
     id: varchar("id", { length: 256 }).notNull().primaryKey(),
     name: varchar("name", { length: 100 }).notNull(),
     statusCode: varchar("status_code", { length: 100 }),
-    countryId: varchar("country_id", { length: 256 }).notNull(),
+    country_id: varchar("country_id", { length: 256 }).notNull().references(() => country.id, {onDelete: 'cascade'}),
   },
   (table) => ({
-    country_id_idx: index("country_id_idx").on(table.countryId),
+    country_id_idx: index("country_id_idx").on(table.country_id),
   }),
 );
 
-export const stateRelations = relations(state, ({ many }) => ({
-  country: many(country),
-}));
+// export const stateRelations = relations(state, ({ many }) => ({
+//   country: many(country),
+// }));
 
 // ROLE
 export const role = mysqlTable("role", {
@@ -190,9 +186,9 @@ export const role = mysqlTable("role", {
 export const user_school_role = mysqlTable(
   "user_school_role",
   {
-    user_id: varchar("user_id", { length: 256 }).notNull(),
-    school_id: varchar("school_id", { length: 256 }).notNull(),
-    role_id: varchar("role_id", { length: 256 }).notNull(),
+    user_id: varchar("user_id", { length: 256 }).notNull().references(() => user.id, {onDelete: 'cascade'}),
+    school_id: varchar("school_id", { length: 256 }).notNull().references(() => school.id, {onDelete: 'cascade'}),
+    role_id: varchar("role_id", { length: 256 }).notNull().references(() => role.id, {onDelete: 'cascade'}),
 
     verified: boolean("verified").default(false),
 
@@ -203,12 +199,12 @@ export const user_school_role = mysqlTable(
   }),
 );
 
-export const user_school_role_relations = relations(
-  user_school_role,
-  ({ many }) => ({
-    // user: one(user, {fields: [user_school_role.user_id], references: [user.id]})
-    user: many(user),
-    school: many(school),
-    role: many(role),
-  }),
-);
+// export const user_school_role_relations = relations(
+//   user_school_role,
+//   ({ many }) => ({
+//     // user: one(user, {fields: [user_school_role.user_id], references: [user.id]})
+//     user: many(user),
+//     school: many(school),
+//     role: many(role),
+//   }),
+// );
