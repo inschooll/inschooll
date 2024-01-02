@@ -2,6 +2,7 @@ const toLinkFormat = (v: string) => v.split(' ').join('-'); // nile university -
 
 const login = "/login";
 const signup = "/signup";
+const resetPassword = "/reset-password";
 const completeRegistration = "/complete-registration";
 const landingPage = '/';
 const purpose = '/purpose';
@@ -18,6 +19,7 @@ const aCase = (schoolName: string, id: string) => `/${toLinkFormat(schoolName)}/
 export default {
   login,
   signup,
+  resetPassword,
   landingPage,
   purpose,
   pickSchool,
