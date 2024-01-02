@@ -29,7 +29,7 @@ export default function PopupLayout({children, title, submitButtonText, showPopu
     <div className={`${showPopup ? "" : "hidden"} absolute top-0 -left-0 bg-cc-content-main/30 w-full h-full z-${zIndex}`} onClick={closePopup}>
       <div className="md:max-w-4xl h-3/4 h-4/5 hidden"></div>
       <div 
-        className={`flex flex-col relative left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[650px] md:${height} md:${width} bg-cc-background-main border border-cc-border-main overflow-hidden rounded-3xl shadow-xl`} 
+        className={`flex flex-col relative left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[650px] md:${height} md:${width} bg-cc-background-main border border-cc-border-main overflow-hidden rounded-xl shadow-xl`} 
         onClick={(e) => e.stopPropagation()}
       >
         <PopupHeader title={title} clickClose={closePopup} />
