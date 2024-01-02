@@ -1,10 +1,8 @@
 
 import TopNavbar from "~/app/_components/navbar/navbar";
 import PurposeBody from "./PurposeBody";
-import { protectPage } from "~/core/utils";
 
-export default async function Purpose() {
-  await protectPage();
+export default function Purpose() {
 
   return (
     <>
