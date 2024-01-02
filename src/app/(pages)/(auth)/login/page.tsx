@@ -2,35 +2,35 @@
 import AuthTitle from "../AuthTitle";
 import Link from "next/link";
 import links from "~/app/core/constants/links";
-import LoginFormBody from "./LoginFormBody";
-import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
+import LoginFormBody from "./body";
 import { redirect } from "next/navigation";
 import AuthGoogleButton from "../AuthGoogleButton";
+import { cookies } from "next/headers";
+import constants from "~/app/core/constants/constants";
 
-export default async function Login() {
-  const session = await getServerAuthSession();
-  const profile = session?.user ? await api.profile.getProfileByUserId.query({userId: session?.user.id}) : null;
-
-  if (session?.user && !profile) redirect(links.completeRegistration);
-  // TODO: redirect to dashboard when the dashboard has been created
-  if (session?.user) redirect(links.landingPage);
-
+export default function Login(props: {searchParams: Record<string, string>}) {
+  console.log(props);
+  const updateAuthToken = async (token: string) => {
+    "use server";
+    await Promise.all([]);
+    const cookieStore = cookies();
+    cookieStore.set(constants.tokenName, token);
+    redirect(links.purpose);
+  };
   return (
     <>
       <AuthTitle title="Log in" />
 
       <div className="mt-5">
-        <AuthGoogleButton />
-      </div>
+        <LoginFormBody updateAuthToken={updateAuthToken} defaultEmail={props.searchParams.email} />
 
-      <LoginFormBody />
+        <div className="mt-5 text-center">
+          <span className="text-cc-content-main/80">Don’t have an account ?</span>
 
-      <div className="mt-10">
-        Don’t have an account ?
-        <Link href={links.signup}>
-          <span className="ml-2 text-cc-primary-main underline">Sign up</span>
-        </Link>
+          <Link href={links.signup}>
+            <span className="ml-2 text-cc-primary-main underline">Sign up</span>
+          </Link>
+        </div>
       </div>
     </>
   );
