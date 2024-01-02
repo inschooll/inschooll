@@ -26,7 +26,7 @@ export default function Button2({
 
   return (
     <button
-      className={`border-2 ${colorStyles} ${width ? `w-${width}` : paddingStyles} rounded-${rounded} transition duration-200`}
+      className={`border ${colorStyles} ${width ? `w-${width}` : paddingStyles} rounded-${rounded} transition duration-200`}
       {...props}
     >
       {children}
