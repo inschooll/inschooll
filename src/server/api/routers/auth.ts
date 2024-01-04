@@ -11,12 +11,6 @@ import { TRPCClientError } from "@trpc/client";
 import { eq } from "drizzle-orm";
 import errorMessages from "~/app/core/constants/error-messages";
 
-interface UserJWTPayload {
-  jti: string;
-  iat: string;
-  userId: string;
-}
-
 export async function generateJwtToken({
   payload,
   jwtExpiration,
