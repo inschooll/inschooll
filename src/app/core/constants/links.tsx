@@ -1,9 +1,10 @@
 const toLinkFormat = (v: string) => v.split(' ').join('-'); // nile university -> nile-university
 
+
 const login = "/login";
 const signup = "/signup";
 const resetPassword = "/reset-password";
-const completeRegistration = "/complete-registration";
+// const completeRegistration = "/complete-registration";
 const landingPage = '/';
 const purpose = '/purpose';
 const pickSchool = '/pick-university';
@@ -23,7 +24,6 @@ export default {
   landingPage,
   purpose,
   pickSchool,
-  completeRegistration,
   createSchool,
   dashboard,
   school,
