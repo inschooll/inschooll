@@ -6,6 +6,7 @@ import links from "~/app/core/constants/links";
 
 export default function PurposeBody() {
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
   
   return (
     <>
@@ -18,8 +19,8 @@ export default function PurposeBody() {
       </div>
 
       <div className="mt-3">
-        <Link href={getNextPageLink(selectedIndex)} >
-          <Button variant={"defaultFull"} size={"lg"}>Next</Button>
+        <Link href={getNextPageLink(selectedIndex)} onClick={() => setIsLoading(true)}>
+          <Button variant={"defaultFull"} isLoading={isLoading} size={"lg"}>Next</Button>
         </Link>
       </div>
     </>
