@@ -7,29 +7,29 @@ import { asc } from "drizzle-orm";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { bucketName, s3Client } from "./aws";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { TRPCClientError } from "@trpc/client";
+import errorMessages from "~/app/core/constants/error-messages";
 
 const schoolType = {
-  name: z.string(),
-  about: z.string(),
-  motto: z.string(),
-  acronym: z.string(),
-  cover: z.string(),
-  logo: z.string(),
+  coverKey: z.string(),
+  logoKey: z.string(),
 
+  name: z.string(),
+  acronym: z.string(),
+  motto: z.string(),
+  about: z.string(),
   country: z.string(),
   state: z.string(),
   address: z.string(),
-
   email: z.string(),
   phone1: z.string(),
   phone2: z.string(),
   phone3: z.string(),
-
-  websiteUrl: z.string(),
-  twitterUrl: z.string(),
-  instagramUrl: z.string(),
-  facebookUrl: z.string(),
-}
+  website: z.string(),
+  facebook: z.string(),
+  twitter: z.string(),
+  instagram: z.string(),
+};
 
 const schoolOptionalType = {
   id: z.string(),
@@ -49,41 +49,45 @@ const schoolOptionalType = {
   facebookUrl: z.string().optional(),
   country: z.string().optional(),
   state: z.string().optional(),
-}
+};
 
-const getAllTypes = {skip: z.number().optional(), limit: z.number().optional(), country: z.string().optional(), state: z.string().optional()}
+const getAllTypes = {
+  skip: z.number().optional(),
+  limit: z.number().optional(),
+  country: z.string().optional(),
+  state: z.string().optional(),
+};
 
 export const schoolRouter = createTRPCRouter({
   create: protectedProcedure
     .input(z.object(schoolType))
-    .mutation( async ({ctx, input}) => {
+    .mutation(async ({ ctx, input }) => {
       // get country and state id
-      const country = await ctx.db.query.country.findFirst({where: (country, { eq }) => eq(country.name, input.country)})
-      const state = await ctx.db.query.state.findFirst({where: (state, { eq }) => eq(state.name, input.state)})
+      const country = await ctx.db.query.country.findFirst({
+        where: (table, { eq }) => eq(table.name, input.country),
+      });
+      const state = await ctx.db.query.state.findFirst({
+        where: (state, { eq }) => eq(state.name, input.state),
+      });
 
       // ensure there are no country or state errors
-      if (!country) throw new Error(`The country ${input.country} does not exist`); 
-      if (!state) throw new Error(`The state ${input.state} does not exist`); 
-      if (state.country_id !== country.id) throw new Error(`The selected ${input.state.toUpperCase()}state is not a valid state of the country ${input.country.toUpperCase()}`);
+      if (!country)
+        throw new TRPCClientError(errorMessages.countryDoesNotExist);
+      if (!state) throw new TRPCClientError(errorMessages.stateDoesNotExist);
+      if (state.country_id !== country.id)
+        throw new TRPCClientError(errorMessages.stateDoesNotBelongToCountry);
 
       // create school form data
       const data = {
         id: randomUUID(),
-        cover: input.cover,
-        logo: input.logo,
-        name: input.name,
-        about: input.about,
-        motto: input.motto,
-        acronym: input.acronym,
-        address: input.address,
-        phone1: input.phone1,
-        phone2: input.phone2,
-        phone3: input.phone3,
-        websiteUrl: input.websiteUrl,
-        twitterUrl: input.twitterUrl,
-        instagramUrl: input.instagramUrl,
-        facebookUrl: input.facebookUrl,
-        
+        ...input,
+        cover: input.coverKey,
+        logo: input.logoKey,
+        websiteUrl: input.website,
+        twitterUrl: input.twitter,
+        instagramUrl: input.instagram,
+        facebookUrl: input.facebook,
+
         country_id: country.id,
         state_id: state.id,
         chancellor_id: ctx.session.user.id,
@@ -92,19 +96,19 @@ export const schoolRouter = createTRPCRouter({
       // create school
       const newSchool = await ctx.db.insert(school).values(data);
       const newSchoolData = await ctx.db.query.school.findFirst({
-        where: (school, { eq }) => eq(school.name, input.name)
-      })
+        where: (school, { eq }) => eq(school.name, input.name),
+      });
 
       // create user_school_role relationship
       const role = await ctx.db.query.role.findFirst({
-        where: (role, { eq }) => eq(role.name, roles.chancellor)
+        where: (role, { eq }) => eq(role.name, roles.chancellor),
       });
-      
+
       if (!role) throw new Error(`The chancellor role was not found`);
 
       const userSchoolRole = {
         user_id: ctx.session.user.id,
-        school_id: newSchoolData?.id ?? '',
+        school_id: newSchoolData?.id ?? "",
         role_id: role.id,
       };
 
@@ -115,59 +119,69 @@ export const schoolRouter = createTRPCRouter({
     }),
   getAll: protectedProcedure
     .input(z.object(getAllTypes))
-    .query(async ({ctx, input}) => {
+    .query(async ({ ctx, input }) => {
       const schools = await ctx.db.query.school.findMany({
         limit: input.limit,
         offset: (input.skip ?? 0) * (input.limit ?? 1),
-        orderBy: [asc(school.name)]
+        orderBy: [asc(school.name)],
       });
-      const newSchools: ({coverUrl: string, logoUrl: string} & typeof school.$inferSelect)[] = [];
+      const newSchools: ({
+        coverUrl: string;
+        logoUrl: string;
+      } & typeof school.$inferSelect)[] = [];
       console.log(schools);
 
-      await Promise.all(schools.map(async (school) => {
-        let coverUrl = '';
-        let logoUrl = '';
+      await Promise.all(
+        schools.map(async (school) => {
+          let coverUrl = "";
+          let logoUrl = "";
 
-        const setCoverAndLogo = async () => {
-          if (school?.cover) {
-            const command = new GetObjectCommand({
-              Bucket: bucketName,
-              Key: school.cover,
-            });
-            coverUrl = await getSignedUrl(s3Client, command, {expiresIn: 60});
-          }
-          if (school?.logo) {
-            const command = new GetObjectCommand({
-              Bucket: bucketName,
-              Key: school.logo,
-            });
-            logoUrl = await getSignedUrl(s3Client, command, {expiresIn: 60});
-          }
+          const setCoverAndLogo = async () => {
+            if (school?.cover) {
+              const command = new GetObjectCommand({
+                Bucket: bucketName,
+                Key: school.cover,
+              });
+              coverUrl = await getSignedUrl(s3Client, command, {
+                expiresIn: 60,
+              });
+            }
+            if (school?.logo) {
+              const command = new GetObjectCommand({
+                Bucket: bucketName,
+                Key: school.logo,
+              });
+              logoUrl = await getSignedUrl(s3Client, command, {
+                expiresIn: 60,
+              });
+            }
+          };
 
-        }
-        
-        await setCoverAndLogo();
-        newSchools.push({coverUrl, logoUrl, ...school});
-      }));
+          await setCoverAndLogo();
+          newSchools.push({ coverUrl, logoUrl, ...school });
+        }),
+      );
 
       return newSchools;
-      
     }),
   getById: protectedProcedure
-    .input(z.object({ id: z.string()}))
-    .query( async ({ ctx, input }) => {
-      return await ctx.db.query.school.findFirst({where: (school, { eq }) => eq(school.id, input.id)});
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.school.findFirst({
+        where: (school, { eq }) => eq(school.id, input.id),
+      });
     }),
   // TODO: Not yet tested the presignedURL for cover and logo images if they work
   getByName: protectedProcedure
-    .input(z.object({ name: z.string()}))
-    .query( async ({ ctx, input }) => {
-      
+    .input(z.object({ name: z.string() }))
+    .query(async ({ ctx, input }) => {
       if (school) {
-        let coverUrl = '';
-        let logoUrl = '';
+        let coverUrl = "";
+        let logoUrl = "";
 
-        const school = await ctx.db.query.school.findFirst({where: (school, { eq }) => eq(school.name, input.name)});
+        const school = await ctx.db.query.school.findFirst({
+          where: (school, { eq }) => eq(school.name, input.name),
+        });
 
         const setCoverAndLogo = async () => {
           if (school?.cover) {
@@ -175,52 +189,68 @@ export const schoolRouter = createTRPCRouter({
               Bucket: bucketName,
               Key: school.cover,
             });
-            coverUrl = await getSignedUrl(s3Client, command, {expiresIn: 60});
+            coverUrl = await getSignedUrl(s3Client, command, { expiresIn: 60 });
           }
           if (school?.logo) {
             const command = new GetObjectCommand({
               Bucket: bucketName,
               Key: school.logo,
             });
-            logoUrl = await getSignedUrl(s3Client, command, {expiresIn: 60});
+            logoUrl = await getSignedUrl(s3Client, command, { expiresIn: 60 });
           }
-        }
+        };
 
         await setCoverAndLogo();
 
-        return {coverUrl: coverUrl, logoUrl: logoUrl, ...school};
+        return { coverUrl: coverUrl, logoUrl: logoUrl, ...school };
       }
 
       return undefined;
     }),
-    // TODO: who exactly can update a schools information (chancellor, vice chancellor or those with specific permission)
+  byNameExist: protectedProcedure
+    .input(z.object({ name: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      console.log(1);
+      const school = await ctx.db.query.school.findFirst({
+        columns: {id: true},
+        where: (school, { eq }) => eq(school.name, input.name),
+      });
+      console.log(2);
+
+      return { id: school?.id }
+    }),
+
+  // TODO: who exactly can update a schools information (chancellor, vice chancellor or those with specific permission)
   update: protectedProcedure
     .input(z.object(schoolOptionalType))
     .mutation(async ({ ctx, input }) => {
-      // ensure user is authorized or permitted
       const userSchoolRole = await ctx.db.query.user_school_role.findFirst({
         where: (usr, { eq }) => {
-          return eq(usr.user_id, ctx.session.user.id) && eq(usr.school_id, input.id);
+          return (
+            eq(usr.user_id, ctx.session.user.id) && eq(usr.school_id, input.id)
+          );
         },
-        with: {user: true, role: true, school: true}
+        with: { user: true, role: true, school: true },
       });
       console.log(userSchoolRole);
-      
+
       // TODO: ensure user is only able to delete a school if they are the chancellor
-      
+
       // make changes
 
       // return school id
     }),
   delete: protectedProcedure
-    .input(z.object({ id: z.string()}))
-    .mutation( async ({ ctx, input }) => {
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
       // ensure user is authorized or permitted
       const userSchoolRole = await ctx.db.query.user_school_role.findFirst({
         where: (usr, { eq }) => {
-          return eq(usr.user_id, ctx.session.user.id) && eq(usr.school_id, input.id);
+          return (
+            eq(usr.user_id, ctx.session.user.id) && eq(usr.school_id, input.id)
+          );
         },
-        with: {user: true, role: true, school: true}
+        with: { user: true, role: true, school: true },
       });
       console.log(userSchoolRole);
 
@@ -232,5 +262,5 @@ export const schoolRouter = createTRPCRouter({
       // const deletedSchool = await ctx.db.delete(school).where(eq(school.id, input.id));
       // // return
       // return deletedSchool.insertId;
-    })
-})
+    }),
+});
