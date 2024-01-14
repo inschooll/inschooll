@@ -3,6 +3,9 @@ const doesNotExist = ' does not exist';
 const errorMessages = {
   usernameDoesNotExist: 'Username' + doesNotExist,
   userDoesNotExist: 'User' + doesNotExist,
+  countryDoesNotExist: 'The country' + doesNotExist,
+  stateDoesNotExist: 'The state' + doesNotExist,
+  stateDoesNotBelongToCountry: 'The state chosen does not belong to the country',
   incorrectPassword: 'Password is incorrect',
   passwordNewAndConfirmNoMatch: 'New password and confirm password do not match',
   passwordRequired: 'Password is required',
@@ -11,6 +14,7 @@ const errorMessages = {
   usernameOrEmailRequired: 'Username or email must be provided',
   notFound: 'not found',
   invalidEmail: "Please enter a valid email",
+
 }
 
 export default errorMessages;
