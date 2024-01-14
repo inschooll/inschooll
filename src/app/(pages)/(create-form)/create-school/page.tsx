@@ -1,11 +1,8 @@
 import React from 'react'
 import TopNavbar from '~/app/_components/navbar/navbar'
-import { FormBody } from './components/FormBody'
-import { protectPage } from '~/core/utils';
+import { FormBody } from './components/FormBody';
 
-export default async function CreateSchool() {
-  await protectPage();
-  
+export default function CreateSchoolPage() {
   return (
     <>
       <TopNavbar />
