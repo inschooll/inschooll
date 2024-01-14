@@ -116,3 +116,7 @@ export function getErrorMessage(msg: string) {
   // if no error was matched return 'Something went wrong' 
   return 'Something went wrong';
 }
+
+export function isPhoneNumber(phoneNumber: string) {
+  return phoneNumber.length < 7 || phoneNumber.length > 20;
+}
