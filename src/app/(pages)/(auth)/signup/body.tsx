@@ -1,5 +1,5 @@
 "use client";
-import React, { type ChangeEvent, useState } from "react";
+import React, { type ChangeEvent, useState, useEffect } from "react";
 import Image from "next/image";
 import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
 import Button from "~/app/_components/buttons/button";
@@ -7,7 +7,7 @@ import constants, { type monthsType } from "~/app/core/constants/constants";
 
 import Label from "~/app/_components/inputs/label";
 import DropdownButton from "~/app/_components/inputs/dropdown-button";
-import { isFebruaryAndLeapYear, useHandleError } from "~/core/utils-client";
+import { isFebruaryAndLeapYear, isPhoneNumber, useHandleError } from "~/core/utils-client";
 import { api } from "~/trpc/react";
 import { usePopUpStore } from "~/app/_components/popups/popup_store";
 import TextInputField from "~/app/_components/inputs/text_input_field";
@@ -31,35 +31,6 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
     }
   });
 
-  // countries & states
-  const countries = countries_data;
-  const [states, setStates] = useState(countries_data[0]!.states);
-
-  // username (verification)
-  const [usernameIsValid, setUsernameIsValid] = useState(false);
-  const { mutate: findUserByUsername, isLoading: usernameIsLoading, isError: usernameIsError } = api.user.getByUsername.useMutation({
-    onError: (error) => {
-      handleError({msg: error.message})
-      setUsernameIsValid(false);
-    },
-    onSuccess: (data) => {
-      if (!data) return setUsernameIsValid(true);  // username doesn't exist
-      else setUsernameIsValid(false);  // username exists
-    }
-  });
-  // email (verification)
-  const [emailIsValid, setEmailIsValid] = useState(false);
-  const { mutate: findUserByEmail, isLoading: emailIsLoading, isError: emailIsError } = api.user.getByEmail.useMutation({
-    onError: (error) => {
-      handleError({msg: error.message})
-      setEmailIsValid(false);
-    },
-    onSuccess: (data) => {
-      if (!data) return setEmailIsValid(true);  // Email doesn't exist
-      else setEmailIsValid(false);  // Email exists
-    }
-  });
-
   // fields
   const [input, setInput] = useState({
     firstName: "",
@@ -76,6 +47,63 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
     dob_month: "January" as monthsType,
     dob_year: 0,
   });
+
+  // countries & states
+  const countries = countries_data;
+  const [states, setStates] = useState(countries_data[0]!.states);
+
+  // username (verification)
+  const [usernameIsValid, setUsernameIsValid] = useState<boolean>();
+  const { mutate: findUserByUsername, isLoading: usernameIsLoading, isError: usernameIsError } = api.user.getByUsername.useMutation({
+    onError: (error) => {
+      handleError({msg: error.message})
+      setUsernameIsValid(false);
+    },
+    onSuccess: (data) => {
+      if (!data) return setUsernameIsValid(true);  // username doesn't exist
+      else setUsernameIsValid(false);  // username exists
+    }
+  });
+  // email (verification)
+  const [emailIsValid, setEmailIsValid] = useState<boolean>();
+  const { mutate: findUserByEmail, isLoading: emailIsLoading, isError: emailIsError } = api.user.getByEmail.useMutation({
+    onError: (error) => {
+      handleError({msg: error.message})
+      setEmailIsValid(false);
+    },
+    onSuccess: (data) => {
+      if (!data) return setEmailIsValid(true);  // Email doesn't exist
+      else setEmailIsValid(false);  // Email exists
+    }
+  });
+  
+  // make username, email request only when user has not typed a character in 2 seconds
+  const [shouldMakeUsernameRequest, setShouldMakeUsernameRequest] = useState(false);
+  const [shouldMakeEmailRequest, setShouldMakeEmailRequest] = useState(false);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => setShouldMakeUsernameRequest(true), 2000);
+    return () => clearTimeout(timerId);
+  }, [input.username]);
+  useEffect(() => {
+    const timerId = setTimeout(() => setShouldMakeEmailRequest(true), 2000);
+    return () => clearTimeout(timerId);
+  }, [input.email]);
+
+  useEffect(() => {
+    if (shouldMakeUsernameRequest && input.username !== '' && !input.username.includes(' ')) {
+      // make API request
+      findUserByUsername({username: input.username});
+      // Reset shouldMakeRequest
+      setShouldMakeUsernameRequest(false);
+    }
+    if (shouldMakeEmailRequest && validator.isEmail(input.email)) {
+      // make API request
+      findUserByEmail({email: input.email});
+      // Reset shouldMakeRequest
+      setShouldMakeEmailRequest(false);
+    }
+  }, [shouldMakeUsernameRequest, shouldMakeEmailRequest, input.username, input.email, findUserByUsername, findUserByEmail]);
 
   const [stage, setStage] = useState(1);
   const [inputErrorMessage, setInputErrorMessage] = useState("");
@@ -114,7 +142,7 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
     if (stage === 5 && input.nationality && input.stateOfOrigin) return setStage(6);
 
     // phone number
-    if (input.phoneNumber.length < 7 || input.phoneNumber.length > 20) return showTopErrorMsg("Please enter a valid phone number")
+    if (isPhoneNumber(input.phoneNumber)) return showTopErrorMsg("Please enter a valid phone number")
     if (!input.phoneNumber) return showTopErrorMsg("Please enter your Phone Number")
     if (stage === 6 && input.phoneNumber) return setStage(7);
 
@@ -183,8 +211,6 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
               inputIsValid={input.username === '' ? undefined :  usernameIsValid}
               onChange={(e) => {
                 onChange(e);
-                if (e.target.value === '') return;
-                findUserByUsername({username: e.target.value});
               }}
               placeholder="Enter your username..."
               required
@@ -203,8 +229,6 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
               inputIsValid={validator.isEmail(input.email) === false ? undefined :  emailIsValid}
               onChange={(e) => {
                 onChange(e);
-                if (!validator.isEmail(e.target.value)) return
-                findUserByEmail({email: e.target.value});
               }}
               placeholder="email"
               required
