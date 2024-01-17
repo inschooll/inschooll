@@ -14,7 +14,7 @@ import ChangeThemeButtons from "~/app/_components/navbar/change-theme-buttons";
 export default function Sidebar({schoolName}: {schoolName: string}) {
   return (
     <nav className="w-64 overflow-auto border-r-[3px] border-cc-border-main bg-cc-background-sub shrink-0">
-      <div className="flex justify-between py-2 pl-4 pr-1 border-b border-cc-border-main">
+      <div className="flex justify-between py-2 pl-4 pr-1 ">
         {/* logo */}
         <Link href={links.dashboard(schoolName)} data-testid="logo-button">
           <AppLogo variance="sm" />
@@ -27,9 +27,8 @@ export default function Sidebar({schoolName}: {schoolName: string}) {
       <UserProfileSection />
 
       {/* Actions section */}
-      <div className="px-4 pt-4">
+      <div className="px-4">
         <div>
-          <h3 className="font-semibold text-cc-content-main/40">Menu</h3>
           <div className="mt-2 flex flex-col gap-2">
             {/* dashboard */}
             <MenuCard 
@@ -63,7 +62,7 @@ function UserProfileSection() {
   return (
     <>
       {/* User Account */}
-      <div className="cursor-pointer border-b border-cc-border-main px-4 py-3 app-hover">
+      <div className="cursor-pointer px-4 py-3 app-hover">
         <div className="bg-red-3000 flex items-center gap-3">
           {/* image */}
           <div className="h-9 w-9 overflow-hidden rounded-full">
