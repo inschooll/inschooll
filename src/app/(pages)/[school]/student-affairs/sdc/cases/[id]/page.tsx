@@ -25,9 +25,8 @@ export default function CasePage({params}: {params: {school: string, id: string}
 
   return (
     <>
-    <div className='pl-7 pr-20'>
       {/* Breadcumbs and views */}
-      <div className="flex justify-between">
+      <div className="flex justify-between pl-2 pr-10">
         <BreadCrumbs patterns={breadCrumbData} />
 
         <div className='flex items-center gap-2'>
@@ -35,6 +34,8 @@ export default function CasePage({params}: {params: {school: string, id: string}
           <p className='text-cc-content-main/80 pb-[1px]'>54 views</p>  
         </div>
       </div>
+
+    <div className='pl-7 pr-20'>
 
       <div className="mt-4">
         {/* Title <-> [Buttons] */}
