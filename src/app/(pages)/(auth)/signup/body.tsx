@@ -20,16 +20,6 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
   // store
   const { addPopup } = usePopUpStore();
   const { handleError } = useHandleError();
-  // TRPC
-  const { mutate: signup, isLoading, isError } = api.auth.signup.useMutation({
-    onError: (err) => {
-      addPopup({text: 'Something went wrong', type: 'error'})
-    },
-    onSuccess: ({ authToken }) => {
-      addPopup({text: 'Your Account was successfully created!', type: 'success'})
-      setAuthToken(authToken);
-    }
-  });
 
   // fields
   const [input, setInput] = useState({
@@ -51,6 +41,17 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
   // countries & states
   const countries = countries_data;
   const [states, setStates] = useState(countries_data[0]!.states);
+
+  const { mutate: signup, isLoading, isError } = api.auth.signup.useMutation({
+    onError: (err) => {
+      console.log(err);
+      addPopup({text: 'Something went wrong', type: 'error'})
+    },
+    onSuccess: ({ authToken }) => {
+      addPopup({text: 'Your Account was successfully created!', type: 'success'})
+      setAuthToken(authToken);
+    }
+  });
 
   // username (verification)
   const [usernameIsValid, setUsernameIsValid] = useState<boolean>();
