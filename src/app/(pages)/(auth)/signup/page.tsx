@@ -16,6 +16,8 @@ export default function Signup() {
     redirect(links.purpose);
   };
 
+  console.log('Sign up!!!');
+
   return (
     <>
       <AuthTitle title="Sign up" />
