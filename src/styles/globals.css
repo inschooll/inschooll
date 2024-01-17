@@ -35,6 +35,10 @@
     --color-input-bg: 243 244 246;
     --color-input-text: 00 00 00;
     --color-scrollbar: 113, 128, 147;
+
+    --color-sidebar-selected-bg: 246 248 250;
+    /* TODO: add a proper hover color not same as above */
+    --color-sidebar-selected-bg-hover: 246 248 250;
   }
   /* light mode - same with the above */
   :root[data-theme="light"] {
@@ -50,6 +54,8 @@
     --color-input-bg: 243 244 246;
     --color-input-text: 00 00 00;
     --color-scrollbar: 113, 128, 147;
+    --color-sidebar-selected-bg: 246 248 250;
+    --color-sidebar-selected-bg-hover: 246 248 250;
   }
   /* dark mode - same with the below */
   :root[data-theme="dark"] {
@@ -61,6 +67,9 @@
     --color-input-bg: 43 45 49;
     --color-input-text: 255 255 255;
     --color-scrollbar: 73 74 78;
+
+    --color-sidebar-selected-bg: 34 40 46;
+    --color-sidebar-selected-bg-hover: 41 47 54;
   }
   @media(prefers-color-scheme: dark) {
     /* same with the above dark mode */
@@ -73,6 +82,9 @@
       --color-input-bg: 43 45 49;
       --color-input-text: 255 255 255;
       --color-scrollbar: 73 74 78;
+      
+      --color-sidebar-selected-bg: 34 40 46;
+      --color-sidebar-selected-bg-hover: 41 47 54;
     }
   }
 }
