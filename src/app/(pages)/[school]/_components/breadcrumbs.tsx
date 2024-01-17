@@ -7,14 +7,16 @@ export default function BreadCrumbs({patterns}: {patterns: Record<string, string
   return (
     <div className="flex h-5">
       {pages.map((page, i) => (
-        <div key={page} className="flex text-cc-content-sub/50">
+        <div key={page} className="flex text-cc-content-sub">
           <Link href={patterns[page]!}>
-            <p className="hover:underline font-medium text-sm">
-              {page}
-            </p>
+            <div className="app-hover px-2.5 mx-1 py-0.5 rounded-md">
+              <p className="text-sm">
+                {page}
+              </p>
+            </div>
           </Link>
 
-          {i < pages.length-1 && <span className="px-5 font-medium -translate-y-[3px]">/</span>}
+          {i < pages.length-1 && <span className=" text-cc-content-sub/50">/</span>}
         </div>
       ))}
     </div>
