@@ -22,6 +22,7 @@ export default {
         // custom colors
         cc: {
           primary: {
+            DEFAULT: "rgb(var(--color-primary) / <alpha-value>)",
             main: "rgb(var(--color-primary) / <alpha-value>)",
             sub: "rgb(var(--color-primary-deep) / <alpha-value>)",
           },
@@ -46,6 +47,12 @@ export default {
             text: "rgb(var(--color-input-text) / <alpha-value>)",
             bg: "rgb(var(--color-input-bg) / <alpha-value>)",
           },
+          sidebar: {
+            bg: {
+              DEFAULT: "rgb(var(--color-sidebar-selected-bg) / <alpha-value>)",
+              hover: "rgb(var(--color-sidebar-selected-bg-hover) / <alpha-value>)"
+            }
+          }
         }
       }
     },
