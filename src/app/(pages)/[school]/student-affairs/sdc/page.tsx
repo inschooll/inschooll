@@ -34,7 +34,7 @@ function MainContent({schoolName}: {schoolName: string}) {
 
         {/* case summary */}
         <div className="col-span-8">
-          <div className="rounded-t-3xl border-t border-x border-cc-border-main h-12 flex items-center px-5">
+          <div className="rounded-t-lg border-t border-x border-cc-border-main h-12 flex items-center px-5">
             <T5 weight="medium">Recent Cases</T5>
           </div>
             <CaseTableTTO />
@@ -48,16 +48,16 @@ function RightSidebar() {
   return (
     <div className="col-span-4">
       <div className="flex flex-col gap-4">
-        <div className="h-80 cursor-pointer rounded-3xl border border-cc-border-main bg-green-400 px-5 py-4">
+        <div className="h-80 cursor-pointer rounded-lg border border-cc-border-main bg-green-400 px-5 py-4">
           <T4 color="text-cc-background-main">Returning Students</T4>
         </div>
-        <div className="h-80 cursor-pointer rounded-3xl border border-cc-border-main bg-cc-content-main px-5 py-4">
+        <div className="h-80 cursor-pointer rounded-lg border border-cc-border-main bg-cc-content-main px-5 py-4">
           <T4 color="text-cc-background-main">Recently Suspended</T4>
         </div>
-        <div className="h-80 cursor-pointer rounded-3xl border border-cc-border-main bg-cc-content-main/80 px-5 py-4">
+        <div className="h-80 cursor-pointer rounded-lg border border-cc-border-main bg-cc-content-main/80 px-5 py-4">
           <T4 color="text-cc-background-main">Upcoming Hearing</T4>
         </div>
-        <div className="h-80 cursor-pointer rounded-3xl border border-cc-border-main bg-cc-content-main/50 px-5 py-4">
+        <div className="h-80 cursor-pointer rounded-lg border border-cc-border-main bg-cc-content-main/50 px-5 py-4">
           <T4 color="text-cc-background-main">Recently Suspended</T4>
         </div>
       </div>
@@ -69,7 +69,7 @@ function CaseCard({schoolName}: {schoolName: string}) {
   return (
     <div className="col-span-4">
       <Link href={links.cases(schoolName)}>
-        <div className="W-full app-hover h-48 cursor-pointer rounded-3xl border border-cc-border-main px-5 py-4">
+        <div className="W-full app-hover h-48 cursor-pointer rounded-lg border border-cc-border-main px-5 py-4">
           <div className="flex h-full flex-col justify-between">
             <div>
               <T4>Cases</T4>
@@ -97,7 +97,7 @@ function EmptyCard({schoolName}: {schoolName: string}) {
   return (
     <div className=" col-span-4">
       <Link href={links.src(schoolName)}>
-        <div className="W-full app-hover h-48 cursor-pointer rounded-3xl border border-cc-border-main bg-cc-border-main/20 px-5 py-4">
+        <div className="W-full app-hover h-48 cursor-pointer rounded-lg border border-cc-border-main bg-cc-border-main/20 px-5 py-4">
           <div className="flex h-full flex-col justify-between">
             <div>
               <T4>---</T4>
