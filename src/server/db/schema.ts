@@ -67,13 +67,6 @@ export const school = mysqlTable("school", {
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
 });
 
-// export const schoolRelations = relations(school, ({ one, many }) => ({
-//   chancellor: one(user, {
-//     fields: [school.chancellor_id],
-//     references: [user.id],
-//   }),
-// }));
-
 // FACULTY
 export const faculty = mysqlTable(
   "faculty",
@@ -93,11 +86,6 @@ export const faculty = mysqlTable(
     unq: unique().on(table.name, table.school_id),
   }),
 );
-
-// export const facultyRelations = relations(faculty, ({ one }) => ({
-//   dean: one(user, { fields: [faculty.dean_id], references: [user.id] }),
-//   school: one(school, { fields: [faculty.school_id], references: [school.id] }),
-// }));
 
 // DEPARTMENT
 export const department = mysqlTable(
@@ -123,21 +111,6 @@ export const department = mysqlTable(
   }),
 );
 
-// export const departmentRelations = relations(department, ({ one }) => ({
-//   headOfDepartment: one(user, {
-//     fields: [department.hod_id],
-//     references: [user.id],
-//   }),
-//   faculty: one(faculty, {
-//     fields: [department.faculty_id],
-//     references: [faculty.id],
-//   }),
-//   school: one(school, {
-//     fields: [department.school_id],
-//     references: [school.id],
-//   }),
-// }));
-
 // COUNTRY
 export const country = mysqlTable(
   "country",
@@ -155,10 +128,6 @@ export const country = mysqlTable(
   }),
 );
 
-// export const countryRelations = relations(country, ({ one }) => ({
-//   state: one(state, { fields: [country.id], references: [state.countryId] }),
-// }));
-
 // STATE
 export const state = mysqlTable(
   "state",
@@ -172,10 +141,6 @@ export const state = mysqlTable(
     country_id_idx: index("country_id_idx").on(table.country_id),
   }),
 );
-
-// export const stateRelations = relations(state, ({ many }) => ({
-//   country: many(country),
-// }));
 
 // ROLE
 export const role = mysqlTable("role", {
@@ -199,12 +164,3 @@ export const user_school_role = mysqlTable(
   }),
 );
 
-// export const user_school_role_relations = relations(
-//   user_school_role,
-//   ({ many }) => ({
-//     // user: one(user, {fields: [user_school_role.user_id], references: [user.id]})
-//     user: many(user),
-//     school: many(school),
-//     role: many(role),
-//   }),
-// );
