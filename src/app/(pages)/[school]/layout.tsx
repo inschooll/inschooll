@@ -21,7 +21,7 @@ export default function Layout({ children, params }: LayoutProps) {
         {/* Left navbar */}
         <Sidebar schoolName={params.school} />
 
-        <div className="flex-grow overflow-auto py-4">
+        <div className="flex-grow overflow-auto py-2">
           {children}
         </div>
       </div>
