@@ -65,6 +65,7 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
       else setUsernameIsValid(false);  // username exists
     }
   });
+
   // email (verification)
   const [emailIsValid, setEmailIsValid] = useState<boolean>();
   const { mutate: findUserByEmail, isLoading: emailIsLoading, isError: emailIsError } = api.user.getByEmail.useMutation({
@@ -211,6 +212,7 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
               inputIsLoading={usernameIsLoading}
               inputIsValid={input.username === '' ? undefined :  usernameIsValid}
               onChange={(e) => {
+                setUsernameIsValid(undefined)
                 onChange(e);
               }}
               placeholder="Enter your username..."
@@ -229,6 +231,7 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
               inputIsLoading={emailIsLoading}
               inputIsValid={validator.isEmail(input.email) === false ? undefined :  emailIsValid}
               onChange={(e) => {
+                setEmailIsValid(undefined)
                 onChange(e);
               }}
               placeholder="email"
