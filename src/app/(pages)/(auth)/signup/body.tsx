@@ -64,9 +64,9 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
       console.log(err);
       addPopup({text: 'Something went wrong', type: 'error'})
     },
-    onSuccess: ({ authToken }) => {
+    onSuccess: async ({ authToken }) => {
       addPopup({text: 'Your Account was successfully created!', type: 'success'})
-      setAuthToken(authToken);
+      await setAuthToken(authToken);
     }
   });
 
