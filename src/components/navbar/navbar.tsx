@@ -1,13 +1,9 @@
 import Link from "next/link";
 import AppLogo from "../app_logo";
 import links from "~/app/core/constants/links";
-import { getServerAuthSession } from "~/server/auth";
 import { NavbarRightSection } from "./NavbarRightSection";
 
-export default async function TopNavbar() {
-  const session = await getServerAuthSession()
-  const user = session?.user;
-  
+export default function TopNavbar() {
   return (
     <nav>
       <div className="flex items-center border-b border-cc-border-main h-16">
@@ -19,7 +15,7 @@ export default async function TopNavbar() {
               <AppLogo/>
             </Link>
 
-            <NavbarRightSection user={user} />
+            {/* <NavbarRightSection user={user} /> */}
           </div>
         </div>
       </div>
