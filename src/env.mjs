@@ -17,7 +17,6 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    DOMAIN_NAME: z.string(),
     SECRET_KEY: z.string(),
     SENDGRID_API_KEY: z.string(),
     SENDGRID_EMAIL: z.string(),
@@ -57,7 +56,6 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    DOMAIN_NAME: process.env.DOMAIN_NAME,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     SECRET_KEY: process.env.SECRET_KEY,
