@@ -27,10 +27,10 @@ export default {
             sub: "rgb(var(--color-primary-deep) / <alpha-value>)",
           },
           red: {
-            main: "rgb(var(--color-red) / <alpha-value>)",
+            DEFAULT: "rgb(var(--color-red) / <alpha-value>)",
           },
           green: {
-            main: "rgb(var(--color-green) / <alpha-value>)",
+            DEFAULT: "rgb(var(--color-green) / <alpha-value>)",
           },
           background: {
             main: "rgb(var(--color-bkg) / <alpha-value>)",
