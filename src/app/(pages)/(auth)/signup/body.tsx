@@ -33,7 +33,7 @@ const SignupSchema = z.object({
   dob_year: z.number(),
 })
 
-export default function FormBody({ setAuthToken } : {For: (token: string) => void}) {
+export default function FormBody({ setAuthToken } : {setAuthToken: (token: string) => Promise<void>}) {
   // store
   const { addPopup } = usePopUpStore();
   const { handleError } = useHandleError();
