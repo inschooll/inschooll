@@ -15,8 +15,25 @@ import images from "~/app/core/constants/images";
 import validator from 'validator';
 import { countries_data } from "scripts/data/countries_data";
 import InfoBox from "~/components/cards/InfoBox";
+import { z } from "zod";
 
-export default function FormBody({ setAuthToken } : {setAuthToken: (token: string) => void}) {
+const SignupSchema = z.object({
+  firstName: z.string().min(1, 'Please enter your first name'),
+  lastName: z.string().min(1, 'Please enter your last name'),
+  username: z.string().min(1, 'Please enter your username').max(30, 'Username is too long'),
+  email: z.string().min(1, 'Please enter your email address'),
+  nationality: z.string().min(1, 'Please enter your nationality'),
+  stateOfOrigin: z.string().min(1, 'Please enter your state of origin'),   // if set to 'all' it means there is no state for the country
+  password: z.string().min(6, 'Please enter a password minimum of 6 characters long'),
+  confirmPassword: z.string(),
+  phoneNumber: z.string(),
+  gender: z.string(),
+  dob_day: z.number(),
+  dob_month: z.string(), // as monthsType
+  dob_year: z.number(),
+})
+
+export default function FormBody({ setAuthToken } : {For: (token: string) => void}) {
   // store
   const { addPopup } = usePopUpStore();
   const { handleError } = useHandleError();
