@@ -1,31 +1,25 @@
 "use client";
-import React, { type ChangeEvent, useState } from "react";
+import { useState } from "react";
+import { isEmail } from "validator";
+import errorMessages from "~/app/core/constants/error-messages";
+import successMessages from "~/app/core/constants/success-messages";
 import Button from "~/components/buttons/button";
+import InfoBox from "~/components/cards/InfoBox";
+import Input from "~/components/inputs/input";
+import { usePopUpStore } from "~/components/popups/popup_store";
 import { getErrorMessage } from "~/core/utils-client";
 import { api } from "~/trpc/react";
-import { isEmail } from "validator";
-import { usePopUpStore } from "~/components/popups/popup_store";
-import errorMessages from "~/app/core/constants/error-messages";
-import InfoBox from "~/components/cards/InfoBox";
-import successMessages from "~/app/core/constants/success-messages";
-import Input from "~/components/inputs/input";
 // import { useRouter } from "next/navigation";
-import { FormProvider, useForm } from "react-hook-form";
-import z from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+import { LoginSchema, type TLoginSchema } from "~/lib/types";
 
-
-const LoginSchema = z.object({
-  emailOrUsername: z.string().min(1, "Please enter a valid email or username"),
-  password: z.string().min(6, "Password should be at least 6 characters"),
-});
-
-type TLoginSchema = z.infer<typeof LoginSchema>;
-
-export default function LoginFormBody(props: {
+type LoginFormBodyProps = {
   updateAuthToken: (token: string) => void;
   defaultEmail?: string;
-}) {
+}
+
+export default function LoginFormBody(props: LoginFormBodyProps) {
   // store
   const { addPopup } = usePopUpStore();
   const methods = useForm<TLoginSchema>({
