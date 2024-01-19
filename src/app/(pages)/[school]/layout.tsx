@@ -1,6 +1,6 @@
 import React from "react";
 import StyleAdder from "./style-adder";
-import Sidebar from "~/components/sidebar";
+import Sidebar from "./_components/sidebar";
 
 export interface LayoutProps { 
   children: React.ReactNode; 

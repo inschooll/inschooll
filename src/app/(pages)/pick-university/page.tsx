@@ -1,5 +1,5 @@
 import React from 'react'
-import TopNavbar from '~/app/_components/navbar/navbar';
+import TopNavbar from '~/components/navbar/navbar';
 import PickUniversityBody from './body';
 import { api } from '~/trpc/server';
 
