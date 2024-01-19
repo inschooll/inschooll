@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 import assert from "assert";
-import { usePopUpStore } from "~/app/_components/popups/popup_store";
+import { usePopUpStore } from "~/components/popups/popup_store";
 import type { monthsType } from "~/app/core/constants/constants";
 import errorMessages from "~/app/core/constants/error-messages";
 import successMessages from "~/app/core/constants/success-messages";
