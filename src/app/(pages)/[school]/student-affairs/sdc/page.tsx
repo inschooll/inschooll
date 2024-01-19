@@ -1,5 +1,5 @@
 import React from "react";
-import { T4, T5 } from "~/app/_components/texts/title";
+import { T4, T5 } from "~/components/texts/title";
 import links from "~/app/core/constants/links";
 import Link from "next/link";
 import {CaseTableTTO} from "../../_components/tables/cases-tables";

@@ -1,5 +1,5 @@
 import React from 'react'
-import TopNavbar from '~/app/_components/navbar/navbar'
+import TopNavbar from '~/components/navbar/navbar'
 import { FormBody } from './components/FormBody';
 
 export default function CreateSchoolPage() {

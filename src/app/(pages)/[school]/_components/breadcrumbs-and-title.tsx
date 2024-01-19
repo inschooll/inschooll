@@ -1,4 +1,4 @@
-import { T4 } from "~/app/_components/texts/title";
+import { T4 } from "~/components/texts/title";
 import BreadCrumbs from "./breadcrumbs";
 
 export default function BreadCrumbsAndTitle({ title, breadCrumbData }: { title: string, breadCrumbData: Record<string, string>}) {

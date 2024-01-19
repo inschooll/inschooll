@@ -1,11 +1,11 @@
 'use client'
 import { useState } from "react";
 import { UserTableNRDP, UserTableNRDSPA } from "~/app/(pages)/[school]/_components/tables/user-tables";
-import { Avatar } from "~/app/_components/avatar-username";
-import Button2 from "~/app/_components/buttons/button2";
-import TextInputField from "~/app/_components/inputs/text_input_field";
-import Navbar from "~/app/_components/navbar";
-import { T6 } from "~/app/_components/texts/title";
+import { Avatar } from "~/components/avatar-username";
+import Button2 from "~/components/buttons/button2";
+import Input from "~/components/inputs/input";
+import Navbar from "~/components/navbar";
+import { T6 } from "~/components/texts/title";
 import images from "~/app/core/constants/images";
 
 export default function CaseBody() {
@@ -75,7 +75,7 @@ function Comments() {
       <div className="mt-3 flex gap-5 items-center">
         <Avatar url={images.femaleAvatarDefault} size={10} />
         <div className="flex-1">
-          <TextInputField />
+          <Input />
         </div>
       </div>
       {/* Buttons */}

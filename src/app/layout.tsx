@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import type { Metadata } from "next";
-import PopUps from "./_components/popups/PopUps";
+import PopUps from "~/components/popups/PopUps";
 
 const inter = Inter({
   subsets: ["latin"],

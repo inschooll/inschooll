@@ -1,5 +1,5 @@
 
-import TopNavbar from "~/app/_components/navbar/navbar";
+import TopNavbar from "~/components/navbar/navbar";
 import PurposeBody from "./PurposeBody";
 
 export default function Purpose() {

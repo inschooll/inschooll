@@ -1,16 +1,15 @@
-import React from 'react'
-import BreadCrumbs from '~/app/(pages)/[school]/_components/breadcrumbs';
-import links from '~/app/core/constants/links';
+import React from 'react';
 import { FaRegEye } from "react-icons/fa";
+import { MdLockOutline } from "react-icons/md";
+import BreadCrumbs from '~/app/(pages)/[school]/_components/breadcrumbs';
 import { CriminalCaseTypeIcon } from '~/app/core/constants/icons';
-import { T3 } from '~/app/_components/texts/title';
-import Button2 from '~/app/_components/buttons/button2';
-import AvatarUsername from '~/app/_components/avatar-username';
 import images from '~/app/core/constants/images';
-import { MdLockOpen, MdLockOutline } from "react-icons/md";
+import links from '~/app/core/constants/links';
+import AvatarUsername from '~/components/avatar-username';
+import Button2 from '~/components/buttons/button2';
+import { T3 } from '~/components/texts/title';
 import CaseBody from './_components/body';
-// import Navbar from '~/app/_components/navbar';
-import { FaRegClock } from "react-icons/fa6";
+// import Navbar from '~/components/navbar';
 
 export default function CasePage({params}: {params: {school: string, id: string}, searchParams: Record<string, string>}) {
   console.log(params);

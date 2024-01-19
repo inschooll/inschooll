@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { UserTableNRDB } from "~/app/(pages)/[school]/_components/tables/user-tables";
-import Button2 from "~/app/_components/buttons/button2";
-import LabelDropdown from "~/app/_components/inputs/label-dropdown";
-import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
-import LabelTextareaField from "~/app/_components/inputs/label_textarea_field";
-import { T6 } from "~/app/_components/texts/title";
+import Button2 from "~/components/buttons/button2";
+import LabelDropdown from "~/components/inputs/label-dropdown";
+import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
+import LabelTextareaField from "~/components/inputs/label_textarea_field";
+import { T6 } from "~/components/texts/title";
 import { CivilCaseTypeIcon, CriminalCaseTypeIcon, HostelCaseTypeIcon } from "~/app/core/constants/icons";
 import { SearchInputField } from "../_components/body";
 import PopupLayout from "./_components/popup-layout";

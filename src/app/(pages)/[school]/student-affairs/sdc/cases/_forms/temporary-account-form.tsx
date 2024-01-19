@@ -1,11 +1,11 @@
 import PopupLayout from "./_components/popup-layout";
-import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
-import LabelDropdown from "~/app/_components/inputs/label-dropdown";
-import { Avatar } from "~/app/_components/avatar-username";
+import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
+import LabelDropdown from "~/components/inputs/label-dropdown";
+import { Avatar } from "~/components/avatar-username";
 import images from "~/app/core/constants/images";
-import Button from "~/app/_components/buttons/button";
+import Button from "~/components/buttons/button";
 import { useState } from "react";
-import CropperPopup from "~/app/_components/cropper";
+import CropperPopup from "~/components/cropper";
 
 export default function TemporaryAccountForm({showPopup=true, setShowPopup} : {showPopup: boolean, setShowPopup: (v: boolean) => void}) {
   const [selectedGenderIndex, setSelectedGenderIndex] = useState(0);

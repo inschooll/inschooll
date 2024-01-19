@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { CaseTableTTBORD } from "~/app/(pages)/[school]/_components/tables/cases-tables";
-import Button from "~/app/_components/buttons/button";
-import IconTextInputField from "~/app/_components/inputs/icon_text_input_field";
+import Button from "~/components/buttons/button";
+import IconTextInputField from "~/components/inputs/icon_text_input_field";
 import CaseForm from "../_forms/case-form";
 import ScheduleHearingForm from "../_forms/schedule-hearing-form";
-import Navbar from "~/app/_components/navbar";
+import Navbar from "~/components/navbar";
 
 export function SearchInputField({ onChange, placeholder="Search" } : {onChange: (v: string) => void, placeholder?: string}) {
   return (

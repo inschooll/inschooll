@@ -1,11 +1,11 @@
 'use-client';
 
 import PopupLayout from "../_forms/_components/popup-layout";
-import LabelDropdown, { LabelCalendarDropdownButton } from "~/app/_components/inputs/label-dropdown";
-import LabelTextareaField from "~/app/_components/inputs/label_textarea_field";
-import Button2 from "~/app/_components/buttons/button2";
+import LabelDropdown, { LabelCalendarDropdownButton } from "~/components/inputs/label-dropdown";
+import LabelTextareaField from "~/components/inputs/label_textarea_field";
+import Button2 from "~/components/buttons/button2";
 import { UserTableNRDB } from "~/app/(pages)/[school]/_components/tables/user-tables";
-import { T6 } from "~/app/_components/texts/title";
+import { T6 } from "~/components/texts/title";
 import { SearchInputField } from "../_components/body";
 import MemoForm from "./memo-form";
 import { useState } from "react";

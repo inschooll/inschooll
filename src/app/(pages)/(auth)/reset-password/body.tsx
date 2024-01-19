@@ -1,13 +1,13 @@
 "use client";
 import React, { type ChangeEvent, useState } from "react";
-import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
-import Button from "~/app/_components/buttons/button";
+import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
+import Button from "~/components/buttons/button";
 import { getErrorMessage } from "~/core/utils-client";
 import { api } from "~/trpc/react";
 import errorMessages from "~/app/core/constants/error-messages";
 import links from "~/app/core/constants/links";
 import successMessages from "~/app/core/constants/success-messages";
-import InfoBox from "~/app/_components/cards/InfoBox";
+import InfoBox from "~/components/cards/InfoBox";
 
 export default function ResetPasswordForm(props: { userId: string }) {
   // store

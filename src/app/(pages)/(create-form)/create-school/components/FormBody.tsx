@@ -3,17 +3,35 @@ import Image from "next/image";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { countries_data } from "scripts/data/countries_data";
 import validator from 'validator';
-import Button from "~/app/_components/buttons/button";
-import DropdownButton from "~/app/_components/inputs/dropdown-button";
-import Label from "~/app/_components/inputs/label";
-import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
-import LabelTextareaField from "~/app/_components/inputs/label_textarea_field";
-import { usePopUpStore } from "~/app/_components/popups/popup_store";
+import Button from "~/components/buttons/button";
+import DropdownButton from "~/components/inputs/dropdown-button";
+import Label from "~/components/inputs/label";
+import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
+import LabelTextareaField from "~/components/inputs/label_textarea_field";
+import { usePopUpStore } from "~/components/popups/popup_store";
 import images from "~/app/core/constants/images";
 import successMessages from "~/app/core/constants/success-messages";
 import { isPhoneNumber, uploadImage, useHandleError } from "~/core/utils-client";
 import { api } from "~/trpc/react";
 import CoverAndLogoSection from "./CoverAndLogoSection";
+
+type Input = {
+  name: string,
+  acronym: string,
+  motto: string,
+  about: string,
+  country: string,
+  state: string,
+  address: string,
+  email: string,
+  phone1: string,
+  phone2: string,
+  phone3: string,
+  website: string,
+  facebook: string,
+  twitter: string,
+  instagram: string,
+};
 
 
 export function FormBody() {
@@ -39,12 +57,14 @@ export function FormBody() {
   // fields (cover, logo)
   const [coverFile, setCoverFile] = useState<File>();
   const [logoFile, setLogoFile] = useState<File>();
+  // TODO: This should be provided by React Hook Form
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   
   const [schoolNameIsValid, setSchoolNameIsValid] = useState<boolean>();
 
   // countries & states
   const countries = countries_data;
+  // TODO: RHF
   const [states, setStates] = useState(countries_data[0]!.states);
   
   // popup store

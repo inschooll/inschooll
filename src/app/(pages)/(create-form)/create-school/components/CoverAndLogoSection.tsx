@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { IoCamera } from "react-icons/io5";
-import CropperPopup from "~/app/_components/cropper";
+import CropperPopup from "~/components/cropper";
 
 interface PageProp {
   setCoverFile: (file: File) => void;

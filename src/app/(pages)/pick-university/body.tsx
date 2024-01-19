@@ -4,9 +4,9 @@ import Image from "next/image";
 import type { RouterOutputs } from "~/trpc/shared";
 import { api } from "~/trpc/react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import TextInputField from "~/app/_components/inputs/text_input_field";
-import Button from "~/app/_components/buttons/button";
-import AppSpinner from "~/app/_components/app-spinner";
+import Input from "~/components/inputs/input";
+import Button from "~/components/buttons/button";
+import AppSpinner from "~/components/app-spinner";
 
 type schoolType = RouterOutputs["school"]["getAll"][0];
 
@@ -45,7 +45,7 @@ export default function PickUniversityBody({
         </div>
 
         <div>
-          <TextInputField
+          <Input
             ref={searchRef}
             name="search"
             type="text"

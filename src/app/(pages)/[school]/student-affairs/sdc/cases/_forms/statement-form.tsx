@@ -1,10 +1,10 @@
-import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
+import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
 import PopupLayout from "./_components/popup-layout";
-import LabelDropdown from "~/app/_components/inputs/label-dropdown";
+import LabelDropdown from "~/components/inputs/label-dropdown";
 import images from "~/app/core/constants/images";
-import { Avatar } from "~/app/_components/avatar-username";
+import { Avatar } from "~/components/avatar-username";
 import { useState } from "react";
-import LabelTextareaField from "~/app/_components/inputs/label_textarea_field";
+import LabelTextareaField from "~/components/inputs/label_textarea_field";
 
 export default function StatementForm({showPopup=true, setShowPopup} : {showPopup: boolean, setShowPopup: (v: boolean) => void}) {
   const [selectedOffender, setSelectedOffender] = useState(0);

@@ -1,8 +1,7 @@
-import Link from "next/link";
-import { TableHeaderItem, TableItem } from "./components";
-import Button2 from "~/app/_components/buttons/button2";
 import images from "~/app/core/constants/images";
-import AvatarUsername from "~/app/_components/avatar-username";
+import AvatarUsername from "~/components/avatar-username";
+import Button2 from "~/components/buttons/button2";
+import { TableHeaderItem, TableItem } from "./components";
 
 
 // Name, Role, Department, Buttons
@@ -111,7 +110,7 @@ export function UserTableNRDP({topRound="2xl", enableCheckbox=false} : {topRound
               <TableItem value="Student" colSpan={1}/>
               <TableItem value="Computer Science" colSpan={2}/>
               <div className="col-span-1">
-                <div className="px-3 py-1 rounded bg-cc-red-main/70 border border-cc-red-main inline-block">Expulsion</div>
+                <div className="px-3 py-1 rounded bg-cc-red/70 border border-cc-red inline-block">Expulsion</div>
               </div>
             </div>
         ))}

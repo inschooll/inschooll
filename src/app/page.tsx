@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import TopNavbar from "./_components/navbar/navbar";
+import TopNavbar from "~/components/navbar/navbar";
 import images from "./core/constants/images";
 import constants from "./core/constants/constants";
 import links from "./core/constants/links";
-import Button from "./_components/buttons/button";
+import Button from "~/components/buttons/button";
 
 export default function Home() {
   // const session = await getServerAuthSession();

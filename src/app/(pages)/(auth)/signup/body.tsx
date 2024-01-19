@@ -1,20 +1,20 @@
 "use client";
 import React, { type ChangeEvent, useState, useEffect } from "react";
 import Image from "next/image";
-import LabelAndTextInputField from "~/app/_components/inputs/label_text_input_field";
-import Button from "~/app/_components/buttons/button";
+import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
+import Button from "~/components/buttons/button";
 import constants, { type monthsType } from "~/app/core/constants/constants";
 
-import Label from "~/app/_components/inputs/label";
-import DropdownButton from "~/app/_components/inputs/dropdown-button";
+import Label from "~/components/inputs/label";
+import DropdownButton from "~/components/inputs/dropdown-button";
 import { isFebruaryAndLeapYear, isPhoneNumber, useHandleError } from "~/core/utils-client";
 import { api } from "~/trpc/react";
-import { usePopUpStore } from "~/app/_components/popups/popup_store";
-import TextInputField from "~/app/_components/inputs/text_input_field";
+import { usePopUpStore } from "~/components/popups/popup_store";
+import Input from "~/components/inputs/input";
 import images from "~/app/core/constants/images";
 import validator from 'validator';
 import { countries_data } from "scripts/data/countries_data";
-import InfoBox from "~/app/_components/cards/InfoBox";
+import InfoBox from "~/components/cards/InfoBox";
 
 export default function FormBody({ setAuthToken } : {setAuthToken: (token: string) => void}) {
   // store
@@ -316,7 +316,7 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
           <div className="col-span-3">
             <Label value="Phone number" isRequired={true} />
             <div className="mt-1">
-              <TextInputField
+              <Input
                 name="phoneNumber"
                 type="text"
                 value={input.phoneNumber}

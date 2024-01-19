@@ -1,6 +1,6 @@
 import { IoCloseSharp } from "react-icons/io5";
-import Button from "~/app/_components/buttons/button";
-import { T5 } from "~/app/_components/texts/title";
+import Button from "~/components/buttons/button";
+import { T5 } from "~/components/texts/title";
 
 type sizesProp = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl" | "full";
 

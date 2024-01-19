@@ -7,8 +7,8 @@ import { LuSchool } from "react-icons/lu";
 import { LuHeartHandshake } from "react-icons/lu";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import Link from "next/link";
-import AppLogo from "~/app/_components/app_logo";
-import ChangeThemeButtons from "~/app/_components/navbar/change-theme-buttons";
+import AppLogo from "~/components/app_logo";
+import ChangeThemeButtons from "~/components/navbar/change-theme-buttons";
 
 // export default function DashboardNavbar({params}: {params: {school: string}}) {
 export default function Sidebar({schoolName}: {schoolName: string}) {

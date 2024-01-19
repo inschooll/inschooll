@@ -1,7 +1,5 @@
-import React from "react";
-import BreadCrumbsAndTitle from "../../../_components/breadcrumbs-and-title";
 import links from "~/app/core/constants/links";
-import Navbar from "../../../../../_components/navbar";
+import BreadCrumbsAndTitle from "../../../_components/breadcrumbs-and-title";
 import Body from "./_components/body";
 
 export default function CasesPage({ params }: { params: { school: string } }) {
