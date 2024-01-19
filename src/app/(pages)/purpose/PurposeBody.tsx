@@ -1,6 +1,6 @@
 'use client';
 import React from "react";
-import Button from "~/app/_components/buttons/button";
+import Button from "~/components/buttons/button";
 import Link from "next/link";
 import links from "~/app/core/constants/links";
 
