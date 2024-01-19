@@ -1,11 +1,10 @@
-import AuthTitle from "../AuthTitle";
-import AuthGoogleButton from "../AuthGoogleButton";
-import Link from "next/link";
-import links from "~/app/core/constants/links";
-import FormBody from "./body";
 import { cookies } from "next/headers";
-import constants from "~/app/core/constants/constants";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import constants from "~/app/core/constants/constants";
+import links from "~/app/core/constants/links";
+import AuthTitle from "../AuthTitle";
+import FormBody from "./body";
 
 export default function Signup() {
   const updateAuthToken = async (token: string) => {

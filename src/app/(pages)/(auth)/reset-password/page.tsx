@@ -1,7 +1,6 @@
-import { headers } from "next/headers";
 import { api } from "~/trpc/server";
-import ResetPasswordForm from "./body";
 import AuthTitle from "../AuthTitle";
+import ResetPasswordForm from "./body";
 
 export default async function ResetPasswordPage(props: {
   searchParams: Record<string, string>;

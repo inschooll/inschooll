@@ -1,21 +1,23 @@
 "use client";
-import React, { type ChangeEvent, useState, useEffect } from "react";
 import Image from "next/image";
-import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
-import Button from "~/components/buttons/button";
+import { useEffect, useState, type ChangeEvent } from "react";
 import constants, { type monthsType } from "~/app/core/constants/constants";
+import Button from "~/components/buttons/button";
+import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
 
-import Label from "~/components/inputs/label";
+import { countries_data } from "scripts/data/countries_data";
+import validator from 'validator';
+import { z } from "zod";
+import images from "~/app/core/constants/images";
+import InfoBox from "~/components/cards/InfoBox";
 import DropdownButton from "~/components/inputs/dropdown-button";
+import Input from "~/components/inputs/input";
+import Label from "~/components/inputs/label";
+import { usePopUpStore } from "~/components/popups/popup_store";
 import { isFebruaryAndLeapYear, isPhoneNumber, useHandleError } from "~/core/utils-client";
 import { api } from "~/trpc/react";
-import { usePopUpStore } from "~/components/popups/popup_store";
-import Input from "~/components/inputs/input";
-import images from "~/app/core/constants/images";
-import validator from 'validator';
-import { countries_data } from "scripts/data/countries_data";
-import InfoBox from "~/components/cards/InfoBox";
-import { z } from "zod";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const SignupSchema = z.object({
   firstName: z.string().min(1, 'Please enter your first name'),
@@ -31,9 +33,15 @@ const SignupSchema = z.object({
   dob_day: z.number(),
   dob_month: z.string(), // as monthsType
   dob_year: z.number(),
-})
+});
+
+type TSignupSchema = z.infer<typeof SignupSchema>;
+
 
 export default function FormBody({ setAuthToken } : {setAuthToken: (token: string) => Promise<void>}) {
+  const methods = useForm<TSignupSchema>({
+    resolver: zodResolver(SignupSchema),
+  });
   // store
   const { addPopup } = usePopUpStore();
   const { handleError } = useHandleError();
@@ -188,276 +196,279 @@ export default function FormBody({ setAuthToken } : {setAuthToken: (token: strin
   }
 
   return (
-    <form>
-      {!!inputErrorMessage && (<InfoBox text={inputErrorMessage} type="error" />)}
+    <FormProvider {...methods}>
+      <form>
+        {!!inputErrorMessage && (<InfoBox text={inputErrorMessage} type="error" />)}
 
-      <div className="mt-5 grid grid-cols-2 gap-4">
-        {/* first name */}
-        {stage > 0 && (
-          <div className="col-span-1">
-            <LabelAndTextInputField
-              label="first name"
-              name="firstName"
-              value={input.firstName}
-              onChange={onChange}
-              placeholder="First name"
-              required
-            />
-          </div>
-        )}
-        {/* Last name */}
-        {stage > 0 && (
-          <div className="col-span-1">
-            <LabelAndTextInputField
-              label="last name"
-              name="lastName"
-              value={input.lastName}
-              onChange={onChange}
-              placeholder="Enter your last name..."
-              required
-            />
-          </div>
-        )}
+        <div className="mt-5 grid grid-cols-2 gap-4">
+          {/* first name */}
+          {stage > 0 && (
+            <div className="col-span-1">
+              <LabelAndTextInputField
+                label="first name"
+                name="firstName"
+                value={input.firstName}
+                onChange={onChange}
+                placeholder="First name"
+                required
+              />
+            </div>
+          )}
+          {/* Last name */}
+          {stage > 0 && (
+            <div className="col-span-1">
+              <LabelAndTextInputField
+                label="last name"
+                name="lastName"
+                value={input.lastName}
+                onChange={onChange}
+                placeholder="Enter your last name..."
+                required
+              />
+            </div>
+          )}
 
-        {/* username */}
-        {stage > 1 && (
-          <div className="col-span-2">
-            <LabelAndTextInputField
-              label="username"
-              name="username"
-              value={input.username}
-              inputIsLoading={usernameIsLoading}
-              inputIsValid={input.username === '' ? undefined :  usernameIsValid}
-              onChange={(e) => {
-                setUsernameIsValid(undefined)
-                onChange(e);
-              }}
-              placeholder="Enter your username..."
-              required
-            />
-          </div>
-        )}
+          {/* username */}
+          {stage > 1 && (
+            <div className="col-span-2">
+              <LabelAndTextInputField
+                label="username"
+                name="username"
+                value={input.username}
+                inputIsLoading={usernameIsLoading}
+                inputIsValid={input.username === '' ? undefined :  usernameIsValid}
+                onChange={(e) => {
+                  setUsernameIsValid(undefined)
+                  onChange(e);
+                }}
+                placeholder="Enter your username..."
+                required
+              />
+            </div>
+          )}
 
-        {/* email */}
-        {stage > 2 && (
-          <div className="col-span-2">
-            <LabelAndTextInputField
-              label="email"
-              name="email"
-              value={input.email}
-              inputIsLoading={emailIsLoading}
-              inputIsValid={validator.isEmail(input.email) === false ? undefined :  emailIsValid}
-              onChange={(e) => {
-                setEmailIsValid(undefined)
-                onChange(e);
-              }}
-              placeholder="email"
-              required
-            />
-          </div>
-        )}
+          {/* email */}
+          {stage > 2 && (
+            <div className="col-span-2">
+              <LabelAndTextInputField
+                label="email"
+                name="email"
+                value={input.email}
+                inputIsLoading={emailIsLoading}
+                inputIsValid={validator.isEmail(input.email) === false ? undefined :  emailIsValid}
+                onChange={(e) => {
+                  setEmailIsValid(undefined)
+                  onChange(e);
+                }}
+                placeholder="email"
+                required
+              />
+            </div>
+          )}
 
-        {/* password, confirm password */}
-        {stage > 3 && (
-          <div className="col-span-1">
-            <LabelAndTextInputField
-              label="password"
-              name="password"
-              type="password"
-              value={input.password}
-              onChange={onChange}
-              placeholder="password"
-              required
-            />
-          </div>
-        )}
-        {stage > 3 && (
-          <div className="col-span-1">
-            <LabelAndTextInputField
-              label="confirm password"
-              name="confirmPassword"
-              type="text"
-              value={input.confirmPassword}
-              onChange={(e) =>
-                setInput((inputs) => ({
-                  ...inputs,
-                  confirmPassword: e.target.value,
-                }))
-              }
-              placeholder="re-type password"
-              required
-            />
-          </div>
-        )}
-      </div>
+          {/* password, confirm password */}
+          {stage > 3 && (
+            <div className="col-span-1">
+              <LabelAndTextInputField
+                label="password"
+                name="password"
+                type="password"
+                value={input.password}
+                onChange={onChange}
+                placeholder="password"
+                required
+              />
+            </div>
+          )}
+          {stage > 3 && (
+            <div className="col-span-1">
+              <LabelAndTextInputField
+                label="confirm password"
+                name="confirmPassword"
+                type="text"
+                value={input.confirmPassword}
+                onChange={(e) =>
+                  setInput((inputs) => ({
+                    ...inputs,
+                    confirmPassword: e.target.value,
+                  }))
+                }
+                placeholder="re-type password"
+                required
+              />
+            </div>
+          )}
+        </div>
 
-      <div className="mt-5 flex flex-col gap-4">
+        <div className="mt-5 flex flex-col gap-4">
 
-        {/* nationality */}
-        {stage > 4 && (<div className="col-span-3">
-              <Label value="Nationality" isRequired={true} />
+          {/* nationality */}
+          {stage > 4 && (<div className="col-span-3">
+                <Label value="Nationality" isRequired={true} />
+                <div className="mt-1">
+                  <DropdownButton 
+                    name="Nationality"
+                    options={countries.map(({name}) => ({
+                      icon: <Image src={images.countryFlag(name)} alt={name} height={20} width={20} />,
+                      title: name,
+                    }))}
+                    updateSelected={(index) => {
+                      setInput((data) => ({...data, stateOfOrigin: '', nationality: countries[index]!.name}))
+                      // update states
+                      setStates(countries[index]!.states);
+                    }}
+                  />
+                </div>
+              </div>
+          )}
+          {/* state of origin */}
+          {stage > 4 && (
+            <div className="col-span-3">
+              <Label value="State of Origin" isRequired={true} />
               <div className="mt-1">
                 <DropdownButton 
-                  name="Nationality"
-                  options={countries.map(({name}) => ({
-                    icon: <Image src={images.countryFlag(name)} alt={name} height={20} width={20} />,
-                    title: name,
-                  }))}
+                  name={"State of origin"}
+                  options={states.length > 0 ? states.map(state => state.name) : [input.nationality]}
                   updateSelected={(index) => {
-                    setInput((data) => ({...data, stateOfOrigin: '', nationality: countries[index]!.name}))
-                    // update states
-                    setStates(countries[index]!.states);
+                    setInput((data) => ({...data, stateOfOrigin: states[index]?.name ?? 'All'}))
                   }}
                 />
               </div>
             </div>
-        )}
-        {/* state of origin */}
-        {stage > 4 && (
-          <div className="col-span-3">
-            <Label value="State of Origin" isRequired={true} />
-            <div className="mt-1">
-              <DropdownButton 
-                name={"State of origin"}
-                options={states.length > 0 ? states.map(state => state.name) : [input.nationality]}
-                updateSelected={(index) => {
-                  setInput((data) => ({...data, stateOfOrigin: states[index]?.name ?? 'All'}))
-                }}
-              />
-            </div>
-          </div>
-        )}
+          )}
 
-        {/* phone */}
-        {stage > 5 && (
-          <div className="col-span-3">
-            <Label value="Phone number" isRequired={true} />
-            <div className="mt-1">
-              <Input
-                name="phoneNumber"
-                type="text"
-                value={input.phoneNumber}
-                onChange={(e) =>
-                  setInput((inputs) => ({
-                    ...inputs,
-                    phoneNumber: e.target.value,
-                  }))
-                }
-                placeholder={"Phone number"}
-                required
-              />
-            </div>
-          </div>
-        )}
-
-        {/* gender */}
-        {stage > 6 && (
-          <div className="col-span-3">
-            <Label
-              labelFor="gender"
-              className="mt-4"
-              value={"Gender"}
-              isRequired={true}
-            />
-            <div className="mt-1">
-              <DropdownButton
-                name="gender"
-                options={constants.gender}
-                defaultSelectedOptionIndex={0}
-                updateSelected={(index) =>
-                  setInput((inputs) => ({
-                    ...inputs,
-                    gender: constants.gender[index]!,
-                  }))
-                }
-              />
-            </div>
-          </div>
-        )}
-
-        {/* date of birth */}
-        {stage > 7 && (
-          <>
-            <Label value={"Date of birth"} isRequired={true} />
-            <div className="grid grid-cols-3 gap-4">
-              {/* month */}
-              <DropdownButton
-                name="month"
-                options={constants.months}
-                defaultSelectedOptionIndex={0}
-                updateSelected={(index) => {
-                  setInput((inputs) => ({
-                    ...inputs,
-                    dob_month: constants.months[index] as monthsType,
-                  }));
-                  const daysInCurrentMonth =
-                    constants.daysInMonth[
-                      constants.months[index] as monthsType
-                    ];
-                  // if chosen day number exceeds selected month days number, we set the dob_day = last day of current month
-                  if (daysInCurrentMonth < input.dob_day) {
-                    setInput((data) => ({
-                      ...data,
-                      dob_day: daysInCurrentMonth,
-                    }));
+          {/* phone */}
+          {stage > 5 && (
+            <div className="col-span-3">
+              <Label value="Phone number" isRequired={true} />
+              <div className="mt-1">
+                <Input
+                  name="phoneNumber"
+                  type="text"
+                  value={input.phoneNumber}
+                  onChange={(e) =>
+                    setInput((inputs) => ({
+                      ...inputs,
+                      phoneNumber: e.target.value,
+                    }))
                   }
-                }}
-              />
-              {/* day */}
-              <DropdownButton
-                name="day"
-                options={Array.from(
-                  {
-                    length: isFebruaryAndLeapYear(
-                      input.dob_year,
-                      input.dob_month,
-                    )
-                      ? 29
-                      : constants.daysInMonth[input.dob_month],
-                  },
-                  (_, index) => `${index + 1}`,
-                )}
-                defaultSelectedOptionIndex={0}
-                updateSelected={(index) =>
-                  setInput((inputs) => ({ ...inputs, dob_day: index + 1 }))
-                }
-              />
-              {/* year */}
-              <DropdownButton
-                name="year"
-                options={years}
-                defaultSelectedOptionIndex={0}
-                updateSelected={(index) =>
-                  setInput((inputs) => ({
-                    ...inputs,
-                    dob_year: parseInt(years[index]!),
-                  }))
-                }
-              />
+                  placeholder={"Phone number"}
+                  required
+                />
+              </div>
             </div>
-          </>
-        )}
+          )}
 
-        {/* sign up button */}
-        <div className="mt-2">
-          <Button
-            variant={"defaultFull"}
-            size={"md"}
-            type="button"
-            disabled={usernameIsLoading || emailIsLoading}
-            isLoading={isLoading && !isError}
-            onClick={() => {
-              if (usernameIsError || emailIsError) return;
-              if (usernameIsLoading || emailIsLoading) return;
+          {/* gender */}
+          {stage > 6 && (
+            <div className="col-span-3">
+              <Label
+                labelFor="gender"
+                className="mt-4"
+                value={"Gender"}
+                isRequired={true}
+              />
+              <div className="mt-1">
+                <DropdownButton
+                  name="gender"
+                  options={constants.gender}
+                  defaultSelectedOptionIndex={0}
+                  updateSelected={(index) =>
+                    setInput((inputs) => ({
+                      ...inputs,
+                      gender: constants.gender[index]!,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+          )}
 
-              const formIsValid_ = formIsValid();
-              if (formIsValid_ === true) signup(input);
-            }}
-          >
-            {stage > 7 ? 'Sign up' : 'Proceed'}
-          </Button>
+          {/* date of birth */}
+          {stage > 7 && (
+            <>
+              <Label value={"Date of birth"} isRequired={true} />
+              <div className="grid grid-cols-3 gap-4">
+                {/* month */}
+                <DropdownButton
+                  name="month"
+                  options={constants.months}
+                  defaultSelectedOptionIndex={0}
+                  updateSelected={(index) => {
+                    setInput((inputs) => ({
+                      ...inputs,
+                      dob_month: constants.months[index] as monthsType,
+                    }));
+                    const daysInCurrentMonth =
+                      constants.daysInMonth[
+                        constants.months[index] as monthsType
+                      ];
+                    // if chosen day number exceeds selected month days number, we set the dob_day = last day of current month
+                    if (daysInCurrentMonth < input.dob_day) {
+                      setInput((data) => ({
+                        ...data,
+                        dob_day: daysInCurrentMonth,
+                      }));
+                    }
+                  }}
+                />
+                {/* day */}
+                <DropdownButton
+                  name="day"
+                  options={Array.from(
+                    {
+                      length: isFebruaryAndLeapYear(
+                        input.dob_year,
+                        input.dob_month,
+                      )
+                        ? 29
+                        : constants.daysInMonth[input.dob_month],
+                    },
+                    (_, index) => `${index + 1}`,
+                  )}
+                  defaultSelectedOptionIndex={0}
+                  updateSelected={(index) =>
+                    setInput((inputs) => ({ ...inputs, dob_day: index + 1 }))
+                  }
+                />
+                {/* year */}
+                <DropdownButton
+                  name="year"
+                  options={years}
+                  defaultSelectedOptionIndex={0}
+                  updateSelected={(index) =>
+                    setInput((inputs) => ({
+                      ...inputs,
+                      dob_year: parseInt(years[index]!),
+                    }))
+                  }
+                />
+              </div>
+            </>
+          )}
+
+          {/* sign up button */}
+          <div className="mt-2">
+            <Button
+              variant={"defaultFull"}
+              size={"md"}
+              type="button"
+              disabled={usernameIsLoading || emailIsLoading}
+              isLoading={isLoading && !isError}
+              onClick={() => {
+                if (usernameIsError || emailIsError) return;
+                if (usernameIsLoading || emailIsLoading) return;
+
+                const formIsValid_ = formIsValid();
+                if (formIsValid_ === true) signup(input);
+              }}
+            >
+              {stage > 7 ? 'Sign up' : 'Proceed'}
+            </Button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </FormProvider>
+
   );
 }

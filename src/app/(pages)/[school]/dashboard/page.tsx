@@ -1,6 +1,6 @@
-
-
 export default function Dashboard({ params }: { params: { school: string } }) {
+  console.log(params);
+
   return (
     <div className="bg-green-5000 flex-grow overflow-auto">
       <div></div>

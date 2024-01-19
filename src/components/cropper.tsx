@@ -19,7 +19,7 @@ export default function CropperPopup({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
 
-  const getCroppedImage = async (croppedAreaPixels: Area) => {
+  const getCroppedImage = useCallback(async (croppedAreaPixels: Area) => {
     try {
       const croppedImage = await getCroppedImg(
         img,
@@ -30,14 +30,14 @@ export default function CropperPopup({
     } catch (e) {
       console.error(e)
     }
-  }
+  }, [img]);
 
 
   const onCropComplete = useCallback( async (croppedArea: Area, croppedAreaPixels: Area) => {
       const croppedImage = await getCroppedImage(croppedAreaPixels);
       console.log(croppedImage);
       setCroppedImage(croppedImage!);
-    }, [],
+    }, [getCroppedImage],
   );
 
   useEffect(() => {

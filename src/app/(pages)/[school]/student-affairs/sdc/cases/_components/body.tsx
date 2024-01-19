@@ -11,7 +11,7 @@ import Navbar from "~/components/navbar";
 
 export function SearchInputField({ onChange, placeholder="Search" } : {onChange: (v: string) => void, placeholder?: string}) {
   return (
-    <IconTextInputField onChange={(v) => onChange(`${v}`)} placeholder={placeholder} iconRight={<IoSearch className="text-cc-content-main/50" />} />
+    <IconTextInputField onChange={(v) => onChange(v as string)} placeholder={placeholder} iconRight={<IoSearch className="text-cc-content-main/50" />} />
   )
 }
 
@@ -19,7 +19,7 @@ export default function Body() {
   const [showCreateCaseForm, setShowCreateCaseForm] = useState(false);
   const [showScheduleHearingForm, setShowScheduleHearingForm] = useState(false);
   const navItems = ["Scheduled Hearing", "Open Cases", "Closed Cases"].map(item => ({text: item})); // rs. [{text: 'Scheduled Hearing'}, ...]
-  const [selectedNavItemIndex, setSelectedNavItemIndex] = useState(1);
+  const [, setSelectedNavItemIndex] = useState(1);
 
   return (
     <>

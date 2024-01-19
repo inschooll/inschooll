@@ -82,6 +82,7 @@ export default function CoverAndLogoSection({setCoverFile, setLogoFile} : PagePr
           img={logo}
           aspectRaito={1}
           setNewImage={({croppedImage, file}) => {
+            console.log(file);
             setLogo(croppedImage);
             setLogoCropperIsActive(false);
           }}

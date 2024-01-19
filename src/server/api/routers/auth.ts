@@ -1,15 +1,15 @@
-import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
-import * as schema from "~/server/db/schema";
+import { TRPCClientError } from "@trpc/client";
 import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
-import { SignJWT, jwtVerify } from "jose";
-import { env } from "~/env.mjs";
-import { nanoid } from "nanoid";
-import constants, { monthsType } from "~/app/core/constants/constants";
-import { TRPCClientError } from "@trpc/client";
 import { eq } from "drizzle-orm";
+import { SignJWT } from "jose";
+import { nanoid } from "nanoid";
+import { z } from "zod";
+import constants from "~/app/core/constants/constants";
 import errorMessages from "~/app/core/constants/error-messages";
+import { env } from "~/env.mjs";
+import * as schema from "~/server/db/schema";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export async function generateJwtToken({
   payload,

@@ -1,7 +1,6 @@
 import Link from "next/link";
-import AppLogo from "../app_logo";
 import links from "~/app/core/constants/links";
-import { NavbarRightSection } from "./NavbarRightSection";
+import AppLogo from "../app_logo";
 
 export default function TopNavbar() {
   return (

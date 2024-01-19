@@ -27,6 +27,7 @@ export default function TemporaryAccountForm({showPopup=true, setShowPopup} : {s
 
       if (file) {
         setAvatarFile(file);
+        console.log(avatarFile);
         const reader = new FileReader();
 
         reader.onload = function (e) {
@@ -50,6 +51,7 @@ export default function TemporaryAccountForm({showPopup=true, setShowPopup} : {s
   return (
     <>
       {enableCropper && <CropperPopup img={avatar} aspectRaito={1/1} cropShape="round" setNewImage={({croppedImage, file}) => {
+        console.log(file);
         setAvatar(croppedImage);
         setEnableCropper(false);
       }} />}

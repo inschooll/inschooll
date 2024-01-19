@@ -8,14 +8,12 @@ import { cn } from "~/lib/utils";
 type ComponentProps = {
   title: string;
   icon: React.ReactNode;
-  schoolName: string;
   navigateTo: string;
 };
 
 export default function MenuCard({
   title,
   icon,
-  schoolName,
   navigateTo,
 }: ComponentProps) {
   const pathname = usePathname();

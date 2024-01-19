@@ -1,41 +1,48 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { countries_data } from "scripts/data/countries_data";
+// TODO: remove validator and replace with zods validation method
 import validator from 'validator';
+import { z } from "zod";
+import images from "~/app/core/constants/images";
+import successMessages from "~/app/core/constants/success-messages";
 import Button from "~/components/buttons/button";
 import DropdownButton from "~/components/inputs/dropdown-button";
 import Label from "~/components/inputs/label";
 import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
 import LabelTextareaField from "~/components/inputs/label_textarea_field";
 import { usePopUpStore } from "~/components/popups/popup_store";
-import images from "~/app/core/constants/images";
-import successMessages from "~/app/core/constants/success-messages";
 import { isPhoneNumber, uploadImage, useHandleError } from "~/core/utils-client";
 import { api } from "~/trpc/react";
 import CoverAndLogoSection from "./CoverAndLogoSection";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type Input = {
-  name: string,
-  acronym: string,
-  motto: string,
-  about: string,
-  country: string,
-  state: string,
-  address: string,
-  email: string,
-  phone1: string,
-  phone2: string,
-  phone3: string,
-  website: string,
-  facebook: string,
-  twitter: string,
-  instagram: string,
-};
+const SchoolSchema = z.object({
+  name: z.string().min(1, 'name is required'),
+  acronym: z.string().min(1, 'acronym is required'),
+  motto: z.string().min(1, 'motto is required'),
+  about: z.string().min(1, 'about is required'),
+  country: z.string().min(1, 'country is required'),
+  state: z.string().min(1, 'state is required'),
+  address: z.string().min(1, 'address is required'),
+  email: z.string().min(1, 'email is required'),
+  phone1: z.string().min(1, 'phone1 is required'),
+  phone2: z.string().min(1, 'phone2 is required'),
+  phone3: z.string().min(1, 'phone3 is required'),
+  website: z.string().min(1, 'website is required'),
+  facebook: z.string().min(1, 'facebook is required'),
+  twitter: z.string().min(1, 'twitter is required'),
+  instagram: z.string().min(1, 'instagram is required'),
+});
 
+type TSchoolSchema = z.infer<typeof SchoolSchema>
 
 export function FormBody() {
-  const formRef = useRef<HTMLFormElement>();
+  const methods = useForm<TSchoolSchema>({
+    resolver: zodResolver(SchoolSchema),
+  })
   const [input, setInput] = useState({
     name: '',
     acronym: '',
@@ -58,7 +65,6 @@ export function FormBody() {
   const [coverFile, setCoverFile] = useState<File>();
   const [logoFile, setLogoFile] = useState<File>();
   // TODO: This should be provided by React Hook Form
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   
   const [schoolNameIsValid, setSchoolNameIsValid] = useState<boolean>();
 
@@ -75,7 +81,7 @@ export function FormBody() {
   const {mutateAsync: getPresignedURL} = api.aws.getPresignedURL.useMutation();
   const {mutate: schoolByNameExist, isLoading: nameIsLoading} = api.school.byNameExist.useMutation({
     onError: (error) => {
-      console.log('ERROR: school name already exists!')
+      console.log('ERROR: school name already exists!', error)
     },
     onSuccess: (data) => {
       if (data.id) return setSchoolNameIsValid(false);
@@ -162,228 +168,230 @@ export function FormBody() {
   }
 
   return (
-    <form onSubmit={() => console.log('submit')} >
+    <FormProvider {...methods}>
+      <form onSubmit={() => console.log('submit')} >
 
-      <CoverAndLogoSection setCoverFile={setCoverFile} setLogoFile={setLogoFile} />
+        <CoverAndLogoSection setCoverFile={setCoverFile} setLogoFile={setLogoFile} />
 
-      <div className="mt-10 px-5">
-        <div className="flex flex-col gap-5">
-          {/* School name and Acronym */}
-          <div className="grid grid-cols-2 gap-5">
-            {/* <SchoolNameAndAcronymInputFields schoolName={input.name} schoolAcronym={input.acronym} onChange={onChange} nameIsValid={schoolNameIsValid} setNameIsValid={setSchoolNameIsValid} /> */}
-            <LabelAndTextInputField
-              label="School name"
-              name="name"
-              placeholder="Harvard university"
-              inputIsValid={input.name === '' ? undefined : schoolNameIsValid}
-              inputIsLoading={nameIsLoading && !!input.name.length}
-              value={input.name}
-              onChange={(e) => {
-                onChange(e);
-                // update acronym field
-                const acronym = getAcronym(e.target.value);
-                setInput((data) => ({ ...data, acronym: acronym ?? "" }));
-              }}
-              explanation={"This will be the name of the university/college"}
-              required
-            />
-            <div>
+        <div className="mt-10 px-5">
+          <div className="flex flex-col gap-5">
+            {/* School name and Acronym */}
+            <div className="grid grid-cols-2 gap-5">
+              {/* <SchoolNameAndAcronymInputFields schoolName={input.name} schoolAcronym={input.acronym} onChange={onChange} nameIsValid={schoolNameIsValid} setNameIsValid={setSchoolNameIsValid} /> */}
               <LabelAndTextInputField
-                label="Acronym"
-                name="acronym"
-                placeholder="HVD"
-                value={input.acronym}
-                onChange={onChange}
+                label="School name"
+                name="name"
+                placeholder="Harvard university"
+                inputIsValid={input.name === '' ? undefined : schoolNameIsValid}
+                inputIsLoading={nameIsLoading && !!input.name.length}
+                value={input.name}
+                onChange={(e) => {
+                  onChange(e);
+                  // update acronym field
+                  const acronym = getAcronym(e.target.value);
+                  setInput((data) => ({ ...data, acronym: acronym ?? "" }));
+                }}
+                explanation={"This will be the name of the university/college"}
                 required
               />
-              <div className="mt-2 text-xs text-cc-content-main/50">
-                <p>
-                  e.g <b>HVD</b>/20/04/05/0010
-                </p>
+              <div>
+                <LabelAndTextInputField
+                  label="Acronym"
+                  name="acronym"
+                  placeholder="HVD"
+                  value={input.acronym}
+                  onChange={onChange}
+                  required
+                />
+                <div className="mt-2 text-xs text-cc-content-main/50">
+                  <p>
+                    e.g <b>HVD</b>/20/04/05/0010
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Motto */}
-          <LabelAndTextInputField
-            label="Motto"
-            name="motto"
-            value={input.motto}
-            onChange={onChange}
-            placeholder="shaping the leaders of tomorrow"
-            explanation="This will be a short sentence or phrase that  encapsulates the beliefs or ideals of the school"
-            required
-          />
+            {/* Motto */}
+            <LabelAndTextInputField
+              label="Motto"
+              name="motto"
+              value={input.motto}
+              onChange={onChange}
+              placeholder="shaping the leaders of tomorrow"
+              explanation="This will be a short sentence or phrase that  encapsulates the beliefs or ideals of the school"
+              required
+            />
 
-          {/* About */}
-          <LabelTextareaField
-            label="About"
-            name="about"
-            minLength={1}
-            value={input.about}
-            onChange={onChange}
-            placeholder="Harvard University is a private Ivy League research university in Cambridge..."
-            explanation="Tell us about the university"
-            required
-          />
+            {/* About */}
+            <LabelTextareaField
+              label="About"
+              name="about"
+              minLength={1}
+              value={input.about}
+              onChange={onChange}
+              placeholder="Harvard University is a private Ivy League research university in Cambridge..."
+              explanation="Tell us about the university"
+              required
+            />
 
-          {/* Country and State*/}
-          <div className="grid grid-cols-2 gap-5">
-            {/* country */}
-            <div>
-              <Label value="Country" isRequired={true} />
-              <div className="mt-1">
-                <DropdownButton 
-                  name="country"
-                  options={countries.map(({name}) => ({
-                    icon: <Image src={images.countryFlag(name)} alt={name} height={20} width={20} />,
-                    title: name,
-                  }))}
-                  updateSelected={(index) => {
-                    setInput((data) => ({...data, state: '', country: countries[index]!.name}))
-                    // update states
-                    setStates(countries[index]!.states);
-                  }}
+            {/* Country and State*/}
+            <div className="grid grid-cols-2 gap-5">
+              {/* country */}
+              <div>
+                <Label value="Country" isRequired={true} />
+                <div className="mt-1">
+                  <DropdownButton 
+                    name="country"
+                    options={countries.map(({name}) => ({
+                      icon: <Image src={images.countryFlag(name)} alt={name} height={20} width={20} />,
+                      title: name,
+                    }))}
+                    updateSelected={(index) => {
+                      setInput((data) => ({...data, state: '', country: countries[index]!.name}))
+                      // update states
+                      setStates(countries[index]!.states);
+                    }}
+                  />
+                </div>
+              </div>
+              {/* state */}
+              <div>
+                <Label value="State" isRequired={true} />
+                <div className="mt-1">
+                  <DropdownButton 
+                    name="state"
+                    options={states.length > 0 ? states.map(state => state.name) : [input.country]}
+                    updateSelected={(index) => {
+                      setInput((data) => ({...data, state: states[index]?.name ?? 'All'}))
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+
+            {/* Address */}
+            <LabelAndTextInputField
+              label="Address"
+              name="address"
+              value={input.address}
+              onChange={onChange}
+              placeholder="Massachusetts Hall, Cambridge, MA 02138, United States"
+              explanation="Where the university is located in the state"
+              required
+            />
+
+            {/* SECTION - contact information */}
+            <div className="mt-10 flex flex-col gap-5">
+              <div className="">
+                <h3 className="text-xl font-bold">Contact</h3>
+              </div>
+
+              {/* Email */}
+              <LabelAndTextInputField
+                label="Email"
+                name="email"
+                type="email"
+                value={input.email}
+                onChange={onChange}
+                placeholder="harvard@gmail.com"
+                explanation="The universities email"
+                required
+              />
+
+              {/* Phone 1, Phone 2, Phone 3 */}
+              <div className="grid grid-cols-3 gap-5">
+                <LabelAndTextInputField
+                  label="Phone 1"
+                  name="phone1"
+                  value={input.phone1}
+                  onChange={onChange}
+                  placeholder="+1 617-495-1000"
+                  required
+                />
+                <LabelAndTextInputField
+                  label="Phone 2"
+                  name="phone2"
+                  value={input.phone2}
+                  onChange={onChange}
+                  placeholder="Optional"
+                />
+                <LabelAndTextInputField
+                  label="Phone 3"
+                  name="phone3"
+                  value={input.phone3}
+                  onChange={onChange}
+                  placeholder="Optional"
                 />
               </div>
             </div>
-            {/* state */}
-            <div>
-              <Label value="State" isRequired={true} />
-              <div className="mt-1">
-                <DropdownButton 
-                  name="state"
-                  options={states.length > 0 ? states.map(state => state.name) : [input.country]}
-                  updateSelected={(index) => {
-                    setInput((data) => ({...data, state: states[index]?.name ?? 'All'}))
-                  }}
+
+            {/* SECTION - Links */}
+            <div className="mt-10 flex flex-col gap-5">
+              <div className="">
+                <h3 className="text-xl font-bold">Links</h3>
+              </div>
+
+              {/* Website */}
+              <LabelAndTextInputField
+                label="Website"
+                name="website"
+                value={input.website}
+                onChange={onChange}
+                placeholder="https://www.harvard.edu/"
+                explanation="The official website of the university"
+                required
+              />
+
+              {/* Facebook, Twitter, Instagram */}
+              <div className="grid grid-cols-3 gap-5">
+                <LabelAndTextInputField
+                  label="Facebook"
+                  name="facebook"
+                  value={input.facebook}
+                  onChange={onChange}
+                  placeholder="instagram.com/Harvard"
+                />
+                <LabelAndTextInputField
+                  label="Twitter"
+                  name="twitter"
+                  value={input.twitter}
+                  onChange={onChange}
+                  placeholder="twitter.com/Harvard"
+                />
+                <LabelAndTextInputField
+                  label="Instagram"
+                  name="instagram"
+                  value={input.instagram}
+                  onChange={onChange}
+                  placeholder="instagram.com/Harvard"
                 />
               </div>
             </div>
-          </div>
 
+            {/* Submit Button */}
+            <div className="mt-10">
+              <Button
+                type="button"
+                isLoading={isLoading}
+                size="lg"
+                variant="defaultFull"
+                onClick={async () => {
+                  if (!formIsValid()) return;
 
-          {/* Address */}
-          <LabelAndTextInputField
-            label="Address"
-            name="address"
-            value={input.address}
-            onChange={onChange}
-            placeholder="Massachusetts Hall, Cambridge, MA 02138, United States"
-            explanation="Where the university is located in the state"
-            required
-          />
-
-          {/* SECTION - contact information */}
-          <div className="mt-10 flex flex-col gap-5">
-            <div className="">
-              <h3 className="text-xl font-bold">Contact</h3>
+                  const coverKey = await uploadImage({file: coverFile!, getPresignedURL});
+                  const logoKey = await uploadImage({file: logoFile!, getPresignedURL});
+                  
+                  // create school
+                  createSchool({ coverKey, logoKey, ...input});
+                }}
+              >
+                Create School
+              </Button>
             </div>
-
-            {/* Email */}
-            <LabelAndTextInputField
-              label="Email"
-              name="email"
-              type="email"
-              value={input.email}
-              onChange={onChange}
-              placeholder="harvard@gmail.com"
-              explanation="The universities email"
-              required
-            />
-
-            {/* Phone 1, Phone 2, Phone 3 */}
-            <div className="grid grid-cols-3 gap-5">
-              <LabelAndTextInputField
-                label="Phone 1"
-                name="phone1"
-                value={input.phone1}
-                onChange={onChange}
-                placeholder="+1 617-495-1000"
-                required
-              />
-              <LabelAndTextInputField
-                label="Phone 2"
-                name="phone2"
-                value={input.phone2}
-                onChange={onChange}
-                placeholder="Optional"
-              />
-              <LabelAndTextInputField
-                label="Phone 3"
-                name="phone3"
-                value={input.phone3}
-                onChange={onChange}
-                placeholder="Optional"
-              />
-            </div>
-          </div>
-
-          {/* SECTION - Links */}
-          <div className="mt-10 flex flex-col gap-5">
-            <div className="">
-              <h3 className="text-xl font-bold">Links</h3>
-            </div>
-
-            {/* Website */}
-            <LabelAndTextInputField
-              label="Website"
-              name="website"
-              value={input.website}
-              onChange={onChange}
-              placeholder="https://www.harvard.edu/"
-              explanation="The official website of the university"
-              required
-            />
-
-            {/* Facebook, Twitter, Instagram */}
-            <div className="grid grid-cols-3 gap-5">
-              <LabelAndTextInputField
-                label="Facebook"
-                name="facebook"
-                value={input.facebook}
-                onChange={onChange}
-                placeholder="instagram.com/Harvard"
-              />
-              <LabelAndTextInputField
-                label="Twitter"
-                name="twitter"
-                value={input.twitter}
-                onChange={onChange}
-                placeholder="twitter.com/Harvard"
-              />
-              <LabelAndTextInputField
-                label="Instagram"
-                name="instagram"
-                value={input.instagram}
-                onChange={onChange}
-                placeholder="instagram.com/Harvard"
-              />
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <div className="mt-10">
-            <Button
-              type="button"
-              isLoading={isLoading}
-              size="lg"
-              variant="defaultFull"
-              onClick={async () => {
-                if (!formIsValid()) return;
-
-                const coverKey = await uploadImage({file: coverFile!, getPresignedURL});
-                const logoKey = await uploadImage({file: logoFile!, getPresignedURL});
-                
-                // create school
-                createSchool({ coverKey, logoKey, ...input});
-              }}
-            >
-              Create School
-            </Button>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </FormProvider>
   );
 }

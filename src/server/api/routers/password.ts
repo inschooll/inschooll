@@ -83,9 +83,11 @@ export const passwordRouter = createTRPCRouter({
 
     return { email: user.email};
   }),
+  // TODO: Implement this procedure
   changePassword: publicProcedure
     .input(z.object({ oldPassword: z.string(), newPassword: z.string() }))
     .mutation(({ ctx, input }) => {
+      console.log(ctx, input);
       return { msg: "success" };
     }),
 });
