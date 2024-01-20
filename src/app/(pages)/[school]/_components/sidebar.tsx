@@ -34,21 +34,18 @@ export default function Sidebar({schoolName}: {schoolName: string}) {
             <MenuCard 
               title="Dashboard"
               icon={<MdOutlineSpaceDashboard className="" size={20} />}
-              schoolName={schoolName}
               navigateTo={links.dashboard(schoolName)}
               />
             {/* school */}
             <MenuCard 
               title="School"
               icon={<LuSchool className="" size={20} />}
-              schoolName={schoolName}
               navigateTo={links.school(schoolName)}
               />
             {/* sdc */}
             <MenuCard 
               title="Student Affairs"
               icon={<LuHeartHandshake className="" size={20} />}
-              schoolName={schoolName}
               navigateTo={links.studentAffairs(schoolName)}
             />
           </div>
