@@ -7,13 +7,6 @@ import links from "./core/constants/links";
 import Button from "~/components/buttons/button";
 
 export default function Home() {
-  // const session = await getServerAuthSession();
-  
-  // const profile = session
-  //   ? await api.profile.getProfileByUserId.query({ userId: session?.user.id })
-  //   : null;
-
-  // if (session?.user && !profile) redirect(links.completeRegistration);
 
   return (
     <div className="h-screen overflow-hidden bg-cc-background-main">
