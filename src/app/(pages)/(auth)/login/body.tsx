@@ -74,6 +74,7 @@ export default function LoginFormBody(props: LoginFormBodyProps) {
               label="Email or Username"
               name="emailOrUsername"
               type="text"
+              required
               placeholder="Enter email or password"
             />
             {/* password */}
@@ -81,6 +82,7 @@ export default function LoginFormBody(props: LoginFormBodyProps) {
               label="password"
               name="password"
               type="password"
+              required
               placeholder="Enter your password..."
             />
           </div>
