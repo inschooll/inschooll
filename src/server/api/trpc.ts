@@ -15,7 +15,6 @@ import { ZodError } from "zod";
 import constants from "~/app/core/constants/constants";
 import { verifyJWT } from "~/lib/auth";
 
-// import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
 
 /**
