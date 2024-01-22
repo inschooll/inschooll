@@ -18,7 +18,7 @@ const constants = {
     "October",
     "November",
     "December",
-  ],
+  ] as const,
   daysInMonth: {
     January: 31,
     February: (new Date().getFullYear() % 4) === 0 ? 29 : 28,
