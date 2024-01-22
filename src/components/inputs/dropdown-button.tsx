@@ -1,9 +1,16 @@
 "use client";
 import { useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
-import { FaCheck } from "react-icons/fa";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuRadioItem,
+  DropdownMenuRadioGroup,
+} from "../ui/dropdown-menu";
+import { ScrollArea } from "../ui/scroll-area";
 
-type IconAndTitleProp = { icon?: React.ReactNode; title: string }
+type IconAndTitleProp = { icon?: React.ReactNode; title: string };
 
 type optionsType = IconAndTitleProp[] | string[];
 
@@ -11,111 +18,131 @@ export interface DropdownButtonProps {
   name?: string;
   options: optionsType;
   defaultSelectedOptionIndex?: number;
-  updateSelected?: (index: number) => void;
+  updateSelected: (index: number) => void;
 }
 
 export default function DropdownButton({
   name,
   options,
-  defaultSelectedOptionIndex=0,
+  defaultSelectedOptionIndex = 0,
   updateSelected,
 }: DropdownButtonProps) {
   const [defaultName, setDefaultName] = useState(name);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState(defaultSelectedOptionIndex);
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(
+    defaultSelectedOptionIndex,
+  );
 
-  const updateSelection = (index: number) => {
-    // remove dropdown name from display
-    setDefaultName(undefined);
-
-    setSelectedOptionIndex(index);
-    if (updateSelected) updateSelected(index);
-    setShowDropdown(false);
+  // set the actual type of the options
+  if (typeof options[0] === "string") {
+    options = options as string[];
+  } else {
+    options = options as IconAndTitleProp[];
   }
+
+  const List = () => {
+    if (typeof options[0] === "string") {
+      options = options as string[];
+      return options.map((item, index) => (
+        <DropdownMenuRadioItem value={String(index)} key={index}>
+          <p className="truncate text-[15px]">{item}</p>
+        </DropdownMenuRadioItem>
+      ));
+    } else {
+      options = options as IconAndTitleProp[];
+      return options.map((item, index) => (
+        <DropdownMenuRadioItem
+          value={String(index)}
+          key={index}
+          className="flex cursor-pointer items-center gap-2 rounded px-2 py-2"
+        >
+          {item.icon}
+          <p className="truncate text-[15px]">{item.title}</p>
+        </DropdownMenuRadioItem>
+      ));
+    }
+  };
 
   return (
     <>
-      {showDropdown && (<ClickOutsideClose setShowDropdown={setShowDropdown} />)}
-      <div className="relative">
-        {showDropdown && (<DropdownList options={options} selectedOptionIndex={selectedOptionIndex} updateSelection={updateSelection} />)}
-
-        {/* button */}
-        <div
-          className="dropdown-button"
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-          {typeof options[0] === "string" ? (
-            <div className="pr-2 truncate">
-              
-              <DropdownDisplayContent 
-                defaultName={defaultName}
-                title={options[selectedOptionIndex] as string} 
-              />
-            </div>
-          ) : (
-            <DropdownDisplayContent 
-              defaultName={defaultName}
-              icon={(options[selectedOptionIndex] as IconAndTitleProp)?.icon} 
-              title={(options[selectedOptionIndex] as IconAndTitleProp)?.title} 
-            />
-          )}
-
-          <FaCaretDown className="text-cc-content-sub" />
-        </div>
-      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="w-full">
+          <CustomDropdownButton title={defaultName} options={options} selectedOptionIndex={selectedOptionIndex} />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-full border border-cc-border">
+          <DropdownMenuRadioGroup
+            value={String(selectedOptionIndex)}
+            onValueChange={(indexAsString) => {
+              setDefaultName(undefined)
+              const newIndex = parseInt(indexAsString);
+              setSelectedOptionIndex(newIndex);
+              updateSelected(newIndex);
+            }}
+          >
+            {/* TODO: add ScrollArea shadcn component */}
+            <ScrollArea className={!!options.length ? "h-[50vh] w-full" : "min-h-4"}>
+              <List />
+            </ScrollArea>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </>
   );
 }
 
-function DropdownDisplayContent({defaultName, icon, title} : IconAndTitleProp & {defaultName?: string}) {
+const CustomDropdownButton = ({
+  title,
+  options,
+  selectedOptionIndex,
+}: {
+  title?: string,
+  options: optionsType,
+  selectedOptionIndex: number,
+}) => {
   return (
-    <div className="flex items-center gap-3 pr-2 truncate">
+    <div className="dropdown-button">
+      {typeof options[0] === "string" ? (
+        <div className="truncate pr-2">
+          <DropdownDisplayContent
+            defaultName={title}
+            title={options[selectedOptionIndex] as string}
+          />
+        </div>
+      ) : (
+        <DropdownDisplayContent
+          defaultName={title}
+          icon={(options[selectedOptionIndex] as IconAndTitleProp)?.icon}
+          title={(options[selectedOptionIndex] as IconAndTitleProp)?.title}
+        />
+      )}
+
+      <FaCaretDown className="text-cc-content-sub" />
+    </div>
+  );
+};
+
+function DropdownDisplayContent({
+  defaultName,
+  icon,
+  title,
+}: IconAndTitleProp & { defaultName?: string }) {
+  return (
+    <div className="flex items-center gap-3 truncate pr-2">
       {icon}
       {defaultName && <p className="">{defaultName}</p>}
-      {!defaultName && <p className="text-cc-content-sub truncate">{title}</p>}
+      {!defaultName && <p className="truncate text-cc-content-sub">{title}</p>}
     </div>
   );
 }
 
-function DropdownList({options, selectedOptionIndex, updateSelection}: {options: optionsType, selectedOptionIndex: number, updateSelection: (index: number) => void}) {  
+export function ClickOutsideClose({
+  setShowDropdown,
+}: {
+  setShowDropdown: (v: boolean) => void;
+}) {
   return (
-    <ul className="absolute top-11 max-h-[40vh] overflow-scroll w-full rounded border border-cc-border-main bg-cc-background-main px-2 shadow-lg z-50">
-      {options.map((data, index) => (
-        typeof options[0] === "string" ? (
-          <DropdownItem 
-            title={data as string} 
-            index={index} 
-            key={index} 
-            isSelected={selectedOptionIndex === index} 
-            updateSelection={updateSelection} 
-          />
-        ) : (
-          <DropdownItem 
-            icon={(data as IconAndTitleProp).icon} 
-            title={(data as IconAndTitleProp).title} 
-            index={index} 
-            key={index}
-            isSelected={selectedOptionIndex === index} 
-            updateSelection={updateSelection} 
-          />
-        )
-      ))}
-    </ul>
-  );
-}
-
-const DropdownItem = ({icon, title, isSelected=false, updateSelection, index}: IconAndTitleProp & {isSelected: boolean, updateSelection: (index: number) => void, index: number}) => (
-  <li className="flex items-center gap-2 px-2 py-2 app-hover rounded cursor-pointer" onClick={() => updateSelection(index)}>
-    <span className="w-4 pt-[2px] shrink-0">
-      {isSelected && <FaCheck size={12} className="text-cc-content-main/80" />}
-    </span>
-    {icon}
-    <p className="text-[15px] truncate">{title}</p>
-  </li>
-)
-
-export function ClickOutsideClose({setShowDropdown} : {setShowDropdown: (v: boolean) => void}) {
-  return (
-    <div className="absolute top-0 left-0 w-full h-full" onClick={() => setShowDropdown(false)}></div>
+    <div
+      className="absolute left-0 top-0 h-full w-full"
+      onClick={() => setShowDropdown(false)}
+    ></div>
   );
 }
