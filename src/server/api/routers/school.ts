@@ -23,8 +23,8 @@ const schoolType = {
   address: z.string(),
   email: z.string(),
   phone1: z.string(),
-  phone2: z.string(),
-  phone3: z.string(),
+  phone2: z.string().optional(),
+  phone3: z.string().optional(),
   website: z.string(),
   facebook: z.string(),
   twitter: z.string(),
@@ -60,7 +60,12 @@ const getAllTypes = {
 
 export const schoolRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object(schoolType))
+    .input(z.object(/* `schoolType` is a TypeScript object that defines the shape and types of the
+    properties expected when creating a new school. It includes properties such as
+    `coverKey`, `logoKey`, `name`, `acronym`, `motto`, `about`, `country`, `state`,
+    `address`, `email`, `phone1`, `phone2`, `phone3`, `website`, `facebook`,
+    `twitter`, and `instagram`. */
+    schoolType))
     .mutation(async ({ ctx, input }) => {
       // get country and state id
       const country = await ctx.db.query.country.findFirst({
