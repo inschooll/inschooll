@@ -134,12 +134,6 @@ export default function FormBody({
     (_, index) => `${currentYear - index}`,
   );
 
-  const showErrorText = (msg: string | undefined) => {
-    if (msg === undefined) return undefined;
-
-    return (<InputErrorMessage value={msg} />);
-  }
-
   // displays an error container with a message at the top of the form
   const showError = (msg: string) => {
     window.scrollTo({top: 0, behavior: 'smooth'});
@@ -228,6 +222,7 @@ export default function FormBody({
             <div className="mt-1">
               <DropdownButton
                 name="Nationality"
+                errorMessage={methods.formState.errors.nationality?.message}
                 options={countries.map(({ name }) => ({
                   icon: (
                     <Image
@@ -246,7 +241,6 @@ export default function FormBody({
                   setStates(countries[index]!.states);
                 }}
               />
-              {showErrorText(methods.formState.errors.nationality?.message)}
             </div>
           </div>
           {/* state of origin */}
@@ -255,6 +249,7 @@ export default function FormBody({
             <div className="mt-1">
               <DropdownButton
                 name={"State of origin"}
+                errorMessage={methods.formState.errors.stateOfOrigin?.message}
                 options={
                   states.length > 0
                     ? states.map((state) => state.name)
@@ -267,7 +262,6 @@ export default function FormBody({
                   );
                 }}
               />
-              {showErrorText(methods.formState.errors.stateOfOrigin?.message)}
             </div>
           </div>
 
@@ -294,11 +288,11 @@ export default function FormBody({
                 name="gender"
                 options={constants.gender}
                 defaultSelectedOptionIndex={0}
+                errorMessage={methods.formState.errors.gender?.message}
                 updateSelected={(index) =>
                   methods.setValue("gender", constants.gender[index] ?? "male")
                 }
               />
-              {showErrorText(methods.formState.errors.gender?.message)}
             </div>
           </div>
 
@@ -312,6 +306,7 @@ export default function FormBody({
                   name="month"
                   options={constants.months as unknown as string[]}
                   defaultSelectedOptionIndex={0}
+                  errorMessage={methods.formState.errors.dob_month?.message}
                   updateSelected={(index) => {
                     methods.setValue(
                       "dob_month",
@@ -327,13 +322,13 @@ export default function FormBody({
                     }
                   }}
                 />
-                {showErrorText(methods.formState.errors.dob_month?.message)}
               </div>
 
               {/* day */}
               <div>
                 <DropdownButton
                   name="day"
+                  errorMessage={methods.formState.errors.dob_day?.message}
                   options={Array.from(
                     {
                       length: isFebruaryAndLeapYear(
@@ -350,7 +345,6 @@ export default function FormBody({
                     methods.setValue("dob_day", index + 1)
                   }
                 />
-                {showErrorText(methods.formState.errors.dob_day?.message)}
               </div>
 
               {/* year */}
@@ -359,11 +353,11 @@ export default function FormBody({
                   name="year"
                   options={years}
                   defaultSelectedOptionIndex={0}
+                  errorMessage={methods.formState.errors.dob_year?.message}
                   updateSelected={(index) =>
                     methods.setValue("dob_year", parseInt(years[index]!))
                   }
                 />
-                {showErrorText(methods.formState.errors.dob_year?.message)}
               </div>
             </div>
           </>
