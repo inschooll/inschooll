@@ -26,3 +26,25 @@ export const SignupSchema = z.object({
   path: ['confirmPassword'],
 });
 export type TSignupSchema = z.infer<typeof SignupSchema>;
+
+
+export const SchoolSchema = z.object({
+  coverKey: z.string().optional(), 
+  logoKey: z.string().optional(),
+  name: z.string().min(1, 'name is required'),
+  acronym: z.string().min(1, 'acronym is required'),
+  motto: z.string().min(1, 'motto is required'),
+  about: z.string().min(1, 'about is required'),
+  country: z.string().min(1, 'country is required'),
+  state: z.string().min(1, 'state is required'),
+  address: z.string().min(1, 'address is required'),
+  email: z.string().min(1, 'email is required'),
+  phone1: z.string().min(1, 'phone1 is required'),
+  phone2: z.string().optional(),
+  phone3: z.string().optional(),
+  website: z.string().min(1, 'website is required'),
+  facebook: z.string().min(1, 'facebook is required'),
+  twitter: z.string().min(1, 'twitter is required'),
+  instagram: z.string().min(1, 'instagram is required'),
+});
+export type TSchoolSchema = z.infer<typeof SchoolSchema>
