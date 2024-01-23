@@ -1,65 +1,29 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { countries_data } from "scripts/data/countries_data";
-// TODO: remove validator and replace with zods validation method
-import validator from 'validator';
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import images from "~/app/core/constants/images";
 import successMessages from "~/app/core/constants/success-messages";
 import Button from "~/components/buttons/button";
 import DropdownButton from "~/components/inputs/dropdown-button";
-import Label from "~/components/inputs/label";
-import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
-import LabelTextareaField from "~/components/inputs/label_textarea_field";
+import Input from "~/components/inputs/label_text_input_field";
+import TextareaField from "~/components/inputs/textarea_field";
 import { usePopUpStore } from "~/components/popups/popup_store";
-import { isPhoneNumber, uploadImage, useHandleError } from "~/core/utils-client";
+import { uploadImage, useHandleError } from "~/core/utils-client";
 import { api } from "~/trpc/react";
 import CoverAndLogoSection from "./CoverAndLogoSection";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { SchoolSchema, type TSchoolSchema } from "~/lib/types";
+import InfoBox from "~/components/cards/InfoBox";
 
-const SchoolSchema = z.object({
-  name: z.string().min(1, 'name is required'),
-  acronym: z.string().min(1, 'acronym is required'),
-  motto: z.string().min(1, 'motto is required'),
-  about: z.string().min(1, 'about is required'),
-  country: z.string().min(1, 'country is required'),
-  state: z.string().min(1, 'state is required'),
-  address: z.string().min(1, 'address is required'),
-  email: z.string().min(1, 'email is required'),
-  phone1: z.string().min(1, 'phone1 is required'),
-  phone2: z.string().min(1, 'phone2 is required'),
-  phone3: z.string().min(1, 'phone3 is required'),
-  website: z.string().min(1, 'website is required'),
-  facebook: z.string().min(1, 'facebook is required'),
-  twitter: z.string().min(1, 'twitter is required'),
-  instagram: z.string().min(1, 'instagram is required'),
-});
-
-type TSchoolSchema = z.infer<typeof SchoolSchema>
 
 export function FormBody() {
   const methods = useForm<TSchoolSchema>({
     resolver: zodResolver(SchoolSchema),
-  })
-  const [input, setInput] = useState({
-    name: '',
-    acronym: '',
-    motto: '',
-    about: '',
-    country: '',
-    state: '',
-    address: '',
-    email: '',
-    phone1: '',
-    phone2: '',
-    phone3: '',
-    website: '',
-    facebook: '',
-    twitter: '',
-    instagram: '',
   });
+  const formData = methods.getValues();
 
   // fields (cover, logo)
   const [coverFile, setCoverFile] = useState<File>();
@@ -70,7 +34,6 @@ export function FormBody() {
 
   // countries & states
   const countries = countries_data;
-  // TODO: RHF
   const [states, setStates] = useState(countries_data[0]!.states);
   
   // popup store
@@ -88,7 +51,7 @@ export function FormBody() {
       setSchoolNameIsValid(true);
     },
   });
-  const { isLoading, mutate: createSchool } = api.school.create.useMutation({
+  const { mutate: createSchool } = api.school.create.useMutation({
     onError: (error) => {
       handleError({msg: error.message});
     },
@@ -103,53 +66,16 @@ export function FormBody() {
   useEffect(() => {
     const timerId = setTimeout(() => setShouldMakeNameRequest(true), 2000);
     return () => clearTimeout(timerId);
-  }, [input.name]);
+  }, [formData.name]);
 
   useEffect(() => {
     if (shouldMakeNameRequest) {
       // make API request. check if school with name exists
-      schoolByNameExist({name: input.name})
+      schoolByNameExist({name: formData.name})
       // Reset shouldMakeRequest
       setShouldMakeNameRequest(false);
     }
-  }, [shouldMakeNameRequest, input.name, schoolByNameExist]);
-
-  function formIsValid () {
-    // cover
-    if (!coverFile) return addPopup({text: "Please select a school cover image!", type: 'error'});
-    // logo
-    if (!logoFile) return addPopup({text: "Please select a school logo!", type: 'error'});    
-    // name
-    if (input.name !== '') return addPopup({text: 'School name is required', type: 'error'});
-    if (!schoolNameIsValid) return addPopup({text: 'The school name you entered already exists!', type: 'error'});
-    // acronym
-    if (!input.acronym) return addPopup({text: "Acronym is required", type: 'error'});
-    // motto
-    if (!input.motto) return addPopup({text: "Motto is required", type: 'error'});
-    // about
-    if (!input.about) return addPopup({text: "About is required", type: 'error'});
-    // country
-    if (!input.country) return addPopup({text: "Country is required", type: 'error'});
-    // address
-    if (!input.address) return addPopup({text: "Address is required", type: 'error'});
-    // email
-    if (!validator.isEmail(input.email)) return addPopup({text: "Enter a valid email", type: 'error'});
-    // phone1
-    if (!isPhoneNumber(input.phone1)) return addPopup({text: "phone1 is required", type: 'error'});
-    // phone2
-    if (input.phone2.length > 0 && isPhoneNumber(input.phone2)) return addPopup({text: "phone2 is not valid", type: 'error'});
-    // phone3
-    if (input.phone3.length > 0 && isPhoneNumber(input.phone3)) return addPopup({text: "phone3 is not valid", type: 'error'});
-    // website
-    if (validator.isURL(input.website)) return addPopup({text: "Enter the schools website url", type: 'error'});
-    // facebook
-    if (input.facebook.length > 0 && !validator.isURL(input.facebook)) return addPopup({text: "Enter the schools Facebook page url", type: 'error'});
-    // twitter
-    if (input.twitter.length > 0 && !validator.isURL(input.twitter)) return addPopup({text: "Enter the schools Twitter page url", type: 'error'});
-    // instagram
-    if (input.instagram.length > 0 && !validator.isURL(input.instagram)) return addPopup({text: "Enter the schools Instagram page url", type: 'error'});
-    return true;
-  }
+  }, [shouldMakeNameRequest, formData.name, schoolByNameExist]);
 
   const getAcronym = (name?: string) => {
     if (name && name.length < 4) return name.toUpperCase();
@@ -162,46 +88,55 @@ export function FormBody() {
       .toUpperCase();
   };
 
-  function onChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    const { name, value } = e.target;
-    setInput((data) => ({ ...data, [name]: value }));
+  // displays an error container with a message at the top of the form
+  const [inputErrorMessage, setInputErrorMessage] = useState("");
+  const showError = (msg: string) => {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    return setInputErrorMessage(msg)
   }
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={() => console.log('submit')} >
+      <form onSubmit={methods.handleSubmit(async (data) => {
+        // ensure logo and cover images were selected
+        if (!coverFile) return showError("Please select a cover image for your school");
+        if (!logoFile) return showError("Please select a logo image for your school");
+        
+        // upload image to s3 bucket
+        const coverKey = await uploadImage({file: coverFile, getPresignedURL});
+        const logoKey = await uploadImage({file: logoFile, getPresignedURL});
+        
+        // create school
+        // TODO: add data to school itself
+        console.log(data);
+        createSchool({ coverKey, logoKey, ...data});
+      })} >
 
         <CoverAndLogoSection setCoverFile={setCoverFile} setLogoFile={setLogoFile} />
+
+        {!!inputErrorMessage && (<InfoBox text={inputErrorMessage} type="error" />)}
 
         <div className="mt-10 px-5">
           <div className="flex flex-col gap-5">
             {/* School name and Acronym */}
             <div className="grid grid-cols-2 gap-5">
-              {/* <SchoolNameAndAcronymInputFields schoolName={input.name} schoolAcronym={input.acronym} onChange={onChange} nameIsValid={schoolNameIsValid} setNameIsValid={setSchoolNameIsValid} /> */}
-              <LabelAndTextInputField
+              <Input
                 label="School name"
                 name="name"
                 placeholder="Harvard university"
-                inputIsValid={input.name === '' ? undefined : schoolNameIsValid}
-                inputIsLoading={nameIsLoading && !!input.name.length}
-                value={input.name}
+                inputIsValid={formData.name === '' ? undefined : schoolNameIsValid}
+                inputIsLoading={nameIsLoading && !!formData.name.length}
                 onChange={(e) => {
-                  onChange(e);
-                  // update acronym field
                   const acronym = getAcronym(e.target.value);
-                  setInput((data) => ({ ...data, acronym: acronym ?? "" }));
+                  methods.setValue('acronym', acronym ?? '');
                 }}
                 explanation={"This will be the name of the university/college"}
-                required
               />
               <div>
-                <LabelAndTextInputField
+                <Input
                   label="Acronym"
                   name="acronym"
                   placeholder="HVD"
-                  value={input.acronym}
-                  onChange={onChange}
-                  required
                 />
                 <div className="mt-2 text-xs text-cc-content-main/50">
                   <p>
@@ -212,73 +147,65 @@ export function FormBody() {
             </div>
 
             {/* Motto */}
-            <LabelAndTextInputField
+            <Input
               label="Motto"
               name="motto"
-              value={input.motto}
-              onChange={onChange}
               placeholder="shaping the leaders of tomorrow"
               explanation="This will be a short sentence or phrase that  encapsulates the beliefs or ideals of the school"
-              required
             />
 
             {/* About */}
-            <LabelTextareaField
+            <TextareaField
               label="About"
               name="about"
-              minLength={1}
-              value={input.about}
-              onChange={onChange}
               placeholder="Harvard University is a private Ivy League research university in Cambridge..."
-              explanation="Tell us about the university"
-              required
+              description="Tell us about the university"
+              errorMessage={methods.formState.errors.about?.message}
             />
 
             {/* Country and State*/}
             <div className="grid grid-cols-2 gap-5">
               {/* country */}
               <div>
-                <Label value="Country" isRequired={true} />
-                <div className="mt-1">
                   <DropdownButton 
+                    label="Country"
                     name="country"
+                    required
                     options={countries.map(({name}) => ({
                       icon: <Image src={images.countryFlag(name)} alt={name} height={20} width={20} />,
                       title: name,
                     }))}
                     updateSelected={(index) => {
-                      setInput((data) => ({...data, state: '', country: countries[index]!.name}))
+                      methods.setValue('country', countries[index]!.name)
+                      methods.setValue('state', '')
                       // update states
                       setStates(countries[index]!.states);
                     }}
+                    errorMessage={methods.formState.errors.country?.message}
                   />
-                </div>
               </div>
               {/* state */}
               <div>
-                <Label value="State" isRequired={true} />
-                <div className="mt-1">
                   <DropdownButton 
+                    label="State"
+                    required
                     name="state"
-                    options={states.length > 0 ? states.map(state => state.name) : [input.country]}
+                    options={states.length > 0 ? states.map(state => state.name) : [formData.country]}
                     updateSelected={(index) => {
-                      setInput((data) => ({...data, state: states[index]?.name ?? 'All'}))
+                      methods.setValue('state', states[index]?.name ?? 'All');
                     }}
+                    errorMessage={methods.formState.errors.state?.message}
                   />
-                </div>
               </div>
             </div>
 
 
             {/* Address */}
-            <LabelAndTextInputField
+            <Input
               label="Address"
               name="address"
-              value={input.address}
-              onChange={onChange}
               placeholder="Massachusetts Hall, Cambridge, MA 02138, United States"
               explanation="Where the university is located in the state"
-              required
             />
 
             {/* SECTION - contact information */}
@@ -288,39 +215,31 @@ export function FormBody() {
               </div>
 
               {/* Email */}
-              <LabelAndTextInputField
+              <Input
                 label="Email"
                 name="email"
                 type="email"
-                value={input.email}
-                onChange={onChange}
                 placeholder="harvard@gmail.com"
                 explanation="The universities email"
-                required
+                
               />
 
               {/* Phone 1, Phone 2, Phone 3 */}
               <div className="grid grid-cols-3 gap-5">
-                <LabelAndTextInputField
+                <Input
                   label="Phone 1"
                   name="phone1"
-                  value={input.phone1}
-                  onChange={onChange}
                   placeholder="+1 617-495-1000"
-                  required
+                  
                 />
-                <LabelAndTextInputField
+                <Input
                   label="Phone 2"
                   name="phone2"
-                  value={input.phone2}
-                  onChange={onChange}
                   placeholder="Optional"
                 />
-                <LabelAndTextInputField
+                <Input
                   label="Phone 3"
                   name="phone3"
-                  value={input.phone3}
-                  onChange={onChange}
                   placeholder="Optional"
                 />
               </div>
@@ -333,37 +252,29 @@ export function FormBody() {
               </div>
 
               {/* Website */}
-              <LabelAndTextInputField
+              <Input
                 label="Website"
                 name="website"
-                value={input.website}
-                onChange={onChange}
                 placeholder="https://www.harvard.edu/"
                 explanation="The official website of the university"
-                required
+                
               />
 
               {/* Facebook, Twitter, Instagram */}
               <div className="grid grid-cols-3 gap-5">
-                <LabelAndTextInputField
+                <Input
                   label="Facebook"
                   name="facebook"
-                  value={input.facebook}
-                  onChange={onChange}
                   placeholder="instagram.com/Harvard"
                 />
-                <LabelAndTextInputField
+                <Input
                   label="Twitter"
                   name="twitter"
-                  value={input.twitter}
-                  onChange={onChange}
                   placeholder="twitter.com/Harvard"
                 />
-                <LabelAndTextInputField
+                <Input
                   label="Instagram"
                   name="instagram"
-                  value={input.instagram}
-                  onChange={onChange}
                   placeholder="instagram.com/Harvard"
                 />
               </div>
@@ -372,18 +283,13 @@ export function FormBody() {
             {/* Submit Button */}
             <div className="mt-10">
               <Button
-                type="button"
-                isLoading={isLoading}
+                type="submit"
+                isLoading={methods.formState.isSubmitting}
                 size="lg"
                 variant="defaultFull"
-                onClick={async () => {
-                  if (!formIsValid()) return;
-
-                  const coverKey = await uploadImage({file: coverFile!, getPresignedURL});
-                  const logoKey = await uploadImage({file: logoFile!, getPresignedURL});
-                  
-                  // create school
-                  createSchool({ coverKey, logoKey, ...input});
+                onClick={() => {
+                  console.log('Submit Button clicked!')
+                  console.log(formData);
                 }}
               >
                 Create School
