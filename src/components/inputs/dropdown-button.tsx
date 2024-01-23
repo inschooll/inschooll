@@ -9,27 +9,26 @@ import {
   DropdownMenuRadioGroup,
 } from "../ui/dropdown-menu";
 import { ScrollArea } from "../ui/scroll-area";
+import { InputErrorMessage, InputLabel } from "./input";
 
 type IconAndTitleProp = { icon?: React.ReactNode; title: string };
 
 type optionsType = IconAndTitleProp[] | string[];
 
 export interface DropdownButtonProps {
+  label?: string;
   name?: string;
   options: optionsType;
+  required?: boolean;
+  errorMessage?: string;
   defaultSelectedOptionIndex?: number;
   updateSelected: (index: number) => void;
 }
 
-export default function DropdownButton({
-  name,
-  options,
-  defaultSelectedOptionIndex = 0,
-  updateSelected,
-}: DropdownButtonProps) {
-  const [defaultName, setDefaultName] = useState(name);
+export default function DropdownButton({options, ...props}: DropdownButtonProps) {
+  const [defaultName, setDefaultName] = useState(props.name);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(
-    defaultSelectedOptionIndex,
+    props.defaultSelectedOptionIndex,
   );
 
   // set the actual type of the options
@@ -64,6 +63,9 @@ export default function DropdownButton({
 
   return (
     <>
+      {/* label */}
+      {props.label && (<InputLabel label={props.label} required={props.required} />)}
+
       <DropdownMenu>
         <DropdownMenuTrigger className="w-full">
           <CustomDropdownButton title={defaultName} options={options} selectedOptionIndex={selectedOptionIndex} />
@@ -75,7 +77,7 @@ export default function DropdownButton({
               setDefaultName(undefined)
               const newIndex = parseInt(indexAsString);
               setSelectedOptionIndex(newIndex);
-              updateSelected(newIndex);
+              props.updateSelected(newIndex);
             }}
           >
             {/* TODO: add ScrollArea shadcn component */}
@@ -85,6 +87,11 @@ export default function DropdownButton({
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* error message */}
+      {props.errorMessage && (
+        <InputErrorMessage value={props.errorMessage} />
+      )}
     </>
   );
 }
@@ -92,11 +99,11 @@ export default function DropdownButton({
 const CustomDropdownButton = ({
   title,
   options,
-  selectedOptionIndex,
+  selectedOptionIndex=0,
 }: {
   title?: string,
   options: optionsType,
-  selectedOptionIndex: number,
+  selectedOptionIndex?: number,
 }) => {
   return (
     <div className="dropdown-button">
