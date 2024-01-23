@@ -7,12 +7,14 @@ import { useFormContext } from 'react-hook-form';
 
 export type InputProps = {
   label?: string;
+  description?: string;
   isValid?: boolean;
   isLoading?: boolean;
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 export default function Input({
   label,
+  description,
   isValid,
   isLoading,
   ...props
@@ -26,7 +28,10 @@ export default function Input({
   return (
     <div className="relative">
       {/* label */}
-      {label && (<InputLabel label={label} minLength={props.minLength} maxLength={props.maxLength} required={props.required} />)}
+      {!!label && (<InputLabel label={label} minLength={props.minLength} maxLength={props.maxLength} required={props.required} />)}
+
+      {/* description */}
+      {!!description && (<InputDescription description={description} />)}
 
       {/* input */}
       <div className="relative">
@@ -64,7 +69,7 @@ export default function Input({
 
       </div>
       {/* error message */}
-      {props.name && methods?.formState.errors[props.name] && (
+      {!!props.name && !!methods?.formState.errors[props.name] && (
         <InputErrorMessage value={methods?.formState.errors[props.name]?.message as string} />
       )}
     </div>
@@ -72,7 +77,7 @@ export default function Input({
 }
 
 
-const InputLabel = ({label, ...props}: {label: string} & Omit<InputProps, 'label'>) => {
+export const InputLabel = ({label, ...props}: {label: string} & Omit<InputProps, 'label'>) => {
   return (
     <div
       className={`pb-1 ${
@@ -89,6 +94,14 @@ const InputLabel = ({label, ...props}: {label: string} & Omit<InputProps, 'label
       {(props.maxLength ?? props.minLength) && (
         <MinMaxContainer min={props.minLength} max={props.maxLength} />
       )}
+    </div>
+  );
+}
+
+export const InputDescription = (props: {description: string}) => {
+  return (
+    <div className="pb-2 text-cc-content/80 text-xs">
+      <p>{props.description}</p>
     </div>
   );
 }
