@@ -15,13 +15,11 @@ export type InputProps = {
 export default function Input({
   label,
   description,
-  isValid,
-  isLoading,
   ...props
 }: InputProps) {
   // adds right padding when a ✅ icon or 🔃 icon is shown on the rhs of the input field
   let padRight = "";
-  if (isValid != undefined && isLoading != undefined) padRight = "pr-8";
+  if (props.isValid != undefined && props.isLoading != undefined) padRight = "pr-8";
   // const { register, formState: {errors} } = useFormContext();
   const methods = useFormContext();
 
@@ -36,14 +34,14 @@ export default function Input({
       {/* input */}
       <div className="relative">
         <input
-          alt={isValid === false ? "invalid" : undefined}
+          alt={props.isValid === false ? "invalid" : undefined}
           className={`focus:border-1 h-10 w-full rounded border-2 border-cc-border-main bg-cc-input-bg px-2 text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 focus:border-cc-primary-main ${padRight}`}
           {...methods?.register(props.name!) }
           {...props}
         />
         
         {/* isLoading */}
-        {isLoading && (
+        {props.isLoading && (
           <div role="status" className="absolute right-2.5 top-1/2 -translate-y-1/2">
             <svg aria-hidden="true" className="w-3.5 h-3.5 animate-spin text-cc-content-main fill-cc-primary" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -54,9 +52,9 @@ export default function Input({
         )}
 
         {/* valid or invalid icon */}
-        {isValid !== undefined && !isLoading && (
+        {props.isValid !== undefined && !props.isLoading && (
           <div aria-hidden="true" className="absolute right-0 top-1/2 w-5 -translate-x-1/4 -translate-y-1/2">
-            {isValid ? (
+            {props.isValid ? (
               <IoIosCheckmarkCircle className="text-green-500" title="Perfect" />
             ) : (
               <AiFillExclamationCircle
