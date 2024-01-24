@@ -9,7 +9,6 @@ import images from "~/app/core/constants/images";
 import successMessages from "~/app/core/constants/success-messages";
 import Button from "~/components/buttons/button";
 import DropdownButton from "~/components/inputs/dropdown-button";
-import Input from "~/components/inputs/label_text_input_field";
 import TextareaField from "~/components/inputs/textarea_field";
 import { usePopUpStore } from "~/components/popups/popup_store";
 import { uploadImage, useHandleError } from "~/core/utils-client";
@@ -17,6 +16,8 @@ import { api } from "~/trpc/react";
 import CoverAndLogoSection from "./CoverAndLogoSection";
 import { SchoolSchema, type TSchoolSchema } from "~/lib/types";
 import InfoBox from "~/components/cards/InfoBox";
+import { IoWatch } from "react-icons/io5";
+import Input from "~/components/inputs/input";
 
 
 export function FormBody() {
@@ -24,6 +25,7 @@ export function FormBody() {
     resolver: zodResolver(SchoolSchema),
   });
   const formData = methods.getValues();
+  const watch = methods.watch();
 
   // fields (cover, logo)
   const [coverFile, setCoverFile] = useState<File>();
@@ -64,9 +66,14 @@ export function FormBody() {
   // make school name request only when user has not typed a character in 2 seconds
   const [shouldMakeNameRequest, setShouldMakeNameRequest] = useState(false);
   useEffect(() => {
+    setSchoolNameIsValid(undefined);
+    const acronym = getAcronym(formData.name);
+    methods.setValue('acronym', acronym ?? '');
     const timerId = setTimeout(() => setShouldMakeNameRequest(true), 2000);
     return () => clearTimeout(timerId);
-  }, [formData.name]);
+  }, [watch.name]);
+
+  useEffect(() => console.log('Is Loading', nameIsLoading), [nameIsLoading]);
 
   useEffect(() => {
     if (shouldMakeNameRequest) {
@@ -99,6 +106,7 @@ export function FormBody() {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(async (data) => {
         // ensure logo and cover images were selected
+        console.log('form is valid');
         if (!coverFile) return showError("Please select a cover image for your school");
         if (!logoFile) return showError("Please select a logo image for your school");
         
@@ -124,13 +132,8 @@ export function FormBody() {
                 label="School name"
                 name="name"
                 placeholder="Harvard university"
-                inputIsValid={formData.name === '' ? undefined : schoolNameIsValid}
-                inputIsLoading={nameIsLoading && !!formData.name.length}
-                onChange={(e) => {
-                  const acronym = getAcronym(e.target.value);
-                  methods.setValue('acronym', acronym ?? '');
-                }}
-                explanation={"This will be the name of the university/college"}
+                isValid={formData.name === '' ? undefined : schoolNameIsValid}
+                isLoading={nameIsLoading && !!formData.name.length}
               />
               <div>
                 <Input
@@ -151,7 +154,7 @@ export function FormBody() {
               label="Motto"
               name="motto"
               placeholder="shaping the leaders of tomorrow"
-              explanation="This will be a short sentence or phrase that  encapsulates the beliefs or ideals of the school"
+              description="This will be a short sentence or phrase that  encapsulates the beliefs or ideals of the school"
             />
 
             {/* About */}
@@ -205,7 +208,7 @@ export function FormBody() {
               label="Address"
               name="address"
               placeholder="Massachusetts Hall, Cambridge, MA 02138, United States"
-              explanation="Where the university is located in the state"
+              description="Where the university is located in the state"
             />
 
             {/* SECTION - contact information */}
@@ -220,7 +223,7 @@ export function FormBody() {
                 name="email"
                 type="email"
                 placeholder="harvard@gmail.com"
-                explanation="The universities email"
+                description="The universities email"
                 
               />
 
@@ -256,7 +259,7 @@ export function FormBody() {
                 label="Website"
                 name="website"
                 placeholder="https://www.harvard.edu/"
-                explanation="The official website of the university"
+                description="The official website of the university"
                 
               />
 
@@ -287,10 +290,6 @@ export function FormBody() {
                 isLoading={methods.formState.isSubmitting}
                 size="lg"
                 variant="defaultFull"
-                onClick={() => {
-                  console.log('Submit Button clicked!')
-                  console.log(formData);
-                }}
               >
                 Create School
               </Button>
