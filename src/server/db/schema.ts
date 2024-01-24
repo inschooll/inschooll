@@ -60,7 +60,8 @@ export const school = mysqlTable("school", {
   instagram_url: varchar("instagram_url", { length: 256 }),
   facebook_url: varchar("facebook_url", { length: 256 }),
 
-  // chancellor_id: varchar("chancellor_id", { length: 256 }).notNull(),
+  // chancellor_id: varchar("chancellor_id", { length: 256 }).references(() => user.id, {onDelete: 'set null'}),
+  // vice_chancellor_id: varchar("vice_chancellor_id", { length: 256 }).references(() => user.id, {onDelete: 'set null'}),
   country_id: varchar("country_id", { length: 256 }).references(() => country.id, {onDelete: 'set null'}),
   state_id: varchar("state_id", { length: 256 }).references(() => state.id, {onDelete: 'set null'}),
 
