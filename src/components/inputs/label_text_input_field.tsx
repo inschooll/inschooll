@@ -4,7 +4,7 @@ import Input, { type InputProps } from "./input";
 
 
 
-export default function LabelAndTextInputField({label, explanation, errorMessage, inputIsValid, inputIsLoading, ...props} : {label: string, explanation?: string, errorMessage?: string, inputIsValid?: boolean, inputIsLoading?: boolean} & InputProps) {
+export default function LabelAndTextInputField({label, explanation, errorMessage, inputIsValid, ...props} : {label: string, explanation?: string, errorMessage?: string, inputIsValid?: boolean} & InputProps) {
   const id = label.split(' ').join('_').toLowerCase();
   return (
     <div>
@@ -16,7 +16,7 @@ export default function LabelAndTextInputField({label, explanation, errorMessage
         )}
       </div>
       <div className="mt-1">
-        <Input {...props} isValid={inputIsValid} isLoading={inputIsLoading} id={id} />
+        <Input {...props} isValid={inputIsValid} isLoading={props.isLoading} id={id} />
       </div>
       {explanation && <div className="mt-2 text-xs text-cc-content-main/50">
         <p>{explanation}</p>
