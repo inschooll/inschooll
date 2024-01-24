@@ -37,7 +37,7 @@ const insertStates = async () => {
 
   // 2. add states
   console.log("Inserting States... 🚀");
-  countries_data.map(async (country) => {
+  await Promise.all([countries_data.map(async (country) => {
     const dbCountry = await db.query.country.findFirst({
       where: () => eq(schema.country.name, country.name),
     });
@@ -56,10 +56,12 @@ const insertStates = async () => {
 
     if (states.length == 0) return;
     await db.insert(schema.state).values(states);
-  });
+  })]);
 
   console.log("Insertion Completed ✅✅");
 };
+
+// TODO: Implement default insertion of default roles such as vice chancellor, chancellor, 
 
 await insertCountries();
 await insertStates();
