@@ -9,27 +9,7 @@ import { bucketName, s3Client } from "./aws";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { TRPCClientError } from "@trpc/client";
 import errorMessages from "~/app/core/constants/error-messages";
-
-const schoolType = {
-  coverKey: z.string(),
-  logoKey: z.string(),
-
-  name: z.string(),
-  acronym: z.string(),
-  motto: z.string(),
-  about: z.string(),
-  country: z.string(),
-  state: z.string(),
-  address: z.string(),
-  email: z.string(),
-  phone1: z.string(),
-  phone2: z.string().optional(),
-  phone3: z.string().optional(),
-  website: z.string(),
-  facebook: z.string(),
-  twitter: z.string(),
-  instagram: z.string(),
-};
+import { SchoolSchema } from "~/lib/types";
 
 const schoolOptionalType = {
   id: z.string(),
@@ -60,12 +40,7 @@ const getAllTypes = {
 
 export const schoolRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object(/* `schoolType` is a TypeScript object that defines the shape and types of the
-    properties expected when creating a new school. It includes properties such as
-    `coverKey`, `logoKey`, `name`, `acronym`, `motto`, `about`, `country`, `state`,
-    `address`, `email`, `phone1`, `phone2`, `phone3`, `website`, `facebook`,
-    `twitter`, and `instagram`. */
-    schoolType))
+    .input(SchoolSchema)
     .mutation(async ({ ctx, input }) => {
       // get country and state id
       const country = await ctx.db.query.country.findFirst({
@@ -95,7 +70,7 @@ export const schoolRouter = createTRPCRouter({
 
         country_id: country.id,
         state_id: state.id,
-        chancellor_id: ctx.session.user.id,
+        // chancellor_id: ctx.session.user.id,
       };
 
       // create school
@@ -104,18 +79,18 @@ export const schoolRouter = createTRPCRouter({
         where: (school, { eq }) => eq(school.name, input.name),
       });
 
-      // create user_school_role relationship
-      const role = await ctx.db.query.role.findFirst({
-        where: (role, { eq }) => eq(role.name, roles.chancellor),
-      });
+      // TODO: Integrate roles: create user_school_role relationship
+      // STEP 1: add roles via defaultDBValues script
+      // const role = await ctx.db.query.role.findFirst({
+      //   where: (role, { eq }) => eq(role.name, roles.chancellor),
+      // });
 
-      if (!role) throw new Error(`The chancellor role was not found`);
-
-      const userSchoolRole = {
-        user_id: ctx.session.user.id,
-        school_id: newSchoolData?.id ?? "",
-        role_id: role.id,
-      };
+      // if (!role) throw new Error(`The chancellor role was not found`);
+      // const userSchoolRole = {
+      //   user_id: ctx.session.user.id,
+      //   school_id: newSchoolData?.id ?? "",
+      //   role_id: role.id,
+      // };
 
       await ctx.db.insert(user_school_role).values(userSchoolRole);
 
