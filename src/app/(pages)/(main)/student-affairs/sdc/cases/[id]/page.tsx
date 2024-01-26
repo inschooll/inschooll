@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaRegEye } from "react-icons/fa";
 import { MdLockOutline } from "react-icons/md";
-import BreadCrumbs from '~/app/(pages)/[school]/_components/breadcrumbs';
 import { CriminalCaseTypeIcon } from '~/app/core/constants/icons';
 import images from '~/app/core/constants/images';
 import links from '~/app/core/constants/links';
@@ -9,15 +8,16 @@ import AvatarUsername from '~/components/avatar-username';
 import Button2 from '~/components/buttons/button2';
 import { T3 } from '~/components/texts/title';
 import CaseBody from './_components/body';
+import BreadCrumbs from '~/app/(pages)/(main)/_components/breadcrumbs';
 // import Navbar from '~/components/navbar';
 
-export default function CasePage({params}: {params: {school: string, id: string}, searchParams: Record<string, string>}) {
+export default function CasePage({params}: {params: {id: string}, searchParams: Record<string, string>}) {
   console.log(params);
   const breadCrumbData = {
-    "Student Affairs": links.studentAffairs(params.school),
-    SDC: links.sdc(params.school),
-    Cases: links.cases(params.school),
-    "A Case": links.aCase(params.school, params.id),
+    "Student Affairs": links.studentAffairs,
+    SDC: links.sdc,
+    Cases: links.cases,
+    "A Case": links.caseWithId(params.id),
   };
 
 

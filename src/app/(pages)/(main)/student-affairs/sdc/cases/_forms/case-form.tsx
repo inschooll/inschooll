@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UserTableNRDB } from "~/app/(pages)/[school]/_components/tables/user-tables";
+import { UserTableNRDB } from "~/app/(pages)/(main)/_components/tables/user-tables";
 import Button2 from "~/components/buttons/button2";
 import LabelDropdown from "~/components/inputs/label-dropdown";
 import LabelAndTextInputField from "~/components/inputs/label_text_input_field";

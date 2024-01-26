@@ -2,11 +2,11 @@ import links from "~/app/core/constants/links";
 import BreadCrumbsAndTitle from "../../../_components/breadcrumbs-and-title";
 import Body from "./_components/body";
 
-export default function CasesPage({ params }: { params: { school: string } }) {
+export default function CasesPage() {
   const breadCrumbData = {
-    "Student Affairs": links.studentAffairs(params.school),
-    SDC: links.sdc(params.school),
-    Cases: links.cases(params.school),
+    "Student Affairs": links.studentAffairs,
+    SDC: links.sdc,
+    Cases: links.cases,
   };
 
   return (

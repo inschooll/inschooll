@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { CaseTableTTBORD } from "~/app/(pages)/[school]/_components/tables/cases-tables";
+import { CaseTableTTBORD } from "~/app/(pages)/(main)/_components/tables/cases-tables";
 import Button from "~/components/buttons/button";
 import IconTextInputField from "~/components/inputs/icon_text_input_field";
 import CaseForm from "../_forms/case-form";

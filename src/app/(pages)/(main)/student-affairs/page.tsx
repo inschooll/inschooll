@@ -5,12 +5,8 @@ import { CaseTableTTO } from "../_components/tables/cases-tables";
 import Link from "next/link";
 import BreadCrumbsAndTitle from "../_components/breadcrumbs-and-title";
 
-export default function StudentAffairs({
-  params,
-}: {
-  params: { school: string };
-}) {
-  const breadCrumbData = {'Student Affairs': links.studentAffairs(params.school)};
+export default function StudentAffairs() {
+  const breadCrumbData = {'Student Affairs': links.studentAffairs};
 
   return (
     <main>
@@ -18,20 +14,21 @@ export default function StudentAffairs({
 
       {/* sdc, src, right side bar */}
       <div className="mt-12 grid grid-cols-12 gap-4 px-7">
-        <MainContent schoolName={params.school} />
+        {/* TODO: Extract school name from cookies */}
+        <MainContent />
         <RightSidebar />
       </div>
     </main>
   );
 }
 
-function MainContent({schoolName}: {schoolName: string}) {
+function MainContent() {
   return (
     <div className="col-span-8">
       {/* sdc & src box */}
       <div className="grid grid-cols-8 gap-4">
-        <SDCCard schoolName={schoolName} />
-        <SRCCard schoolName={schoolName} />
+        <SDCCard />
+        <SRCCard />
 
         {/* case summary */}
         <div className="col-span-8">
@@ -63,10 +60,10 @@ function RightSidebar() {
   );
 }
 
-function SDCCard({schoolName}: {schoolName: string}) {
+function SDCCard() {
   return (
     <div className="col-span-4">
-      <Link href={links.sdc(schoolName)}>
+      <Link href={links.sdc}>
         <div className="W-full app-hover h-48 cursor-pointer rounded-lg border border-cc-border-main px-5 py-4">
           <div className="flex h-full flex-col justify-between">
             <div>
@@ -91,10 +88,10 @@ function SDCCard({schoolName}: {schoolName: string}) {
   );
 }
 
-function SRCCard({schoolName}: {schoolName: string}) {
+function SRCCard() {
   return (
     <div className=" col-span-4">
-      <Link href={links.src(schoolName)}>
+      <Link href={links.src}>
         <div className="W-full app-hover h-48 cursor-pointer rounded-lg border border-cc-border-main bg-cc-border-main/20 px-5 py-4">
           <div className="flex h-full flex-col justify-between">
             <div>

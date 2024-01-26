@@ -11,12 +11,12 @@ import AppLogo from "~/components/app_logo";
 import ChangeThemeButtons from "~/components/navbar/change-theme-buttons";
 
 // export default function DashboardNavbar({params}: {params: {school: string}}) {
-export default function Sidebar({schoolName}: {schoolName: string}) {
+export default function Sidebar() {
   return (
     <nav className="w-64 overflow-auto border-r-[3px] border-cc-border-main bg-cc-background-sub shrink-0">
       <div className="flex justify-between py-2 pl-4 pr-1 ">
         {/* logo */}
-        <Link href={links.dashboard(schoolName)} data-testid="logo-button">
+        <Link href={links.dashboard} data-testid="logo-button">
           <AppLogo variance="sm" />
         </Link>
 
@@ -34,19 +34,19 @@ export default function Sidebar({schoolName}: {schoolName: string}) {
             <MenuCard 
               title="Dashboard"
               icon={<MdOutlineSpaceDashboard className="" size={20} />}
-              navigateTo={links.dashboard(schoolName)}
+              navigateTo={links.dashboard}
               />
             {/* school */}
             <MenuCard 
               title="School"
               icon={<LuSchool className="" size={20} />}
-              navigateTo={links.school(schoolName)}
+              navigateTo={links.school}
               />
             {/* sdc */}
             <MenuCard 
               title="Student Affairs"
               icon={<LuHeartHandshake className="" size={20} />}
-              navigateTo={links.studentAffairs(schoolName)}
+              navigateTo={links.studentAffairs}
             />
           </div>
         </div>

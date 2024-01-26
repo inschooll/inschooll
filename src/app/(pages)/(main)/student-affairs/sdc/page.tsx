@@ -10,7 +10,7 @@ export default function SDCCases({
 }: {
   params: { school: string };
 }) {
-  const breadCrumbData = {'Student Affairs': links.studentAffairs(params.school), 'SDC': links.sdc(params.school)};
+  const breadCrumbData = {'Student Affairs': links.studentAffairs, 'SDC': links.sdc};
   return (
     <main>
       <BreadCrumbsAndTitle title="SDC" breadCrumbData={breadCrumbData} />
@@ -29,8 +29,8 @@ function MainContent({schoolName}: {schoolName: string}) {
     <div className="col-span-8">
       {/* sdc & src box */}
       <div className="grid grid-cols-8 gap-4">
-        <CaseCard schoolName={schoolName} />
-        <EmptyCard schoolName={schoolName} />
+        <CaseCard />
+        <EmptyCard />
 
         {/* case summary */}
         <div className="col-span-8">
@@ -65,10 +65,10 @@ function RightSidebar() {
   );
 }
 
-function CaseCard({schoolName}: {schoolName: string}) {
+function CaseCard() {
   return (
     <div className="col-span-4">
-      <Link href={links.cases(schoolName)}>
+      <Link href={links.cases}>
         <div className="W-full app-hover h-48 cursor-pointer rounded-lg border border-cc-border-main px-5 py-4">
           <div className="flex h-full flex-col justify-between">
             <div>
@@ -93,10 +93,10 @@ function CaseCard({schoolName}: {schoolName: string}) {
   );
 }
 
-function EmptyCard({schoolName}: {schoolName: string}) {
+function EmptyCard() {
   return (
     <div className=" col-span-4">
-      <Link href={links.src(schoolName)}>
+      <Link href={links.src}>
         <div className="W-full app-hover h-48 cursor-pointer rounded-lg border border-cc-border-main bg-cc-border-main/20 px-5 py-4">
           <div className="flex h-full flex-col justify-between">
             <div>

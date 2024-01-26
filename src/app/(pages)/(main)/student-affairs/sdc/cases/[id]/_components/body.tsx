@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { UserTableNRDP, UserTableNRDSPA } from "~/app/(pages)/[school]/_components/tables/user-tables";
+import { UserTableNRDP, UserTableNRDSPA } from "~/app/(pages)/(main)/_components/tables/user-tables";
 import { Avatar } from "~/components/avatar-username";
 import Button2 from "~/components/buttons/button2";
 import Input from "~/components/inputs/input";

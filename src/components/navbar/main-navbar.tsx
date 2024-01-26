@@ -3,7 +3,7 @@ import AppLogo from "../app_logo";
 import links from "~/app/core/constants/links";
 import ChangeThemeButtons from "./change-theme-buttons";
 
-export default function MainNavbar({schoolName}: {schoolName: string}) {
+export default function MainNavbar() {
   
   return (
     <nav>
@@ -12,7 +12,7 @@ export default function MainNavbar({schoolName}: {schoolName: string}) {
 
           <div className="flex items-center justify-between">
             {/* logo */}
-            <Link href={links.dashboard(schoolName)} data-testid="logo-button">
+            <Link href={links.dashboard} data-testid="logo-button">
               <AppLogo variance="sm" />
             </Link>
 

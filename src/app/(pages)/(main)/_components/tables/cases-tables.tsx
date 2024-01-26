@@ -54,7 +54,7 @@ export function CaseTableTTBORD() {
       {/* Body */}
       <div>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((item) => (
-          <Link href={links.aCase('bhu', `${item}`)} key={item}>
+          <Link href={links.caseWithId(`${item}`)} key={item}>
             <div
               key={item}
               className="col grid h-12 grid-cols-12 items-center border-x border-b border-cc-border-main px-5 app-hover"
