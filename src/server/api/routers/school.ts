@@ -92,7 +92,7 @@ export const schoolRouter = createTRPCRouter({
       //   role_id: role.id,
       // };
 
-      await ctx.db.insert(user_school_role).values(userSchoolRole);
+      // await ctx.db.insert(user_school_role).values(userSchoolRole);
 
       // return new school
       return newSchool.insertId;

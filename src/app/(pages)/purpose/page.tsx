@@ -8,14 +8,16 @@ export default function Purpose() {
     <>
       <TopNavbar />
 
-      <main className="p-5 sm:p-0 sm:mx-10 lg:mx-20 h-full">
-        <div className="sm:w-96 my-2 mx-auto h-full translate-y-[10%]">
-          <h1 className="text-center font-bold text-2xl sm:text-3xl">
-            Which option best describes you?
-          </h1>
+      <main className="p-5 sm:p-0 lg:mx-20 h-screen">
+        <div className="flex flex-col justify-center items-center h-full">
+          <div className="sm:w-96 -translate-y-[20%] py-10">
+            <h1 className="text-center font-bold text-2xl sm:text-3xl">
+              Which option best describes you?
+            </h1>
 
-          <PurposeBody />
+            <PurposeBody />
 
+          </div>
         </div>
       </main>
     </>
