@@ -9,7 +9,6 @@ const AppLogo = ({ variance = "md" }: { variance?: varianceType }) => {
   return (
     <div className="flex items-center gap-2 text-xl font-medium sm:text-2xl">
       <div className="w-5 sm:w-7">
-        {/* <Image src={images.logo} alt={`${constants.appName} logo`} width={30} height={30} data-testid='app-logo' className='' />  */}
         <svg
           width={sizes?.svgWidth}
           height={sizes?.svgHeight}
