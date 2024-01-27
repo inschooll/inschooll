@@ -18,7 +18,7 @@ export default function CaseBody() {
 
       {selectedIndex === 0 && <Body />}
       {selectedIndex === 1 && <Comments />}
-      {selectedIndex === 2 && <Verdict />}
+      {selectedIndex === 2 && <Verdict />};
     </>
   );
 } 
