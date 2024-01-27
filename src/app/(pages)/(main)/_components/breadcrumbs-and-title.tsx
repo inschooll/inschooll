@@ -6,9 +6,7 @@ export default function BreadCrumbsAndTitle({ title, breadCrumbData }: { title: 
   return (
     <>
       {/* Bread crumbs */}
-      <div className="px-2">
-        <BreadCrumbs patterns={breadCrumbData} />
-      </div>
+      <BreadCrumbs patterns={breadCrumbData} />
 
       <div className="px-7">
         {/* Title */}
