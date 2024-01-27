@@ -4,7 +4,7 @@ import PopupLayout from "../_forms/_components/popup-layout";
 import LabelDropdown, { LabelCalendarDropdownButton } from "~/components/inputs/label-dropdown";
 import LabelTextareaField from "~/components/inputs/label_textarea_field";
 import Button2 from "~/components/buttons/button2";
-import { UserTableNRDB } from "~/app/(pages)/[school]/_components/tables/user-tables";
+import { UserTableNRDB } from "~/app/(pages)/(main)/_components/tables/user-tables";
 import { T6 } from "~/components/texts/title";
 import { SearchInputField } from "../_components/body";
 import MemoForm from "./memo-form";
@@ -23,7 +23,7 @@ export default function ScheduleHearingForm({showPopup, setShowPopup} : {showPop
       <PopupLayout title="Schedule Hearing" submitButtonText="Create" setShowPopup={setShowPopup} showPopup={showPopup}>
         <>
           <div className="md:w-72 grid gap-3">
-            <LabelDropdown label="Number of Cases" options={numOfCasesOptions} defaultSelectedOptionIndex={0} />
+            <LabelDropdown label="Number of Cases" options={numOfCasesOptions} defaultSelectedOptionIndex={0} updateSelected={(i) => console.log(i)} />
             <LabelCalendarDropdownButton label="Date of Hearing" />
           </div>
           {/* calendar */}
