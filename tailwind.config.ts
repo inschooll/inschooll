@@ -68,16 +68,43 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "rgb(var(--primary) / <alpha-value>)",
+          foreground: "rgb(var(--primary-foreground) / <alpha-value>)",
+          hover: "rgb(var(--primary-hover) / <alpha-value>)",
+          stroke: {
+            DEFAULT:  "rgb(var(--primary-stroke) / <alpha-value>)",
+            hover: "rgb(var(--primary-stroke-hover) / <alpha-value>)",
+          }
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "rgb(var(--secondary) / <alpha-value>)",
+          foreground: "rgb(var(--secondary-foreground) / <alpha-value>)",
+          hover: "rgb(var(--secondary-hover) / <alpha-value>)",
+          stroke: {
+            DEFAULT:  "rgb(var(--secondary-stroke) / <alpha-value>)",
+            hover: "rgb(var(--secondary-stroke-hover) / <alpha-value>)",
+          }
+        },
+        tertiary: {
+          DEFAULT: "rgb(var(--tertiary) / <alpha-value>)",
+          foreground: "rgb(var(--tertiary-foreground) / <alpha-value>)",
+          hover: "rgb(var(--tertiary-hover) / <alpha-value>)",
+          stroke: {
+            DEFAULT:  "rgb(var(--tertiary-stroke) / <alpha-value>)",
+            hover: "rgb(var(--tertiary-stroke-hover) / <alpha-value>)",
+          }
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "rgb(var(--destructive) / <alpha-value>)",
+          foreground: {
+            DEFAULT: "rgb(var(--destructive-foreground) / <alpha-value>)",
+            hover: "rgb(var(--destructive-foreground-hover) / <alpha-value>)",
+          },
+          hover: "rgb(var(--destructive-hover) / <alpha-value>)",
+          stroke: {
+            DEFAULT:  "rgb(var(--destructive-stroke) / <alpha-value>)",
+            hover: "rgb(var(--destructive-stroke-hover) / <alpha-value>)",
+          }
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",

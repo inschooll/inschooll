@@ -31,11 +31,30 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 84 160 255;
+    --primary-hover: 72 141 228;
+    --primary-foreground: 255 255 255;
+    --primary-stroke: 84 160 255;
+    --primary-stroke-hover: 44 120 195;
+    
+    --secondary: 246 248 250;
+    --secondary-hover: 232 235 237;
+    --secondary-foreground: 00 00 00;
+    --secondary-stroke: 214 214 214;
+    --secondary-stroke-hover: 168 168 168;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --tertiary: 31 136 6;
+    --tertiary-hover: 11 116 41;
+    --tertiary-foreground: 255 255 255;
+    --tertiary-stroke: 34 130 62;
+    --tertiary-stroke-hover: 4 100 32;
+    
+    --destructive: 246 248 250;
+    --destructive-hover: 232 235 237;
+    --destructive-foreground: 208 34 46;
+    --destructive-foreground-hover: 208 34 46;
+    --destructive-stroke: 214 214 214;
+    --destructive-stroke-hover: 168 168 168;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -70,34 +89,45 @@
     --color-sidebar-selected-bg-hover: 246 248 250;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+  /* dark mode - same with the below */
+  :root[data-theme="dark"] {
+    --primary: 64 140 235;
+    --primary-hover: 84 160 255;
+    --primary-foreground: 255 255 255;
+    --primary-stroke: 44 120 195;
+    --primary-stroke-hover: 84 214 255;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --secondary: 33 38 45;
+    --secondary-hover: 48 54 61;
+    --secondary-foreground: 255 255 255;
+    --secondary-stroke: 45 50 57;
+    --secondary-stroke-hover: 139 148 158;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --destructive: 33 38 45;
+    --destructive-hover: 218 54 51;
+    --destructive-foreground: 208 34 46;
+    --destructive-foreground-hover: 255 255 255;
+    --destructive-stroke: 45 50 57;
+    --destructive-stroke-hover: 244 77 70;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    
+    --tertiary: 35 134 54;
+    --tertiary-hover: 46 160 67;
+    --tertiary-foreground: 255 255 255;
+    --tertiary-stroke: 55 145 74;
+    --tertiary-stroke-hover: 65 169 86;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --color-bkg: 27 30 33;
+    --color-bkg-compliment: 24 27 30;
+    --color-content-main: 255 255 255;
+    --color-content-sub: 245 245 245;
+    --color-border: 40 46 52;
+    --color-input-bg: 43 45 49;
+    --color-input-text: 255 255 255;
+    --color-scrollbar: 73 74 78;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --color-sidebar-selected-bg: 34 40 46;
+    --color-sidebar-selected-bg-hover: 41 47 54;
   }
 
   /* light mode - same with the above */
@@ -117,22 +147,8 @@
     --color-sidebar-selected-bg: 246 248 250;
     --color-sidebar-selected-bg-hover: 246 248 250;
   }
-  /* dark mode - same with the below */
-  :root[data-theme="dark"] {
-    --color-bkg: 27 30 33;
-    --color-bkg-compliment: 24 27 30;
-    --color-content-main: 255 255 255;
-    --color-content-sub: 245 245 245;
-    --color-border: 40 46 52;
-    --color-input-bg: 43 45 49;
-    --color-input-text: 255 255 255;
-    --color-scrollbar: 73 74 78;
 
-    --color-sidebar-selected-bg: 34 40 46;
-    --color-sidebar-selected-bg-hover: 41 47 54;
-  }
-  @media (prefers-color-scheme: dark) {
-    /* same with the above dark mode */
+  /* @media (prefers-color-scheme: dark) {
     :root {
       --color-bkg: 27 30 33;
       --color-bkg-compliment: 24 27 30;
@@ -146,7 +162,7 @@
       --color-sidebar-selected-bg: 34 40 46;
       --color-sidebar-selected-bg-hover: 41 47 54;
     }
-  }
+  } */
 }
 
 @layer base {
