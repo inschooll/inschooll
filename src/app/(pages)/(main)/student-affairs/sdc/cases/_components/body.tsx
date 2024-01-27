@@ -8,6 +8,8 @@ import IconTextInputField from "~/components/inputs/icon_text_input_field";
 import CaseForm from "../_forms/case-form";
 import ScheduleHearingForm from "../_forms/schedule-hearing-form";
 import Navbar from "~/components/navbar";
+import links from "~/app/core/constants/links";
+import { useSearchParams } from "next/navigation";
 
 export function SearchInputField({ onChange, placeholder="Search" } : {onChange: (v: string) => void, placeholder?: string}) {
   return (
@@ -16,10 +18,12 @@ export function SearchInputField({ onChange, placeholder="Search" } : {onChange:
 }
 
 export default function Body() {
+  const searchParams = useSearchParams();
+  const q = searchParams.get('q') ?? undefined;
+  console.log(q);
   const [showCreateCaseForm, setShowCreateCaseForm] = useState(false);
   const [showScheduleHearingForm, setShowScheduleHearingForm] = useState(false);
-  const navItems = ["Scheduled Hearing", "Open Cases", "Closed Cases"].map(item => ({text: item})); // rs. [{text: 'Scheduled Hearing'}, ...]
-  const [, setSelectedNavItemIndex] = useState(1);
+  const navItems = [{text: 'Cases', href: links.cases}, {text: "Closed", href:  "?q=closed-cases"}]; // rs. [{text: 'Scheduled Hearing'}, ...]
 
   return (
     <>
@@ -27,7 +31,7 @@ export default function Body() {
       <ScheduleHearingForm showPopup={showScheduleHearingForm} setShowPopup={setShowScheduleHearingForm} />
 
       <div>
-        <Navbar navItems={navItems} defaultSelected={1} updateSelected={setSelectedNavItemIndex} ulClassName="px-7" />
+        <Navbar navItems={navItems} selectedTab={q} ulClassName="px-7" />
       </div>
       
       <div className="flex items-center border-b border-cc-border-main justify-between px-7 py-[10px]">

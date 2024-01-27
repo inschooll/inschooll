@@ -1,32 +1,51 @@
-"use client";
-import { useState } from "react";
+import Link from "next/link";
+import { cn } from "~/lib/utils";
 
-type navItemType = {icon?: string, text: string}[];
+type navItemType = {icon?: string; text: string, href: string }[];
 
-export default function Navbar({navItems, defaultSelected=0, updateSelected, ulClassName=''} : {navItems: navItemType, defaultSelected?: number, ulClassName?: string, updateSelected: (index: number) => void}) {
-  const [selectedIndex, setSelectedIndex] = useState(defaultSelected);
+/**
+ * navItems[i].href and selectedTab are compared to know which navItem is selected.
+ * ex
+ * navItems.href = '/q=about'
+ * selectedTab = 'about'
+ * 
+ */
+type NavbarProps = {
+  navItems: {icon?: string; text: string, href: string }[];
+  ulClassName?: string;
+  selectedTab: string | undefined;  // expect e.g 'home' or 'about' or undefined (this should mean we are at the 1st navItem)
+};
 
-  const update = (index: number) => {
-    setSelectedIndex(index);
-    updateSelected(index);
-  }
+export default function Navbar(props: NavbarProps) {
+  const NavItem = ({ index, item }: { index: number; item: navItemType[0] }) => {
+    const href = item.href.substring(3,); // ?q=about -> about
+    const isSelected = (props.selectedTab === undefined && index === 0) || (props.selectedTab === href);
 
-  function NavItem({index, item} : {index: number, item: navItemType[0]}) {
     return (
-      <div className='relative'>
-        {selectedIndex === index && (<span className="absolute w-full h-[.2rem] bg-cc-primary bottom-0 rounded-t" />)}
-        {item?.icon}
-        <div className={`cursor-pointer font-medium ${selectedIndex === index ? "text-cc-content-sub" : "text-cc-content-sub/50"}`}>
-          <li className={`hover:app-hover px-2 py-0.5 mb-1.5 rounded-md`} onClick={() => update(index)}>{item.text}</li>
-        </div>
-      </div>
+      <Link href={item.href} className="relative">
+          {isSelected && (
+            <span className="absolute bottom-0 h-[.2rem] w-full rounded-t bg-cc-primary" />
+          )}
+          {item?.icon}
+          <div
+            className={`cursor-pointer font-medium ${isSelected ? "text-cc-content-sub" : "text-cc-content-sub/50"}`}
+          >
+            <li
+              className={`hover:app-hover mb-1.5 rounded-md px-2 py-0.5`}
+            >
+              {item.text}
+            </li>
+          </div>
+      </Link>
     );
   }
 
   return (
     <nav className="block border-b border-cc-border-main">
-      <ul className={`flex justify-stretch gap-2 ${ulClassName}`}>
-        {navItems?.map((item, index) => (<NavItem index={index} item={item} key={index} />))}
+      <ul className={cn("flex justify-stretch gap-2", props.ulClassName)}>
+        {props.navItems?.map((item, index) => (
+          <NavItem index={index} item={item} key={index} />
+        ))}
       </ul>
     </nav>
   );

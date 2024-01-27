@@ -7,25 +7,34 @@ import links from '~/app/core/constants/links';
 import AvatarUsername from '~/components/avatar-username';
 import Button2 from '~/components/buttons/button2';
 import { T3 } from '~/components/texts/title';
-import CaseBody from './_components/body';
+import Body from './_components/body';
 import BreadCrumbs from '~/app/(pages)/(main)/_components/breadcrumbs';
+import Navbar from '~/components/navbar';
+import Comments from './_components/comments';
+import Verdict from './_components/verdict';
 // import Navbar from '~/components/navbar';
 
-export default function CasePage({params}: {params: {id: string}, searchParams: Record<string, string>}) {
-  console.log(params);
+export default function CasePage(props: {params: {id: string}, searchParams: {q?: string}}) {
+  const { id } = props.params;
+  const { q } = props.searchParams;
+  console.log('id', id);
+  console.log('q', q);
+
+  console.log(props);
+
   const breadCrumbData = {
     "Student Affairs": links.studentAffairs,
     SDC: links.sdc,
     Cases: links.cases,
-    "A Case": links.caseWithId(params.id),
+    "🧑‍⚖️ case": links.caseWithId(id),
   };
 
-
+  const navItems = [{text: 'Body', href: links.caseWithId(id)}, {text: "Comments", href:  "?q=comments"}, {text: "Verdict", href: "?q=verdict"}];
 
   return (
     <>
       {/* Breadcumbs and views */}
-      <div className="flex justify-between pl-2 pr-10">
+      <div className="flex justify-between pr-10">
         <BreadCrumbs patterns={breadCrumbData} />
 
         <div className='flex items-center gap-2'>
@@ -65,7 +74,11 @@ export default function CasePage({params}: {params: {id: string}, searchParams: 
       </div>
 
       <div className="mt-5">
-        <CaseBody />
+        <Navbar navItems={navItems} selectedTab={q} />
+
+        {q === undefined && <Body />}
+        {q === navItems[1]!.href.slice(3,) && <Comments />}
+        {q === navItems[2]!.href.slice(3,) && <Verdict />}
       </div>
     </div>
     </>
