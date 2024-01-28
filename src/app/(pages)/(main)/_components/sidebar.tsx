@@ -1,7 +1,7 @@
 import images from "~/app/core/constants/images";
 import Image from "next/image";
 import { BsThreeDots } from "react-icons/bs";
-import MenuCard from "./menu-card";
+import SidebarButton from "../../../../components/sidebar-button";
 import links from "~/app/core/constants/links";
 import { LuSchool } from "react-icons/lu";
 import { LuHeartHandshake } from "react-icons/lu";
@@ -17,7 +17,7 @@ export default function Sidebar() {
       <div className="flex justify-between py-2 pl-4 pr-1 ">
         {/* logo */}
         <Link href={links.dashboard} data-testid="logo-button">
-          <AppLogo variance="sm" />
+          <AppLogo size="sm" />
         </Link>
 
         {/* Buttons to toggle Light mode and dark mode */}
@@ -31,19 +31,19 @@ export default function Sidebar() {
         <div>
           <div className="mt-2 flex flex-col gap-2">
             {/* dashboard */}
-            <MenuCard 
+            <SidebarButton 
               title="Dashboard"
               icon={<MdOutlineSpaceDashboard className="" size={20} />}
               navigateTo={links.dashboard}
               />
             {/* school */}
-            <MenuCard 
+            <SidebarButton 
               title="School"
               icon={<LuSchool className="" size={20} />}
               navigateTo={links.school}
               />
             {/* sdc */}
-            <MenuCard 
+            <SidebarButton 
               title="Student Affairs"
               icon={<LuHeartHandshake className="" size={20} />}
               navigateTo={links.studentAffairs}
