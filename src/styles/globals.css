@@ -16,7 +16,7 @@
     @apply transition duration-200
   }
   .dropdown-button {
-    @apply flex w-full cursor-pointer items-center justify-between rounded border hover:border-cc-content-main/30 border-cc-border-main px-4 py-2 hover:bg-cc-content-main/5 transition duration-200;
+    @apply flex w-full cursor-pointer items-center justify-between rounded border hover:border-cc-content-main/10 border-cc-border-main px-4 py-[.425rem] hover:bg-cc-content-main/5 transition duration-200;
   }
 }
 
@@ -71,8 +71,8 @@
 
     --radius: 0.5rem;
 
-    --color-bkg: 250 250 250;
-    --color-bkg-compliment: 255 255 255;
+    --color-bkg: 255 255 255;
+    --color-bkg-compliment: 250 250 250;
     --color-content-main: 12 12 12;
     --color-content-sub: 45 45 45;
     --color-primary: 85 161 255;
@@ -132,8 +132,8 @@
 
   /* light mode - same with the above */
   :root[data-theme="light"] {
-    --color-bkg: 250 250 250;
-    --color-bkg-compliment: 255 255 255;
+    --color-bkg: 255 255 255;
+    --color-bkg-compliment: 250 250 250;
     --color-content-main: 12 12 12;
     --color-content-sub: 45 45 45;
     --color-primary: 85 161 255;
