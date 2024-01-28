@@ -1,23 +1,20 @@
-'use client';
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
 import { cn } from "~/lib/utils";
 
 type SidebarButtonProps = {
   title: string;
   icon: React.ReactNode;
-  navigateTo: string;
+  href: string;
+  isSelected: boolean;
 };
 
 export default function SidebarButton({
   title,
   icon,
-  navigateTo,
+  href,
+  isSelected, 
 }: SidebarButtonProps) {
-  const pathname = usePathname();
-  const isSelected = pathname.includes(navigateTo);
 
   const textStyle = isSelected ? "text-cc-primary" : "text-cc-content-main/60";
   const iconStyle = isSelected ? "text-cc-primary" : "text-cc-content-main/50";
@@ -34,7 +31,7 @@ export default function SidebarButton({
   })
   
   return (
-    <Link href={navigateTo}>
+    <Link href={href}>
       <div
         className={cn("relative flex cursor-pointer text-cc-primary items-center gap-3 rounded-md px-3 py-2 hover:bg-cc-sidebar-bg-hover transition-all duration-200", bgStyle)}
       >
