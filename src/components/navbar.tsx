@@ -12,6 +12,7 @@ type navItemType = {icon?: string; text: string, href: string }[];
  */
 type NavbarProps = {
   navItems: {icon?: string; text: string, href: string }[];
+  className?: string;
   ulClassName?: string;
   selectedTab: string | undefined;  // expect e.g 'home' or 'about' or undefined (this should mean we are at the 1st navItem)
 };
@@ -41,8 +42,8 @@ export default function Navbar(props: NavbarProps) {
   }
 
   return (
-    <nav className="block border-b border-cc-border-main">
-      <ul className={cn("flex justify-stretch gap-2", props.ulClassName)}>
+    <nav className={cn("block border-b border-cc-border-main", props.className)}>
+      <ul className={cn("flex justify-stretch gap-4", props.ulClassName)}>
         {props.navItems?.map((item, index) => (
           <NavItem index={index} item={item} key={index} />
         ))}
