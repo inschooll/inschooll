@@ -13,7 +13,7 @@ export default function MainNavbar() {
           <div className="flex items-center justify-between">
             {/* logo */}
             <Link href={links.dashboard} data-testid="logo-button">
-              <AppLogo variance="sm" />
+              <AppLogo size="sm" />
             </Link>
 
             {/* Buttons to toggle Light mode and dark mode */}

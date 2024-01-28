@@ -1,13 +1,21 @@
 import { Gabarito } from "next/font/google";
+import { cn } from "~/lib/utils";
 
 const gabarito = Gabarito({ subsets: ["latin"] });
 
-type varianceType = "sm" | "md" | "lg";
+type TSize = "sm" | "md" | "lg";
 
-const AppLogo = ({ variance = "md" }: { variance?: varianceType }) => {
-  const sizes = getSizes(variance)
+type AppLogoProps = { size?: TSize; showAppName?: boolean; className?: string };
+
+const AppLogo = ({ size = "md", showAppName = true, className }: AppLogoProps) => {
+  const sizes = getSizes(size);
   return (
-    <div className="flex items-center gap-2 text-xl font-medium sm:text-2xl">
+    <div
+      className={cn(
+        "flex items-center gap-2 text-xl font-medium sm:text-2xl",
+        className,
+      )}
+    >
       <div className="w-5 sm:w-7">
         <svg
           width={sizes?.svgWidth}
@@ -81,22 +89,24 @@ const AppLogo = ({ variance = "md" }: { variance?: varianceType }) => {
           </defs>
         </svg>
       </div>
-      <p className={`${sizes.fontSize} ${gabarito.className}`}>Inschool</p>
+      {showAppName && (
+        <p className={cn(sizes.fontSize, gabarito.className)}>Inschool</p>
+      )}
     </div>
   );
 };
 
 export default AppLogo;
 
-function getSizes(variance: varianceType) {
-  switch (variance) {
+function getSizes(size: TSize) {
+  switch (size) {
     case "sm":
-      return {svgHeight: "25", svgWidth: "28", fontSize: "text-xl"}  
+      return { svgHeight: "25", svgWidth: "28", fontSize: "text-xl" };
     case "md":
-      return {svgHeight: "28", svgWidth: "31", fontSize: ""}  
+      return { svgHeight: "28", svgWidth: "31", fontSize: "" };
     case "lg":
-      return {svgHeight: "30", svgWidth: "34", fontSize: ""}  
+      return { svgHeight: "30", svgWidth: "34", fontSize: "" };
     default:
-      return {svgHeight: "35", svgWidth: "39", fontSize: ""}  
+      return { svgHeight: "35", svgWidth: "39", fontSize: "" };
   }
 }
