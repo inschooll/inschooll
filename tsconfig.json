@@ -30,6 +30,6 @@
     "**/*.cjs",
     "**/*.mjs",
     ".next/types/**/*.ts"
-  ],
+, ".next/types/app/(pages)/back-office/page.tss"  ],
   "exclude": ["node_modules"]
 }
