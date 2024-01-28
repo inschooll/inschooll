@@ -19,7 +19,7 @@ export default function Layout({ children, params }: LayoutProps) {
 
       <div className="flex h-full bg-cc-background-sub justify-stretch">
         {/* Left navbar */}
-        <Sidebar />
+        <Sidebar className="hidden lg:block" />
 
         <div className="flex-grow overflow-auto pb-2">
           {children}
