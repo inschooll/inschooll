@@ -23,7 +23,8 @@ export default function Body() {
   console.log(q);
   const [showCreateCaseForm, setShowCreateCaseForm] = useState(false);
   const [showScheduleHearingForm, setShowScheduleHearingForm] = useState(false);
-  const navItems = [{text: 'Cases', href: links.cases}, {text: "Closed", href:  "?q=closed-cases"}]; // rs. [{text: 'Scheduled Hearing'}, ...]
+  const navItems = [{text: 'Cases', href: links.cases}, {text: "Closed", href:  links.casesClosed}]; // rs. [{text: 'Scheduled Hearing'}, ...]
+  
 
   return (
     <>
@@ -31,7 +32,7 @@ export default function Body() {
       <ScheduleHearingForm showPopup={showScheduleHearingForm} setShowPopup={setShowScheduleHearingForm} />
 
       <div>
-        <Navbar navItems={navItems} selectedTab={q} ulClassName="px-7" />
+        <Navbar navItems={navItems} ulClassName="px-7" />
       </div>
       
       <div className="flex items-center border-b border-cc-border-main justify-between px-7 py-[10px]">
