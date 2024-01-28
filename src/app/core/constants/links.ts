@@ -8,6 +8,7 @@ const pickSchool = '/pick-university';
 const createSchool = '/create-school';
 const dashboard = "/dashboard";
 const school = "/school";
+const backOffice = "/back-office";
 const studentAffairs = "/student-affairs";
 const sdc = "/student-affairs/sdc";
 const src = "/student-affairs/src";
@@ -24,6 +25,7 @@ export default {
   createSchool,
   dashboard,
   school,
+  backOffice,
   studentAffairs,
   sdc,
   src,
