@@ -1,9 +1,12 @@
+'use client';
+
 import React, { type InputHTMLAttributes, type DetailedHTMLProps } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { AiFillExclamationCircle } from "react-icons/ai";
 import { MinMaxContainer } from "./label_textarea_field";
 import Label from "./label";
 import { useFormContext } from 'react-hook-form';
+import { cn } from "~/lib/utils";
 
 export type InputProps = {
   label?: string;
@@ -20,7 +23,6 @@ export default function Input({
   // adds right padding when a ✅ icon or 🔃 icon is shown on the rhs of the input field
   let padRight = "";
   if (props.isValid != undefined && props.isLoading != undefined) padRight = "pr-8";
-  // const { register, formState: {errors} } = useFormContext();
   const methods = useFormContext();
 
   return (
@@ -34,10 +36,10 @@ export default function Input({
       {/* input */}
       <div className="relative">
         <input
-          alt={props.isValid === false ? "invalid" : undefined}
-          className={`focus:border-1 h-10 w-full rounded border-2 border-cc-border-main bg-cc-input-bg px-2 text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 focus:border-cc-primary-main ${padRight}`}
-          {...methods?.register(props.name!) }
           {...props}
+          alt={props.isValid === false ? "invalid" : undefined}
+          className={cn('focus:border-1 py-1.5 rounded-md border-2 border-cc-border-main bg-cc-input-bg px-2 text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 focus:border-cc-primary-main ', padRight, props.className)}
+          {...methods?.register(props.name!) }
         />
         
         {/* isLoading */}
@@ -78,7 +80,7 @@ export default function Input({
 export const InputLabel = ({label, ...props}: {label: string} & Omit<InputProps, 'label'>) => {
   return (
     <div
-      className={`pb-1 ${
+      className={`pb-1.5 ${
         props.minLength ?? props.maxLength
           ? "flex items-center justify-between"
           : ""}`
