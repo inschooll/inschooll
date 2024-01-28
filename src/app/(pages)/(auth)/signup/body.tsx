@@ -2,21 +2,20 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import constants, { type monthsType } from "~/app/core/constants/constants";
-import Button from "~/components/buttons/button";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { countries_data } from "scripts/data/countries_data";
+import { z } from "zod";
 import images from "~/app/core/constants/images";
+import InfoBox from "~/components/cards/InfoBox";
 import DropdownButton from "~/components/inputs/dropdown-button";
-import Input, { InputErrorMessage } from "~/components/inputs/input";
+import Input from "~/components/inputs/input";
 import Label from "~/components/inputs/label";
 import { usePopUpStore } from "~/components/popups/popup_store";
 import { isFebruaryAndLeapYear, useHandleError } from "~/core/utils-client";
 import { SignupSchema, type TSignupSchema } from "~/lib/types";
 import { api } from "~/trpc/react";
-import { z } from "zod";
-import InfoBox from "~/components/cards/InfoBox";
+import { Button } from "~/components/ui/button";
 
 
 export default function FormBody({
@@ -154,6 +153,8 @@ export default function FormBody({
           {/* first name */}
           <div className="col-span-1">
             <Input
+              className="w-full"
+
               label="first name"
               name="firstName"
               placeholder="First name"
@@ -163,6 +164,8 @@ export default function FormBody({
 
           <div className="col-span-1">
             <Input
+              className="w-full"
+
               label="last name"
               name="lastName"
               placeholder="Enter your last name..."
@@ -172,6 +175,8 @@ export default function FormBody({
           {/* username */}
           <div className="col-span-2">
             <Input
+              className="w-full"
+
               label="username"
               name="username"
               isLoading={usernameIsLoading}
@@ -183,6 +188,8 @@ export default function FormBody({
           {/* email */}
           <div className="col-span-2">
             <Input
+              className="w-full"
+
               label="email"
               name="email"
               isLoading={emailIsLoading}
@@ -198,6 +205,8 @@ export default function FormBody({
           {/* password, confirm password */}
           <div className="col-span-1">
             <Input
+              className="w-full"
+
               label="password"
               name="password"
               type="password"
@@ -207,6 +216,8 @@ export default function FormBody({
 
           <div className="col-span-1">
             <Input
+              className="w-full"
+
               label="confirm password"
               name="confirmPassword"
               type="text"
@@ -268,6 +279,8 @@ export default function FormBody({
           {/* phone */}
           <div className="col-span-3">
               <Input
+              className="w-full"
+
                 name="phoneNumber"
                 type="text"
                 label="Phone number"
@@ -365,11 +378,13 @@ export default function FormBody({
           {/* sign up button */}
           <div className="mt-2">
             <Button
-              variant={"defaultFull"}
-              size={"md"}
+              variant={"default"}
+              size={"default"}
               type="submit"
+              className="w-full rounded"
               disabled={usernameIsLoading || emailIsLoading}
-              isLoading={isLoading && !isError}
+              // TODO: Integrate loading in shadcn button
+              // isLoading={isLoading && !isError}
             >
               Sign up
             </Button>
