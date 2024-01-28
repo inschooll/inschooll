@@ -1,98 +1,30 @@
-import React from 'react';
-import { FaRegEye } from "react-icons/fa";
-import { MdLockOutline } from "react-icons/md";
-import { CriminalCaseTypeIcon } from '~/app/core/constants/icons';
-import images from '~/app/core/constants/images';
-import links from '~/app/core/constants/links';
-import AvatarUsername from '~/components/avatar-username';
-import Button2 from '~/components/buttons/button2';
-import { T3 } from '~/components/texts/title';
-import Body from './_components/body';
-import BreadCrumbs from '~/app/(pages)/(main)/_components/breadcrumbs';
-import Navbar from '~/components/navbar';
-import Comments from './_components/comments';
-import Verdict from './_components/verdict';
-// import Navbar from '~/components/navbar';
+import { UserTableNRDP, UserTableNRDSPA } from "~/app/(pages)/(main)/_components/tables/user-tables";
+import { T6 } from "~/components/texts/title";
 
-export default function CasePage(props: {params: {id: string}, searchParams: {q?: string}}) {
-  const { id } = props.params;
-  const { q } = props.searchParams;
-  console.log('id', id);
-  console.log('q', q);
-
-  console.log(props);
-
-  const breadCrumbData = {
-    "Student Affairs": links.studentAffairs,
-    SDC: links.sdc,
-    Cases: links.cases,
-    "🧑‍⚖️ case": links.caseWithId(id),
-  };
-
-  const navItems = [{text: 'Body', href: links.caseWithId(id)}, {text: "Comments", href:  "?q=comments"}, {text: "Verdict", href: "?q=verdict"}];
-
-  return (
-    <>
-      {/* Breadcumbs and views */}
-      <div className="flex justify-between pr-10">
-        <BreadCrumbs patterns={breadCrumbData} />
-
-        <div className='flex items-center gap-2'>
-          <FaRegEye className='text-cc-content-main/80' />
-          <p className='text-cc-content-main/80 pb-[1px]'>54 views</p>  
-        </div>
+export default function Body() {
+  return(
+    <div className="mt-5">
+      {/* Description */}
+      <div className="px-12 pt-10 pb-14 bg-black rounded-2xl">
+        <T6 color="text-white">What Happened?</T6>
+        <p className="text-white mt-5 text-[17px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, ad non recusandae voluptatem minus enim corrupti. Et sed incidunt delectus debitis ullam deserunt, consequatur veritatis voluptates consectetur, earum possimus numquam vero placeat sequi unde eius. Doloremque repellendus, quasi molestias recusandae, non corporis enim ratione doloribus vel unde aspernatur illo quos iusto modi, veniam laborum dolor! Voluptates rerum alias, architecto aliquam quidem perspiciatis tempora amet aperiam ipsam quis sequi voluptatem ea qui, sunt sit nemo, repudiandae soluta unde fugiat molestias voluptas atque? Blanditiis, quisquam? Nobis, officiis. Perspiciatis et nihil eos quis perferendis dicta sapiente dolorum, laborum, sunt provident impedit possimus minus, tempora aut. Rem voluptas, sint eos porro neque totam inventore cupiditate incidunt officia laboriosam. 
+          
+        illum distinctio harum! Veniam laboriosam at esse et corporis mollitia explicabo ab expedita saepe voluptas? Eius earum a mollitia sed corrupti saepe soluta! Pariatur quo ea veniam consequuntur explicabo assumenda sequi? Harum architecto vitae illo assumenda velit eum quae quos tempora excepturi consequuntur non neque quas, cumque nemo! Voluptatum quisquam minima ut ratione cupiditate eos, quidem consequatur veniam sapiente nobis, commodi neque. Eligendi dolorem repellendus, quisquam modi deleniti numquam animi repudiandae laudantium exercitationem sed. Atque magni ex commodi qui quam quod saepe vel quaerat optio aut?</p>
       </div>
 
-    <div className='pl-7 pr-20'>
-
-      <div className="mt-4">
-        {/* Title <-> [Buttons] */}
-        <div className="flex items-start justify-between gap-10">
-          {/* title */}
-          <div className="flex gap-3 items-start">
-            {/* <div className='w-8 bg-red-300'> */}
-              <CriminalCaseTypeIcon height={25} width={25} className='flex-shrink-0 mt-2' />
-            {/* </div> */}
-            <T3 weight='medium'>Stolen laptops found with 3 students Stolen laptops found with 3 students Stolen laptops found with 3 students</T3>
-          </div>
-          {/* buttons */}
-          <div className="flex gap-4 flex-shrink-0 mt-1">
-            <Button2 variant='blue'>Appeal Case</Button2>
-            <Button2 variant='blue'>Make Verdict</Button2>
+      {/* offenders */}
+      <>
+        <div className="mt-10 px-12 py-10 border border-cc-border-main rounded-2xl">
+          <T6 weight="semibold">Offenders</T6>
+          {/* table */}
+          <div className="pt-6">
+            <UserTableNRDSPA />
           </div>
         </div>
-        {/* Avatar Username */}
-        <div className="mt-2">
-          <AvatarUsername imgUrl={images.maleAvatarDefault} text='Abubaka Yahaya' />
-        </div>
-        {/* Open or Close */}
-        <div className='mt-4'>
-          <Pill icon={<MdLockOutline className='text-white' size={20} />} text='Closed' />
-          {/* <Pill icon={<MdLockOpen className='text-white' size={20} />} text='Open' bgColor='bg-cc-green-main' /> */}
-          {/* <Pill icon={<FaRegClock className='text-white' size={20} />} text='12th Dec 2024' bgColor='bg-purple-500' /> */}
-        </div>
-      </div>
 
-      <div className="mt-5">
-        <Navbar navItems={navItems} selectedTab={q} />
+        {/* Board Members */}
 
-        {q === undefined && <Body />}
-        {q === navItems[1]!.href.slice(3,) && <Comments />}
-        {q === navItems[2]!.href.slice(3,) && <Verdict />}
-      </div>
-    </div>
-    </>
-  )
-}
-
-function Pill({icon, text, bgColor='bg-red-500', textClassName='text-white'} : {icon?: React.ReactNode, text: string, bgColor?: string, textClassName?: string}) {
-  return (
-    <div className={`inline-block ${bgColor} pl-2 pr-3 py-1 rounded-full`}>
-      <div className="flex items-center gap-1">
-        {icon}
-        <p className={`${textClassName} font-medium`}>{text}</p>
-      </div>
+      </>
     </div>
   );
 }
-
