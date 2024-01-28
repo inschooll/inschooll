@@ -8,12 +8,25 @@ const pickSchool = '/pick-university';
 const createSchool = '/create-school';
 const dashboard = "/dashboard";
 const school = "/school";
-const backOffice = "/back-office";
+const schoolAbout = "/school/about";
+const backoffice = {
+  default: '/back-office',
+  general: '/back-office/general',
+  campus: '/back-office/campus',
+  faculties: '/back-office/faculties',
+  departments: '/back-office/departments',
+  courses: '/back-office/courses',
+  members: '/back-office/members',
+  fees: '/back-office/fees',
+};
 const studentAffairs = "/student-affairs";
 const sdc = "/student-affairs/sdc";
 const src = "/student-affairs/src";
 const cases = "/student-affairs/sdc/cases";
+const casesClosed = "/student-affairs/sdc/cases/closed";
 const caseWithId = (id: string) => `/student-affairs/sdc/cases/${id}`;
+const caseWithIdComments = (id: string) => `/student-affairs/sdc/cases/${id}/comments`;
+const caseWithIdVerdict = (id: string) => `/student-affairs/sdc/cases/${id}/verdict`;
 
 export default {
   login,
@@ -25,10 +38,14 @@ export default {
   createSchool,
   dashboard,
   school,
-  backOffice,
+  schoolAbout,
+  backoffice,
   studentAffairs,
   sdc,
   src,
   cases,
+  casesClosed,
   caseWithId,
+  caseWithIdComments,
+  caseWithIdVerdict,
 } as const;
