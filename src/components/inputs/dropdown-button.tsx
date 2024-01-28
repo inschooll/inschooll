@@ -9,7 +9,7 @@ import {
   DropdownMenuRadioGroup,
 } from "../ui/dropdown-menu";
 import { ScrollArea } from "../ui/scroll-area";
-import { InputErrorMessage, InputLabel } from "./input";
+import { InputDescription, InputErrorMessage, InputLabel } from "./input";
 
 type IconAndTitleProp = { icon?: React.ReactNode; title: string };
 
@@ -17,6 +17,7 @@ type optionsType = IconAndTitleProp[] | string[];
 
 export interface DropdownButtonProps {
   label?: string;
+  description?: string;
   name?: string;
   options: optionsType;
   required?: boolean;
@@ -62,12 +63,15 @@ export default function DropdownButton({options, ...props}: DropdownButtonProps)
   };
 
   return (
-    <>
+    <div>
       {/* label */}
       {props.label && (<InputLabel label={props.label} required={props.required} />)}
 
+      {/* description */}
+      {!!props.description && (<InputDescription description={props.description} />)}
+
       <DropdownMenu>
-        <DropdownMenuTrigger className="w-full">
+        <DropdownMenuTrigger className="min-w-52">
           <CustomDropdownButton title={defaultName} options={options} selectedOptionIndex={selectedOptionIndex} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-full border border-cc-border">
@@ -92,7 +96,7 @@ export default function DropdownButton({options, ...props}: DropdownButtonProps)
       {props.errorMessage && (
         <InputErrorMessage value={props.errorMessage} />
       )}
-    </>
+    </div>
   );
 }
 
