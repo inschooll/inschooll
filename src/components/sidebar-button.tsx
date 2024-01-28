@@ -5,17 +5,17 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { cn } from "~/lib/utils";
 
-type ComponentProps = {
+type SidebarButtonProps = {
   title: string;
   icon: React.ReactNode;
   navigateTo: string;
 };
 
-export default function MenuCard({
+export default function SidebarButton({
   title,
   icon,
   navigateTo,
-}: ComponentProps) {
+}: SidebarButtonProps) {
   const pathname = usePathname();
   const isSelected = pathname.includes(navigateTo);
 
