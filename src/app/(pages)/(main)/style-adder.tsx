@@ -14,6 +14,13 @@ export default function StyleAdder() {
     html.style.height = '100%';
     body.style.overflow = 'hidden';
     html.style.overflow = 'hidden';
+
+    return () => {
+      body.style.height = 'auto';
+      html.style.height = 'auto';
+      body.style.overflow = 'auto';
+      html.style.overflow = 'auto';
+    }
   })
   return (<></>);
 }
