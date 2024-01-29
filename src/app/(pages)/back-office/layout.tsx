@@ -11,7 +11,7 @@ export default function Layout({children} : {children: React.ReactNode}) {
             {/* Left navbar */}
             <BackOfficeSidebar className="hidden lg:block" />
 
-            <div className="flex-grow md:px-10">
+            <div className="flex-grow md:px-10 pb-10">
               {children}
             </div>
           </div>
