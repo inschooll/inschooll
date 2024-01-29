@@ -65,10 +65,7 @@ export default function DropdownButton({options, ...props}: DropdownButtonProps)
   return (
     <div>
       {/* label */}
-      {props.label && (<InputLabel label={props.label} required={props.required} />)}
-
-      {/* description */}
-      {!!props.description && (<InputDescription description={props.description} />)}
+      {props.label && (<InputLabel label={props.label} required={props.required} description={props.description} />)}
 
       <DropdownMenu>
         <DropdownMenuTrigger className="min-w-52">
