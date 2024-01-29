@@ -80,7 +80,7 @@ export default function Input({
 export const InputLabel = ({label, ...props}: {label: string} & Omit<InputProps, 'label'>) => {
   return (
     <div
-      className={`pb-1.5 ${
+      className={`pb-2 ${
         props.minLength ?? props.maxLength
           ? "flex items-center justify-between"
           : ""}`
@@ -90,6 +90,10 @@ export const InputLabel = ({label, ...props}: {label: string} & Omit<InputProps,
         value={label}
         isRequired={props.required ?? false}
       />
+
+      {/* description */}
+      {!!props.description && (<InputDescription className='pb-1' description={props.description} />)}
+      
       {/* Min or Max length */}
       {(props.maxLength ?? props.minLength) && (
         <MinMaxContainer min={props.minLength} max={props.maxLength} />
@@ -98,9 +102,9 @@ export const InputLabel = ({label, ...props}: {label: string} & Omit<InputProps,
   );
 }
 
-export const InputDescription = (props: {description: string}) => {
+export const InputDescription = (props: {description: string, className?: string}) => {
   return (
-    <div className="pb-2 text-cc-content/80 text-xs">
+    <div className={cn("text-cc-content/80 text-xs", props.className)}>
       <p>{props.description}</p>
     </div>
   );
