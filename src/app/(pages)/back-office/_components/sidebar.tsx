@@ -14,9 +14,9 @@ import { cn } from "~/lib/utils";
 
 export default function BackOfficeSidebar ({className} : {className?: string}) {
   const [sidebarItems] = useState([
-    {title: "General", icon: <IoSettingsOutline />, href: links.backoffice.default},
+    {title: "General", icon: <IoSettingsOutline />, href: links.backoffice.main},
     {title: "Campus", icon: <RiBuilding2Line />, href: links.backoffice.campus},
-    {title: "Faculties", icon: <PiGraduationCapBold />, href: links.backoffice.faculties},
+    {title: "Faculties", icon: <PiGraduationCapBold />, href: links.backoffice.faculties.main},
     {title: "Departments", icon: <LuBookMinus />, href: links.backoffice.departments},
     {title: "Courses", icon: <FaChalkboardTeacher />, href: links.backoffice.courses},
   ]);

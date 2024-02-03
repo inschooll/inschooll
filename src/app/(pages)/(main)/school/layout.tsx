@@ -51,7 +51,7 @@ export default function Layout({children} : { children: React.ReactNode}) {
         {/* Back office button */}
         <div className="flex justify-end">
           <Link
-            href={links.backoffice.default}
+            href={links.backoffice.main}
             className={buttonVariants({ variant: "secondary", size: "sm" })}
           >
             Back office

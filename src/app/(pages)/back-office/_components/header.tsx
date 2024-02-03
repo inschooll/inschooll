@@ -11,7 +11,7 @@ import { Button } from "~/components/ui/button";
 export default function BackOfficeHeader() {
   
   const navItems = [
-    { text: "/", href: links.backoffice.default },
+    { text: "/", href: links.backoffice.main },
   ];
   
   return (

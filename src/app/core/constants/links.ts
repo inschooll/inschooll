@@ -10,10 +10,13 @@ const dashboard = "/dashboard";
 const school = "/school";
 const schoolAbout = "/school/about";
 const backoffice = {
-  default: '/back-office',
+  main: '/back-office',
   general: '/back-office/general',
   campus: '/back-office/campus',
-  faculties: '/back-office/faculties',
+  faculties: {
+    main: '/back-office/faculties',
+    create: '/back-office/faculties/create',
+  },
   departments: '/back-office/departments',
   courses: '/back-office/courses',
   members: '/back-office/members',
