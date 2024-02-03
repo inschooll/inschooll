@@ -92,7 +92,7 @@ export const InputLabel = ({label, ...props}: {label: string} & Omit<InputProps,
       />
 
       {/* description */}
-      {!!props.description && (<InputDescription className='pb-1' description={props.description} />)}
+      {!!props.description && (<InputDescription className='pb-1 text-cc-content-sub/70' description={props.description} />)}
       
       {/* Min or Max length */}
       {(props.maxLength ?? props.minLength) && (
