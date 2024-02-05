@@ -48,3 +48,34 @@ export const SchoolSchema = z.object({
   instagram: z.string().min(1, 'Instagram is required'),
 });
 export type TSchoolSchema = z.infer<typeof SchoolSchema>
+
+export const FacultySchema = z.object({
+  name: z.string().min(1, "Faculty name is required"),
+  code: z.string().optional(),
+  dean: z.string().min(1, "Dean is required"),
+  establishedAt: z.string().min(1, "Established at date is required"),
+  location: z.string().optional(),
+  description: z.string().min(1, "Description is required"),
+  website: z.string().optional(),
+  email: z.string().optional(),
+  phoneNumber: z.string().optional(),
+  isAccredited: z.boolean().default(false),
+  lastAccreditation: z.string().optional(),
+});
+export type TFacultySchema = z.infer<typeof FacultySchema>;
+
+export const DepartmentSchema = z.object({
+  name: z.string().min(1, "Faculty name is required"),
+  code: z.string().optional(),
+  hod: z.string().optional(),
+  faculty: z.string().min(1, "Faculty is required"),
+  establishedAt: z.string().min(1, "Established at date is required"),
+  building: z.string().min(1, "Building is required"),
+  description: z.string().min(1, "Description is required"),
+  website: z.string().optional(),
+  email: z.string().optional(),
+  phoneNumber: z.string().optional(),
+  isAccredited: z.boolean().default(false),
+  lastAccredited: z.string().optional(),
+});
+export type TDepartmentSchema = z.infer<typeof DepartmentSchema>;
