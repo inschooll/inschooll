@@ -11,8 +11,8 @@ import { api } from "~/trpc/react";
 // import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import { LoginSchema, type TLoginSchema } from "~/lib/types";
 import { Button } from "~/components/ui/button";
+import { LoginSchema, type TLoginSchema } from "~/lib/types";
 
 type LoginFormBodyProps = {
   updateAuthToken: (token: string) => void;
