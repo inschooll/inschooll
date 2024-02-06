@@ -17,7 +17,10 @@ const backoffice = {
     main: '/back-office/faculties',
     create: '/back-office/faculties/create',
   },
-  departments: '/back-office/departments',
+  departments: {
+    main: '/back-office/departments',
+    create: '/back-office/departments/create',
+  },
   courses: '/back-office/courses',
   members: '/back-office/members',
   fees: '/back-office/fees',
