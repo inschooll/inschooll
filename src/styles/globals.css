@@ -117,6 +117,21 @@
     --tertiary-stroke: 55 145 74;
     --tertiary-stroke-hover: 65 169 86;
 
+    /* TODO: Integrate below conflicting shadcn properties with mine in the tailwind.config file */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
     --color-bkg: 27 30 33;
     --color-bkg-compliment: 24 27 30;
     --color-content-main: 255 255 255;
@@ -185,11 +200,12 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: .4rem;
+  height: .4rem;
 }
-/* ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: #f1f1f1;
-} */
+}
 ::-webkit-scrollbar-thumb {
   background-color: rgb(var(--color-scrollbar));
   opacity: .4;
@@ -199,4 +215,13 @@ body {
   background-color: rgb(var(--color-scrollbar));
   opacity: .8;
   border-radius: 10px;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
