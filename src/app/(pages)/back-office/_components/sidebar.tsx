@@ -17,7 +17,7 @@ export default function BackOfficeSidebar ({className} : {className?: string}) {
     {title: "General", icon: <IoSettingsOutline />, href: links.backoffice.main},
     {title: "Campus", icon: <RiBuilding2Line />, href: links.backoffice.campus},
     {title: "Faculties", icon: <PiGraduationCapBold />, href: links.backoffice.faculties.main},
-    {title: "Departments", icon: <LuBookMinus />, href: links.backoffice.departments},
+    {title: "Departments", icon: <LuBookMinus />, href: links.backoffice.departments.main},
     {title: "Courses", icon: <FaChalkboardTeacher />, href: links.backoffice.courses},
   ]);
 
