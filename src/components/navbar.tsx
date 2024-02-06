@@ -11,6 +11,12 @@ type NavbarProps = {
   ulClassName?: string;
 };
 
+/**
+ * This navbar component uses the url and props.navItems[nth].href to know
+ * which navItem is currently selected.
+ * @param props 
+ * @returns navbar component
+ */
 export default function Navbar(props: NavbarProps) {
   const pathname = usePathname();
   const selectedIndex = useMemo(() => {
