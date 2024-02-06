@@ -11,7 +11,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
+import { cn, getNumberPrefix } from "~/lib/utils";
 import { SectionTitle } from "./_components/section-title";
 
 export default function Page() {
@@ -149,7 +149,7 @@ export const SemesterSection = () => {
   );
 };
 
-export const SemesterAccordion = ({
+const SemesterAccordion = ({
   count,
   isFirst,
   isLast,
@@ -158,26 +158,21 @@ export const SemesterAccordion = ({
   isFirst: boolean;
   isLast: boolean;
 }) => {
-  let prefix = "st";
-  if (count === 1) prefix = "st";
-  else if (count === 2) prefix = "nd";
-  else if (count === 3) prefix = "rd";
-  else prefix = "th";
+  const semester = getNumberPrefix(count);
 
   return (
     <AccordionItem value={`${count}`}>
       <AccordionTrigger
-        className={cn("h-12 bg-cc-border px-5 md:h-14", {
+        className={cn("h-12 bg-secondary border border-cc-border px-5 md:h-14", {
           "rounded-t-md": isFirst,
-          "rounded-b-md": isLast,
+          "rounded-b-md": !isFirst && isLast,
         })}
       >
         <p>
-          {count}
-          {prefix} Semester
+          {semester} Semester
         </p>
       </AccordionTrigger>
-      <AccordionContent className="border-x border-cc-border px-5 py-4">
+      <AccordionContent className={cn("border-x border-cc-border px-5 py-4", { 'border-b rounded-b-lg': isLast })}>
         {/* Start date  and End date of semester */}
         <div className="flex items-end gap-2">
           <Input label="Starts" className="h-10 w-full" />
