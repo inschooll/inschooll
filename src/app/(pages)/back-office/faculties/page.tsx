@@ -4,6 +4,7 @@ import links from "~/app/core/constants/links";
 import Input from "~/components/inputs/input";
 import { SectionTitle } from "../_components/section-title";
 import { buttonVariants } from "~/components/ui/button";
+import { MdAdd } from "react-icons/md";
 
 export default function Page() {
   return (
@@ -19,8 +20,8 @@ export default function Page() {
             href={links.backoffice.faculties.create}
             className={buttonVariants({ variant: "default" })}
           >
-            <IoMdAdd size={20} />
-            <p className="pl-2">Add faculty</p>
+            <MdAdd size={16} />
+            <p className="pl-0.5">Add faculty</p>
           </Link>
         </div>
       </div>
