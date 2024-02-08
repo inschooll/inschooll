@@ -12,7 +12,10 @@ const schoolAbout = "/school/about";
 const backoffice = {
   main: '/back-office',
   general: '/back-office/general',
-  campus: '/back-office/campus',
+  campus: {
+    main: '/back-office/campus',
+    create: '/back-office/campus/create',
+  },
   faculties: {
     main: '/back-office/faculties',
     create: '/back-office/faculties/create',
@@ -21,7 +24,10 @@ const backoffice = {
     main: '/back-office/departments',
     create: '/back-office/departments/create',
   },
-  courses: '/back-office/courses',
+  courses: {
+    main: '/back-office/courses',
+    create: '/back-office/courses/create',
+  },
   members: '/back-office/members',
   fees: '/back-office/fees',
 };
