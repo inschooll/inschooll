@@ -11,24 +11,16 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
+import SelectCombo, { SelectComboFrameworksProps } from "~/components/ui/custom/select-combo";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import { cn, getLevelTitle, getNumberPrefix } from "~/lib/utils";
 import { useSemesterContext } from "../page";
 
-const degreeTypes = [
-  "Associate degree",
-  "Bachelors degree",
-  "Masters degree",
-  "Doctorate degree",
+const degreeOptions: SelectComboFrameworksProps = [
+  {value: '1', label: "Associate degree"},
+  {value: '2', label: "Bachelors degree"},
+  {value: '3', label: "Masters degree"},
+  {value: '4', label: "Doctorate degree"},
 ];
 
 export default function AddProgrammeDialog() {
@@ -67,21 +59,7 @@ export default function AddProgrammeDialog() {
               label="Degree type"
               description="The qualification awarded to a student upon successful completion of the programme"
             />
-            <Select onValueChange={(value) => console.log(value)}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a degree" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Degree types</SelectLabel>
-                  {degreeTypes.map((degree, i) => (
-                    <SelectItem value={degree} key={i}>
-                      {degree}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <SelectCombo defaultValue="Select a degree ..." frameworks={degreeOptions} />
           </div>
 
           {/*  Total credits */}
