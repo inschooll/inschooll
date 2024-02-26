@@ -7,7 +7,7 @@ import { nanoid } from "nanoid";
 import { z } from "zod";
 import constants from "~/app/core/constants/constants";
 import errorMessages from "~/app/core/constants/error-messages";
-import { env } from "~/env.mjs";
+import { env } from "~/env.js";
 import * as schema from "~/server/db/schema";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
