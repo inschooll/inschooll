@@ -10,6 +10,7 @@ import {
 } from "../ui/dropdown-menu";
 import { ScrollArea } from "../ui/scroll-area";
 import { InputDescription, InputErrorMessage, InputLabel } from "./input";
+import { cn } from "~/lib/utils";
 
 type IconAndTitleProp = { icon?: React.ReactNode; title: string };
 
@@ -23,6 +24,7 @@ export interface DropdownButtonProps {
   required?: boolean;
   errorMessage?: string;
   defaultSelectedOptionIndex?: number;
+  className?: string;
   updateSelected: (index: number) => void;
 }
 
@@ -68,7 +70,7 @@ export default function DropdownButton({options, ...props}: DropdownButtonProps)
       {props.label && (<InputLabel label={props.label} required={props.required} description={props.description} />)}
 
       <DropdownMenu>
-        <DropdownMenuTrigger className="min-w-52">
+        <DropdownMenuTrigger className={cn("min-w-52", props.className)}>
           <CustomDropdownButton title={defaultName} options={options} selectedOptionIndex={selectedOptionIndex} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-full border border-cc-border">

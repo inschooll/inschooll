@@ -17,7 +17,6 @@ import { SignupSchema, type TSignupSchema } from "~/lib/types";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
 
-
 export default function FormBody({
   setAuthToken,
 }: {
@@ -61,7 +60,7 @@ export default function FormBody({
   const { mutate: findUserByUsername, isLoading: usernameIsLoading } =
     api.user.getByUsername.useMutation({
       onError: (error) => {
-        methods.setError('username', {message: 'Username already exists!'});
+        methods.setError("username", { message: "Username already exists!" });
         setUsernameIsValid(false);
         handleError({ msg: error.message });
       },
@@ -77,15 +76,14 @@ export default function FormBody({
   const { mutate: findUserByEmail, isLoading: emailIsLoading } =
     api.user.getByEmail.useMutation({
       onError: (error) => {
-        methods.setError('email', {message: 'Email already exists!'});
+        methods.setError("email", { message: "Email already exists!" });
         setEmailIsValid(false);
         handleError({ msg: error.message });
       },
       onSuccess: (data) => {
         if (!data) {
           return setEmailIsValid(true); // Email doesn't exist
-        }
-        else setEmailIsValid(false); // Email exists
+        } else setEmailIsValid(false); // Email exists
       },
     });
 
@@ -123,7 +121,15 @@ export default function FormBody({
       // Reset shouldMakeRequest
       setShouldMakeEmailRequest(false);
     }
-  }, [shouldMakeUsernameRequest, shouldMakeEmailRequest, formData.username, formData.email, findUserByUsername, findUserByEmail, zodEmail]);
+  }, [
+    shouldMakeUsernameRequest,
+    shouldMakeEmailRequest,
+    formData.username,
+    formData.email,
+    findUserByUsername,
+    findUserByEmail,
+    zodEmail,
+  ]);
 
   const [inputErrorMessage, setInputErrorMessage] = useState("");
 
@@ -135,26 +141,30 @@ export default function FormBody({
 
   // displays an error container with a message at the top of the form
   const showError = (msg: string) => {
-    window.scrollTo({top: 0, behavior: 'smooth'});
-    return setInputErrorMessage(msg)
-  }
-  
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return setInputErrorMessage(msg);
+  };
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit((data) => {
-        if (!usernameIsValid) return showError('Please enter a valid username');
-        if (!emailIsValid) return showError('Please enter a valid email');
+      <form
+        onSubmit={methods.handleSubmit((data) => {
+          if (!usernameIsValid)
+            return showError("Please enter a valid username");
+          if (!emailIsValid) return showError("Please enter a valid email");
 
-        signup(data);
-      })}>
-        {!!inputErrorMessage && (<InfoBox text={inputErrorMessage} type="error" />)}
+          signup(data);
+        })}
+      >
+        {!!inputErrorMessage && (
+          <InfoBox text={inputErrorMessage} type="error" />
+        )}
 
         <div className="mt-5 grid grid-cols-2 gap-4">
           {/* first name */}
           <div className="col-span-1">
             <Input
               className="w-full"
-
               label="first name"
               name="firstName"
               placeholder="First name"
@@ -165,7 +175,6 @@ export default function FormBody({
           <div className="col-span-1">
             <Input
               className="w-full"
-
               label="last name"
               name="lastName"
               placeholder="Enter your last name..."
@@ -176,7 +185,6 @@ export default function FormBody({
           <div className="col-span-2">
             <Input
               className="w-full"
-
               label="username"
               name="username"
               isLoading={usernameIsLoading}
@@ -189,7 +197,6 @@ export default function FormBody({
           <div className="col-span-2">
             <Input
               className="w-full"
-
               label="email"
               name="email"
               isLoading={emailIsLoading}
@@ -206,7 +213,6 @@ export default function FormBody({
           <div className="col-span-1">
             <Input
               className="w-full"
-
               label="password"
               name="password"
               type="password"
@@ -217,7 +223,6 @@ export default function FormBody({
           <div className="col-span-1">
             <Input
               className="w-full"
-
               label="confirm password"
               name="confirmPassword"
               type="text"
@@ -233,6 +238,7 @@ export default function FormBody({
             <div className="mt-1">
               <DropdownButton
                 name="Nationality"
+                className="w-full"
                 errorMessage={methods.formState.errors.nationality?.message}
                 options={countries.map(({ name }) => ({
                   icon: (
@@ -260,6 +266,7 @@ export default function FormBody({
             <div className="mt-1">
               <DropdownButton
                 name={"State of origin"}
+                className="w-full"
                 errorMessage={methods.formState.errors.stateOfOrigin?.message}
                 options={
                   states.length > 0
@@ -278,14 +285,13 @@ export default function FormBody({
 
           {/* phone */}
           <div className="col-span-3">
-              <Input
+            <Input
               className="w-full"
-
-                name="phoneNumber"
-                type="text"
-                label="Phone number"
-                placeholder={"Phone number"}
-              />
+              name="phoneNumber"
+              type="text"
+              label="Phone number"
+              placeholder={"Phone number"}
+            />
           </div>
 
           {/* gender */}
@@ -299,6 +305,7 @@ export default function FormBody({
             <div className="mt-1">
               <DropdownButton
                 name="gender"
+                className="w-full"
                 options={constants.gender}
                 defaultSelectedOptionIndex={0}
                 errorMessage={methods.formState.errors.gender?.message}
@@ -317,6 +324,7 @@ export default function FormBody({
               <div>
                 <DropdownButton
                   name="month"
+                  className="w-full min-w-0"
                   options={constants.months as unknown as string[]}
                   defaultSelectedOptionIndex={0}
                   errorMessage={methods.formState.errors.dob_month?.message}
@@ -341,6 +349,7 @@ export default function FormBody({
               <div>
                 <DropdownButton
                   name="day"
+                  className="w-full min-w-0"
                   errorMessage={methods.formState.errors.dob_day?.message}
                   options={Array.from(
                     {
@@ -364,6 +373,7 @@ export default function FormBody({
               <div>
                 <DropdownButton
                   name="year"
+                  className="w-full min-w-0"
                   options={years}
                   defaultSelectedOptionIndex={0}
                   errorMessage={methods.formState.errors.dob_year?.message}
