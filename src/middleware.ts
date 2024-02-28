@@ -4,6 +4,8 @@ import { verifyJWT } from './lib/auth';
 import links from './app/core/constants/links';
 
 export async function middleware(req: NextRequest) {
+  // FIXME: Remove the return so middleware can always run
+  return;
   const route = req.nextUrl.pathname;
   const publicRoutes: string[] = [links.landingPage, links.login, links.signup, links.resetPassword];  // home, login, signup, reset password
   // check if route this request is trying to visit is towards a public route
