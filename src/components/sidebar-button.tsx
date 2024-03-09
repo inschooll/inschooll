@@ -7,13 +7,15 @@ type SidebarButtonProps = {
   icon: React.ReactNode;
   href: string;
   isSelected: boolean;
+  onClick?: () => void;
 };
 
 export default function SidebarButton({
   title,
   icon,
   href,
-  isSelected, 
+  isSelected,
+  onClick,
 }: SidebarButtonProps) {
 
   const textStyle = isSelected ? "text-cc-primary" : "text-cc-content-main/60";
@@ -31,7 +33,7 @@ export default function SidebarButton({
   })
   
   return (
-    <Link href={href}>
+    <Link href={href} onClick={onClick}>
       <div
         className={cn("relative flex cursor-pointer text-cc-primary items-center gap-3 rounded-md px-3 py-2 hover:bg-cc-sidebar-bg-hover transition-all duration-200", bgStyle)}
       >
