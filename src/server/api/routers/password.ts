@@ -7,7 +7,7 @@ import mailTemplates from "~/app/core/constants/mail-templates";
 import { TRPCClientError } from "@trpc/client";
 import errorMessages from "~/app/core/constants/error-messages";
 import { generateJwtToken, hashPassword } from "./auth";
-import { env } from "~/env.mjs";
+import { env } from "~/env.js";
 import links from "~/app/core/constants/links";
 import { jwtVerify } from "jose";
 import * as schema from "~/server/db/schema";
