@@ -1,59 +1,66 @@
-'use client';
+"use client";
 import React from "react";
 import Button from "~/components/buttons/button";
 import Link from "next/link";
 import links from "~/app/core/constants/links";
+import { cn } from "~/lib/utils";
 
 export default function PurposeBody() {
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  
+  const options = [
+    { title: "I am a university student", href: "" },
+    { title: "I am an undergraduate seeking admission", href: "" },
+    { title: "I am a teaching staff at a university", href: "" },
+    { title: "I am a non-teaching staff at a university", href: "" },
+    { title: "I am a university owner / representative", href: links.createSchool },
+  ];
+
   return (
     <>
-      <div className="mt-8">
-        <PurposeTile text="I am a university student" isSelected={selectedIndex === 0} onClick={() => setSelectedIndex(0)} />
-        <PurposeTile text="I am an undergraduate seeking admission" isSelected={selectedIndex === 1} onClick={() => setSelectedIndex(1)} />
-        <PurposeTile text="I am a teaching staff at a university" isSelected={selectedIndex === 2} onClick={() => setSelectedIndex(2)} />
-        <PurposeTile text="I am a non-teaching staff at a university" isSelected={selectedIndex === 3} onClick={() => setSelectedIndex(3)} />
-        <PurposeTile text="I am a university owner / representative" isSelected={selectedIndex === 4} onClick={() => setSelectedIndex(4)} />
+      <div className="flex flex-col gap-3 pt-2">
+        {options.map((item, i) => (
+          <PurposeTile
+            key={i}
+            text={item.title}
+            isSelected={selectedIndex === i}
+            onClick={() => setSelectedIndex(i)}
+          />
+        ))}
       </div>
 
       <div className="mt-3">
-        <Link href={getNextPageLink(selectedIndex)} onClick={() => setIsLoading(true)}>
-          <Button variant={"defaultFull"} isLoading={isLoading} size={"lg"}>Next</Button>
+        <Link
+          href={options[selectedIndex ?? 0]!.href}
+          onClick={() => setIsLoading(true)}
+        >
+          <Button variant={"defaultFull"} isLoading={isLoading} size={"lg"}>
+            Next
+          </Button>
         </Link>
       </div>
     </>
   );
 }
 
-const PurposeTile = ({text, isSelected, onClick} : {text: string, isSelected: boolean, onClick: React.MouseEventHandler<HTMLDivElement>}) => {
-  const getStyles = () => {
-    if (isSelected) {
-      return "mt-3 border-[1px] rounded bg-cc-content-main/5 border-cc-content-main/20 w-full py-3 px-5 shadow-sm active:bg-transparent cursor-pointer";
-    }
-    return "mt-3 border-[1px] rounded bg-cc-content-main/5 border-cc-content-main/20 w-full py-3 px-5 shadow-sm active:bg-transparent hover:shadow cursor-pointer";
-  }
+const PurposeTile = ({
+  text,
+  isSelected,
+  onClick,
+}: {
+  text: string;
+  isSelected: boolean;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+}) => {
   return (
-    <div onClick={onClick} className={getStyles()} style={isSelected ? {boxShadow: '0 0 1px 2px #C3DEFF', borderColor: '#54A0FF'} : {}}>
-      <p>{text}</p>
+    <div
+      onClick={onClick}
+      className={cn(
+        "app-hover w-full cursor-pointer rounded border-[1px] border-border bg-cc-background px-5 py-3 text-cc-content/90 shadow-sm active:bg-transparent",
+        { "border-cc-primary text-cc-content ring-2": isSelected },
+      )}
+    >
+      <p className="">{text}</p>
     </div>
   );
-}
-
-function getNextPageLink(index: number | null) {
-  switch (index) {
-    case 0:
-      return '/';
-    case 1:
-      return '/';
-    case 2:
-      return '/';
-    case 3:
-      return '/';
-    case 4:
-      return links.createSchool;
-    default:
-      return '/';
-  }
-}
+};
