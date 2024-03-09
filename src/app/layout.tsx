@@ -27,9 +27,7 @@ export default function RootLayout({
       <body className={`h-full bg-cc-background text-cc-content font-sans ${inter.className} antialiased`}>
         <PopUps />
 
-        <TRPCReactProvider headers={headers()}>
-          {children}
-        </TRPCReactProvider>
+        <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
   );
