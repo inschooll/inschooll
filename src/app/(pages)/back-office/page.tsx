@@ -20,32 +20,8 @@ export default function Page() {
       <RandomSection />
 
       <SemesterSection />
-
-      {/* Supported Degrees */}
-      <div className="mt-3 flex flex-col gap-5">
-        <SectionTitle
-          title="Supported Degrees"
-          description="School degree is a qualification awarded to a student upon successful completion of a course of study in higher education"
-          className="mt-5"
-        />
-        {/* Search <-> Add degree and co */}
-        <div className="mt-1 flex justify-between">
-          <Input />
-
-          <div className="flex gap-2">
-            <Button variant={"secondary"}>
-              <LuTrash2 />
-              <p className="pl-2 hidden md:block">Delete</p>
-            </Button>
-
-            <Button variant={"tertiary"}>
-              <IoMdAdd size={20} />
-              <p className="pl-2 md:hidden">Add</p>
-              <p className="pl-2 hidden md:block">Add degree type</p>
-            </Button>
-          </div>
-        </div>
-      </div>
+      
+      <SupportedDegreeSection />
     </div>
   );
 }
@@ -163,16 +139,21 @@ const SemesterAccordion = ({
   return (
     <AccordionItem value={`${count}`}>
       <AccordionTrigger
-        className={cn("h-12 bg-secondary border border-cc-border px-5 md:h-14", {
-          "rounded-t-md": isFirst,
-          "rounded-b-md": !isFirst && isLast,
+        className={cn(
+          "h-12 border border-cc-border bg-secondary px-5 md:h-14",
+          {
+            "rounded-t-md": isFirst,
+            "rounded-b-md": !isFirst && isLast,
+          },
+        )}
+      >
+        <p>{semester} Semester</p>
+      </AccordionTrigger>
+      <AccordionContent
+        className={cn("border-x border-cc-border px-5 py-4", {
+          "rounded-b-lg border-b": isLast,
         })}
       >
-        <p>
-          {semester} Semester
-        </p>
-      </AccordionTrigger>
-      <AccordionContent className={cn("border-x border-cc-border px-5 py-4", { 'border-b rounded-b-lg': isLast })}>
         {/* Start date  and End date of semester */}
         <div className="flex items-end gap-2">
           <Input label="Starts" className="h-10 w-full" />
@@ -197,5 +178,34 @@ const SemesterAccordion = ({
         </div>
       </AccordionContent>
     </AccordionItem>
+  );
+};
+
+const SupportedDegreeSection = () => {
+  return (
+    <div className="mt-3 flex flex-col gap-5">
+      <SectionTitle
+        title="Supported Degrees"
+        description="School degree is a qualification awarded to a student upon successful completion of a course of study in higher education"
+        className="mt-5"
+      />
+      {/* Search <-> Add degree and co */}
+      <div className="mt-1 flex justify-between">
+        <Input />
+
+        <div className="flex gap-2">
+          <Button variant={"secondary"}>
+            <LuTrash2 />
+            <p className="hidden pl-2 md:block">Delete</p>
+          </Button>
+
+          <Button variant={"tertiary"}>
+            <IoMdAdd size={20} />
+            <p className="pl-2 md:hidden">Add</p>
+            <p className="hidden pl-2 md:block">Add degree type</p>
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 };
