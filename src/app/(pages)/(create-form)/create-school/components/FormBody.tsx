@@ -10,7 +10,6 @@ import successMessages from "~/app/core/constants/success-messages";
 import Button from "~/components/buttons/button";
 import DropdownButton from "~/components/inputs/dropdown-button";
 import TextareaField from "~/components/inputs/textarea_field";
-import { usePopUpStore } from "~/components/popups/popup_store";
 import { uploadImage, useHandleError } from "~/core/utils-client";
 import { api } from "~/trpc/react";
 import CoverAndLogoSection from "./CoverAndLogoSection";
@@ -39,7 +38,6 @@ export function FormBody() {
   const [states, setStates] = useState(countries_data[0]!.states);
   
   // popup store
-  const { addPopup } = usePopUpStore();
   const { handleError } = useHandleError();
 
   // trpc
@@ -58,8 +56,7 @@ export function FormBody() {
       handleError({msg: error.message});
     },
     onSuccess: (_data, _variables, _context) => {
-      addPopup({text: successMessages.schoolCreated, type: 'success'});
-      
+      alert('It worked!')
     },
   });
 
