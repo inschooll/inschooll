@@ -1,11 +1,13 @@
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import { headers } from "next/headers";
+import { cookies } from "next/headers";
 
-import { TRPCReactProvider } from "~/trpc/react";
 import type { Metadata } from "next";
-import PopUps from "~/components/popups/PopUps";
+import NextTopLoader from "nextjs-toploader";
+import { TRPCReactProvider } from "~/trpc/react";
+import type { Ttheme } from "./utils/types";
+import AppHotKeys from "~/components/app-hot-keys";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -13,21 +15,27 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Inschooll',
-  description: 'A school management system',
-}
+  title: "Inschooll",
+  description: "A school management system",
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body className={`h-full bg-cc-background text-cc-content font-sans ${inter.className} antialiased`}>
-        <PopUps />
+  const theme = cookies().get("theme")?.value as Ttheme;
+  if (!theme) cookies().set("theme", "system");
 
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+  return (
+    <html lang="en" data-theme={theme ?? "system"}>
+      <body
+        className={`h-full bg-cc-background font-sans text-cc-content ${inter.className} antialiased`}
+      >
+        <NextTopLoader showSpinner={false} color="#54a0ff" shadow={""} />
+        <AppHotKeys>
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+        </AppHotKeys>
       </body>
     </html>
   );
