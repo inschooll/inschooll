@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import images from "~/app/core/constants/images";
 import Image from "next/image";
 import { BsThreeDots } from "react-icons/bs";
@@ -11,36 +11,52 @@ import Link from "next/link";
 import AppLogo from "~/components/app_logo";
 import ChangeThemeButtons from "~/components/navbar/change-theme-buttons";
 import { cn } from "~/lib/utils";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { usePathname } from "next/navigation";
+import LeftSidebarActivatorButton from "~/components/buttons/left-sidebar-activator-button";
 
-// export default function DashboardNavbar({params}: {params: {school: string}}) {
-export default function Sidebar({className} : {className?: string}) {
-  const [sidebarItems] = useState([
-    {title: "Dashboard", icon: <MdOutlineSpaceDashboard size={20} />, href: links.dashboard},
-    {title: "School", icon: <LuSchool size={20} />, href: links.school},
-    {title: "Faculties", icon: <LuHeartHandshake size={20} />, href: links.studentAffairs},
-  ]);
+const sidebarItems = [
+  {
+    title: "Dashboard",
+    icon: <MdOutlineSpaceDashboard size={20} />,
+    href: links.dashboard,
+  },
+  { title: "School", icon: <LuSchool size={20} />, href: links.school },
+  {
+    title: "Faculties",
+    icon: <LuHeartHandshake size={20} />,
+    href: links.studentAffairs,
+  },
+];
 
+type SidebarProps = { className?: string, onSidebarButtonClick?: () => void}
+
+export default function Sidebar({ className, onSidebarButtonClick }: SidebarProps) {
   const pathname = usePathname();
   const selectedIndex = useMemo(() => {
     let index = 0;
-    // set selected sidebar item index
+    // get selected sidebar index
     sidebarItems.map((item, i) => {
       if (pathname.startsWith(item.href)) index = i;
     });
-
     return index;
-  }, [pathname, sidebarItems]);
-  return (
-    <nav className={cn("w-64 overflow-auto border-r-[3px] border-cc-border-main bg-cc-background-sub shrink-0", className)}>
-      <div className="flex justify-between py-2 pl-4 pr-1 ">
-        {/* logo */}
-        <Link href={links.dashboard} data-testid="logo-button">
-          <AppLogo size="sm" />
-        </Link>
+  }, [pathname]);
 
-        {/* Buttons to toggle Light mode and dark mode */}
+  return (
+    <nav
+      className={cn(
+        "h-full w-64 shrink-0 overflow-auto border-r-[2px] border-cc-border-main bg-cc-background-sub",
+        className,
+      )}
+    >
+      <div className="flex justify-between py-2 pl-4 pr-1 ">
+        <div className="flex items-center gap-1">
+          <LeftSidebarActivatorButton />
+          <Link href={links.dashboard} data-testid="logo-button">
+            <AppLogo size="sm" />
+          </Link>
+        </div>
+
         <ChangeThemeButtons />
       </div>
 
@@ -53,13 +69,15 @@ export default function Sidebar({className} : {className?: string}) {
             {sidebarItems.map((item, index) => {
               return (
                 <SidebarButton
-                  key={index} 
+                  key={index}
                   title={item.title}
                   icon={item.icon}
                   href={item.href}
                   isSelected={selectedIndex === index}
+                  onClick={onSidebarButtonClick}
                 />
-            )})}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -71,7 +89,7 @@ function UserProfileSection() {
   return (
     <>
       {/* User Account */}
-      <div className="cursor-pointer px-4 py-3 app-hover">
+      <div className="app-hover cursor-pointer px-4 py-3">
         <div className="bg-red-3000 flex items-center gap-3">
           {/* image */}
           <div className="h-9 w-9 overflow-hidden rounded-full">
@@ -101,5 +119,3 @@ function UserProfileSection() {
     </>
   );
 }
-
-
