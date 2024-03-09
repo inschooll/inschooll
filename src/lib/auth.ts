@@ -1,5 +1,5 @@
 import { jwtVerify } from 'jose';
-import { env } from '~/env.mjs';
+import { env } from '~/env.js';
 
 export interface UserJWTPayload {
   jti: string;
