@@ -6,7 +6,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { LuBookMinus } from "react-icons/lu";
 import { PiGraduationCapBold } from "react-icons/pi";
 import { RiBuilding2Line } from "react-icons/ri";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import Divider from "~/components/divider";
 import SidebarButton from "~/components/sidebar-button";
 import { cn } from "~/lib/utils";

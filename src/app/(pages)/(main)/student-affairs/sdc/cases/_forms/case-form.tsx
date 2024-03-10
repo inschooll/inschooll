@@ -5,7 +5,7 @@ import LabelDropdown from "~/components/inputs/label-dropdown";
 import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
 import LabelTextareaField from "~/components/inputs/label_textarea_field";
 import { T6 } from "~/components/texts/title";
-import { CivilCaseTypeIcon, CriminalCaseTypeIcon, HostelCaseTypeIcon } from "~/app/core/constants/icons";
+import { CivilCaseTypeIcon, CriminalCaseTypeIcon, HostelCaseTypeIcon } from "~/lib/constants/icons";
 import { SearchInputField } from "../_components/body";
 import PopupLayout from "./_components/popup-layout";
 import TemporaryAccountForm from "./temporary-account-form";

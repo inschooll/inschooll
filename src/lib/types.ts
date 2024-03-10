@@ -1,5 +1,8 @@
 import z from 'zod';
-import constants from '~/app/core/constants/constants';
+import constants from '~/lib/constants/constants';
+
+export type Ttheme = "dark" | "light" | "system";
+
 
 export const LoginSchema = z.object({
   emailOrUsername: z.string().min(1, "Please enter a valid email or username"),

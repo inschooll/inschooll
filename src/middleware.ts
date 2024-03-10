@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import constants from './app/core/constants/constants';
+import constants from './lib/constants/constants';
 import { verifyJWT } from './lib/auth';
-import links from './app/core/constants/links';
+import links from './lib/constants/links';
 
 export async function middleware(req: NextRequest) {
   // FIXME: Remove the return so middleware can always run

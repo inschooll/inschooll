@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { IoMdAdd } from "react-icons/io";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import Input from "~/components/inputs/input";
 import { SectionTitle } from "../_components/section-title";
 import { buttonVariants } from "~/components/ui/button";

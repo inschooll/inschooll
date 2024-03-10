@@ -2,7 +2,7 @@ import React from 'react'
 import { SectionTitle } from '../_components/section-title'
 import Input from '~/components/inputs/input'
 import Link from 'next/link'
-import links from '~/app/core/constants/links'
+import links from '~/lib/constants/links'
 import { MdAdd } from 'react-icons/md'
 import { buttonVariants } from '~/components/ui/button'
 

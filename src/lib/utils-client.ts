@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 import assert from "assert";
-import { usePopUpStore } from "~/components/popups/popup_store";
-import type { monthsType } from "~/app/core/constants/constants";
-import errorMessages from "~/app/core/constants/error-messages";
-import successMessages from "~/app/core/constants/success-messages";
+import type { monthsType } from "~/lib/constants/constants";
+import errorMessages from "~/lib/constants/error-messages";
+import successMessages from "~/lib/constants/success-messages";
 
 export async function uploadImage({ file, getPresignedURL }: UploadImageProp) {
   const {
@@ -70,34 +69,6 @@ export const toTitleCase = (value: string) => {
 
   return result;
 };
-
-export function useHandleError() {
-  const { addPopup } = usePopUpStore();
-
-  const handleError = ({ msg }: { msg: string }) => {
-    const message = getErrorMessage(msg);
-    addPopup({ text: message, type: "error" });
-  };
-
-  return { handleError };
-}
-
-export function useHandleSuccess() {
-  const { addPopup } = usePopUpStore();
-
-  const handleSuccess = ({ msg }: { msg: string }) => {
-    const successMsgs = Object.values(successMessages);
-    for (const successMsg of successMsgs) {
-      if (msg.includes(successMsg)) {
-        return addPopup({ text: msg, type: "success" });
-      }
-    }
-
-    addPopup({ text: "Successful", type: "success" });
-  };
-
-  return { handleSuccess };
-}
 
 export function getErrorMessage(msg: string) {
   // check internet connection error

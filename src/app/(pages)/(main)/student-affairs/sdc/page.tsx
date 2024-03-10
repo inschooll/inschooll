@@ -1,6 +1,6 @@
 import React from "react";
 import { T4, T5 } from "~/components/texts/title";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import Link from "next/link";
 import {CaseTableTTO} from "../../_components/tables/cases-tables";
 import BreadCrumbsAndTitle from "../../_components/breadcrumbs-and-title";

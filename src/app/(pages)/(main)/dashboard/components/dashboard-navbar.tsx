@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import AppLogo from "~/components/app_logo";
 import LeftSidebarActivatorButton from "~/components/buttons/left-sidebar-activator-button";
 import { cn } from "~/lib/utils";

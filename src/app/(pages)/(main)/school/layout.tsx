@@ -1,8 +1,8 @@
 import React from "react";
 import BreadCrumbs from "../_components/breadcrumbs";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import Image from "next/image";
-import images from "~/app/core/constants/images";
+import images from "~/lib/constants/images";
 import { buttonVariants } from "~/components/ui/button";
 import Link from "next/link";
 import { T2 } from "~/components/texts/title";

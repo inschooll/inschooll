@@ -1,4 +1,4 @@
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import BreadCrumbsAndTitle from "../../../_components/breadcrumbs-and-title";
 import Body from "./_components/body";
 

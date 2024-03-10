@@ -1,6 +1,6 @@
 import Link from "next/link";
 import AppLogo from "../app_logo";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import ChangeThemeButtons from "./change-theme-buttons";
 
 export default function MainNavbar() {

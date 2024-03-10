@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
-import links from '~/app/core/constants/links';
+import links from '~/lib/constants/links';
 
 export default function AppHotKeys({children} : {children: React.ReactNode}) {
   const router = useRouter();

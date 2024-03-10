@@ -2,11 +2,11 @@
 import React, { type ChangeEvent, useState } from "react";
 import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
 import Button from "~/components/buttons/button";
-import { getErrorMessage } from "~/core/utils-client";
+import { getErrorMessage } from "~/lib/utils-client";
 import { api } from "~/trpc/react";
-import errorMessages from "~/app/core/constants/error-messages";
-import links from "~/app/core/constants/links";
-import successMessages from "~/app/core/constants/success-messages";
+import errorMessages from "~/lib/constants/error-messages";
+import links from "~/lib/constants/links";
+import successMessages from "~/lib/constants/success-messages";
 import InfoBox from "~/components/cards/InfoBox";
 
 export default function ResetPasswordForm(props: { userId: string }) {

@@ -12,7 +12,7 @@ import { cookies } from "next/headers";
 import { type NextRequest } from "next/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import constants from "~/app/core/constants/constants";
+import constants from "~/lib/constants/constants";
 import { verifyJWT } from "~/lib/auth";
 
 import { db } from "~/server/db";

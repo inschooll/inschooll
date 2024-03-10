@@ -1,4 +1,4 @@
-import images from "~/app/core/constants/images";
+import images from "~/lib/constants/images";
 import AvatarUsername from "~/components/avatar-username";
 import Button2 from "~/components/buttons/button2";
 import { TableHeaderItem, TableItem } from "./components";

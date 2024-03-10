@@ -1,4 +1,4 @@
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 
 
 type SchoolPageProps = {

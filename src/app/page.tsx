@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import TopNavbar from "~/components/navbar/navbar";
-import images from "./core/constants/images";
-import constants from "./core/constants/constants";
-import links from "./core/constants/links";
+import images from "../lib/constants/images";
+import constants from "../lib/constants/constants";
+import links from "../lib/constants/links";
 import Button from "~/components/buttons/button";
 
 export default function Home() {

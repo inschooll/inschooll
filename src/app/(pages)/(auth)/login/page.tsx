@@ -1,11 +1,11 @@
 import AuthTitle from "../AuthTitle";
 import Link from "next/link";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import LoginFormBody from "./body";
 import { redirect } from "next/navigation";
 // import AuthGoogleButton from "../AuthGoogleButton";
 import { cookies } from "next/headers";
-import constants from "~/app/core/constants/constants";
+import constants from "~/lib/constants/constants";
 
 export default function Login(props: {searchParams: Record<string, string>}) {
   console.log(props);

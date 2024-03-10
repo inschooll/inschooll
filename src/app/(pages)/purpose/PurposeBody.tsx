@@ -2,7 +2,7 @@
 import React from "react";
 import Button from "~/components/buttons/button";
 import Link from "next/link";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import { cn } from "~/lib/utils";
 
 export default function PurposeBody() {

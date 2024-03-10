@@ -1,9 +1,9 @@
 import React from "react";
 import { FaRegEye } from "react-icons/fa";
 import { MdLockOutline } from "react-icons/md";
-import { CriminalCaseTypeIcon } from "~/app/core/constants/icons";
-import images from "~/app/core/constants/images";
-import links from "~/app/core/constants/links";
+import { CriminalCaseTypeIcon } from "~/lib/constants/icons";
+import images from "~/lib/constants/images";
+import links from "~/lib/constants/links";
 import AvatarUsername from "~/components/avatar-username";
 import Button2 from "~/components/buttons/button2";
 import { T3 } from "~/components/texts/title";

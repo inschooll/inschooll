@@ -1,9 +1,9 @@
 "use client";
-import images from "~/app/core/constants/images";
+import images from "~/lib/constants/images";
 import Image from "next/image";
 import { BsThreeDots } from "react-icons/bs";
 import SidebarButton from "../../../../components/sidebar-button";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import { LuSchool } from "react-icons/lu";
 import { LuHeartHandshake } from "react-icons/lu";
 import { MdOutlineSpaceDashboard } from "react-icons/md";

@@ -6,8 +6,8 @@ import { cookies } from "next/headers";
 import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 import { TRPCReactProvider } from "~/trpc/react";
-import type { Ttheme } from "./utils/types";
 import AppHotKeys from "~/components/app-hot-keys";
+import type { Ttheme } from "~/lib/types";
 
 const inter = Inter({
   subsets: ["latin"],

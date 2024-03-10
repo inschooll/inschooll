@@ -1,6 +1,6 @@
 import PopupLayout from "./_components/popup-layout";
 import LabelDropdown from "~/components/inputs/label-dropdown";
-import images from "~/app/core/constants/images";
+import images from "~/lib/constants/images";
 import { Avatar } from "~/components/avatar-username";
 import { useState } from "react";
 import LabelTextareaField from "~/components/inputs/label_textarea_field";

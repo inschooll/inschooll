@@ -2,7 +2,7 @@ import PopupLayout from "./_components/popup-layout";
 import LabelAndTextInputField from "~/components/inputs/label_text_input_field";
 import LabelDropdown from "~/components/inputs/label-dropdown";
 import { Avatar } from "~/components/avatar-username";
-import images from "~/app/core/constants/images";
+import images from "~/lib/constants/images";
 import Button from "~/components/buttons/button";
 import { useState } from "react";
 import CropperPopup from "~/components/cropper";

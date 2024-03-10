@@ -1,7 +1,7 @@
 'use client';
 import Lottie from "lottie-react";
 import type { InputProps } from "./input";
-import lottie from "~/app/core/constants/lottie";
+import lottie from "~/lib/constants/lottie";
 import { type ChangeEvent, useState } from "react";
 import { MdCancel } from "react-icons/md";
 

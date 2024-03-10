@@ -1,5 +1,5 @@
 import sgMail from "@sendgrid/mail";
-import constants from "../core/constants/constants";
+import constants from "./constants/constants";
 import { env } from "~/env.js";
 
 sgMail.setApiKey(env.SENDGRID_API_KEY);

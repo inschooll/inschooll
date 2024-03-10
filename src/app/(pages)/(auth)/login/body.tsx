@@ -2,11 +2,11 @@
 import { useState } from "react";
 // TODO: use zod instead of validator
 import { isEmail } from "validator";
-import errorMessages from "~/app/core/constants/error-messages";
-import successMessages from "~/app/core/constants/success-messages";
+import errorMessages from "~/lib/constants/error-messages";
+import successMessages from "~/lib/constants/success-messages";
 import InfoBox from "~/components/cards/InfoBox";
 import Input from "~/components/inputs/input";
-import { getErrorMessage } from "~/core/utils-client";
+import { getErrorMessage } from "~/lib/utils-client";
 import { api } from "~/trpc/react";
 // import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";

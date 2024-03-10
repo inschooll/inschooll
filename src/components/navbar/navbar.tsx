@@ -1,5 +1,5 @@
 import Link from "next/link";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import AppLogo from "../app_logo";
 
 export default function TopNavbar() {

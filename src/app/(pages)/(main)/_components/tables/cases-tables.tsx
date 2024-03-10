@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { HostelCaseTypeIcon } from "~/app/core/constants/icons";
+import { HostelCaseTypeIcon } from "~/lib/constants/icons";
 import { TableHeaderItem, TableItem, TableTitle } from "./components";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 
 // Type, Title, Offenders
 export function CaseTableTTO() {

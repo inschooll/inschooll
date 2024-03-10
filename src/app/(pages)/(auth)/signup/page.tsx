@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import constants from "~/app/core/constants/constants";
-import links from "~/app/core/constants/links";
+import constants from "~/lib/constants/constants";
+import links from "~/lib/constants/links";
 import AuthTitle from "../AuthTitle";
 import FormBody from "./body";
 

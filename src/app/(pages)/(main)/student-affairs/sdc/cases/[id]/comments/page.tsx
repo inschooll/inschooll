@@ -1,5 +1,5 @@
 'use client';
-import images from "~/app/core/constants/images";
+import images from "~/lib/constants/images";
 import { Avatar } from "~/components/avatar-username";
 import Button2 from "~/components/buttons/button2";
 import Input from "~/components/inputs/input";

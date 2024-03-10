@@ -8,7 +8,7 @@ import IconTextInputField from "~/components/inputs/icon_text_input_field";
 import CaseForm from "../_forms/case-form";
 import ScheduleHearingForm from "../_forms/schedule-hearing-form";
 import Navbar from "~/components/navbar";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import { useSearchParams } from "next/navigation";
 
 export function SearchInputField({ onChange, placeholder="Search" } : {onChange: (v: string) => void, placeholder?: string}) {

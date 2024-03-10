@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import Cropper, { type Area } from "react-easy-crop";
-import Button from "./buttons/button";
-import getCroppedImg from "~/app/core/cropper/crop_image";
+import getCroppedImg from "~/lib/cropper/crop_image";
+import { Button } from "./ui/button";
 
 export default function CropperPopup({
   img,
@@ -68,7 +68,7 @@ export default function CropperPopup({
 
       <div className="fixed bottom-0 left-1/2 z-50 -translate-x-1/2">
         <div className="w-full" style={{ height: "20vh" }}>
-          <Button variant="defaultFull" disabled={croppedImage ? false : true} type="button" onClick={async () => {
+          <Button disabled={croppedImage ? false : true} type="button" onClick={async () => {
             if (croppedImage) {
               await fetch(croppedImage)
               .then(b => b.blob())

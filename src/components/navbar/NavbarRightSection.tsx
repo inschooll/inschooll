@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import links from "~/app/core/constants/links";
+import links from "~/lib/constants/links";
 import Button from "../buttons/button";
 import MenuCancelButton from "../buttons/menu_cancel_button";
 import Image from "next/image";

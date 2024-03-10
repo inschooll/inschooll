@@ -2,13 +2,13 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { school, user_school_role } from "~/server/db/schema";
 import { randomUUID } from "crypto";
-import roles from "~/app/core/constants/roles";
+import roles from "~/lib/constants/roles";
 import { asc } from "drizzle-orm";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { bucketName, s3Client } from "./aws";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { TRPCClientError } from "@trpc/client";
-import errorMessages from "~/app/core/constants/error-messages";
+import errorMessages from "~/lib/constants/error-messages";
 import { SchoolSchema } from "~/lib/types";
 
 const schoolOptionalType = {
