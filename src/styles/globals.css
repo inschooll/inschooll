@@ -22,6 +22,11 @@
 
 @layer base {
   :root {
+    /* width */
+    --left-side-bar-width: 16rem;
+    --right-dashboard-side-bar-width: 16rem;
+
+    /* colors */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
