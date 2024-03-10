@@ -15,7 +15,7 @@ export default function DashboardNavbar({}) {
 
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center h-[3.25rem]">
       {!isActive && <SidebarActivatorAndAppLogo className="hidden lg:flex" />}
       {!isMobileActive && <SidebarActivatorAndAppLogo className="flex lg:hidden" />}
       <BreadCrumbs patterns={breadCrumbData} className="px-0" />
