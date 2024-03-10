@@ -1,7 +1,18 @@
+import { ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react";
+
+const icons = {
+  // left: ({defaultProps}: Omit<LucideIcon, '$$typeof'>) => <ChevronLeft {...defaultProps} />,
+  left: (props: IconProps) => <ChevronLeft size={props.size} className={props.className} />,
+  right: (props: IconProps) => <ChevronRight  size={props.size} className={props.className} />,
+}
+export default icons;
+
 interface IconProps {
   width?: number;
   height?: number;
+  size?: number;
   className?: string;
+  
 }
 
 export const CriminalCaseTypeIcon = ({
