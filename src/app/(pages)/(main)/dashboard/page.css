@@ -1,0 +1,65 @@
+/* .mainCvr {
+  position: relative;
+
+  .mainChild_1 {
+    position: inherit;
+  }
+}
+.mainCvr > div {
+  float: left;
+  position: relative;
+}
+.mainCvr > div:first-child {
+  width: 65%;
+}
+.mainCvr > div:nth-child(2) {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  width: 300px;
+  height: 150px;
+}
+
+
+*/
+@media screen and (max-width: 1025px) {
+  :root {
+    --left-side-bar-width: 0;
+  }
+  .mainCvr {
+    --parent_width: 100%;
+    --child2_width: 0px;
+  }
+  .mainChild_2 {
+    display: none;
+  }
+}
+
+.mainCvr {
+  background-color: orange;
+  --parent_width: 100%;
+  --child2_width: 16rem;
+  --padding_left: 1rem;
+  --padding_right: 1rem;
+  padding: 0 var(--padding_right) 0 var(--padding_left);
+  width: var(--parent_width);
+
+  .mainChild_2 {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: auto;
+    width: var(--child2_width);
+    height: 100vh;
+    background-color: blueviolet;
+  }
+
+  .mainChild_1 {
+    width: calc(var(--parent_width) - var(--child2_width) - var(--left-side-bar-width));
+  }
+}
+
