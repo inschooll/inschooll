@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
+// TODO: use zod instead of validator
 import { isEmail } from "validator";
 import errorMessages from "~/app/core/constants/error-messages";
 import successMessages from "~/app/core/constants/success-messages";
 import InfoBox from "~/components/cards/InfoBox";
 import Input from "~/components/inputs/input";
-import { usePopUpStore } from "~/components/popups/popup_store";
 import { getErrorMessage } from "~/core/utils-client";
 import { api } from "~/trpc/react";
 // import { useRouter } from "next/navigation";
@@ -21,7 +21,6 @@ type LoginFormBodyProps = {
 
 export default function LoginFormBody(props: LoginFormBodyProps) {
   // store
-  const { addPopup } = usePopUpStore();
   const methods = useForm<TLoginSchema>({
     resolver: zodResolver(LoginSchema),
   });
@@ -35,10 +34,6 @@ export default function LoginFormBody(props: LoginFormBodyProps) {
       setInputErrorMessage(message);
     },
     onSuccess: ({ authToken }) => {
-      addPopup({
-        text: successMessages.loginSuccessful,
-        type: "success",
-      });
       setSuccessMsg(successMessages.loginSuccessful);
       props.updateAuthToken(authToken);
     },

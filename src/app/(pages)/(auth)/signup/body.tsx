@@ -11,7 +11,6 @@ import InfoBox from "~/components/cards/InfoBox";
 import DropdownButton from "~/components/inputs/dropdown-button";
 import Input from "~/components/inputs/input";
 import Label from "~/components/inputs/label";
-import { usePopUpStore } from "~/components/popups/popup_store";
 import { isFebruaryAndLeapYear, useHandleError } from "~/core/utils-client";
 import { SignupSchema, type TSignupSchema } from "~/lib/types";
 import { api } from "~/trpc/react";
@@ -29,8 +28,6 @@ export default function FormBody({
   const watch = methods.watch();
   const zodEmail = z.string().email();
 
-  // store
-  const { addPopup } = usePopUpStore();
   const { handleError } = useHandleError();
 
   // countries & states
@@ -44,20 +41,15 @@ export default function FormBody({
   } = api.auth.signup.useMutation({
     onError: (err) => {
       console.log(err);
-      addPopup({ text: "Something went wrong", type: "error" });
     },
     onSuccess: async ({ authToken }) => {
-      addPopup({
-        text: "Your Account was successfully created!",
-        type: "success",
-      });
       await setAuthToken(authToken);
     },
   });
 
   // username (verification)
   const [usernameIsValid, setUsernameIsValid] = useState<boolean>();
-  const { mutate: findUserByUsername, isLoading: usernameIsLoading } =
+  const { mutate: getUserByUsername, isLoading: usernameIsLoading } =
     api.user.getByUsername.useMutation({
       onError: (error) => {
         methods.setError("username", { message: "Username already exists!" });
@@ -73,7 +65,7 @@ export default function FormBody({
 
   // email (verification)
   const [emailIsValid, setEmailIsValid] = useState<boolean>();
-  const { mutate: findUserByEmail, isLoading: emailIsLoading } =
+  const { mutate: getUserByEmail, isLoading: emailIsLoading } =
     api.user.getByEmail.useMutation({
       onError: (error) => {
         methods.setError("email", { message: "Email already exists!" });
@@ -111,13 +103,13 @@ export default function FormBody({
       !formData.username.includes(" ")
     ) {
       // make API request
-      findUserByUsername({ username: formData.username });
+      getUserByUsername({ username: formData.username });
       // Reset shouldMakeRequest
       setShouldMakeUsernameRequest(false);
     }
     if (shouldMakeEmailRequest && zodEmail.safeParse(formData.email).success) {
       // make API request
-      findUserByEmail({ email: formData.email });
+      getUserByEmail({ email: formData.email });
       // Reset shouldMakeRequest
       setShouldMakeEmailRequest(false);
     }
@@ -126,8 +118,8 @@ export default function FormBody({
     shouldMakeEmailRequest,
     formData.username,
     formData.email,
-    findUserByUsername,
-    findUserByEmail,
+    getUserByUsername,
+    getUserByEmail,
     zodEmail,
   ]);
 
