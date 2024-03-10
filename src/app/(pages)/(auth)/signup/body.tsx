@@ -11,7 +11,7 @@ import InfoBox from "~/components/cards/InfoBox";
 import DropdownButton from "~/components/inputs/dropdown-button";
 import Input from "~/components/inputs/input";
 import Label from "~/components/inputs/label";
-import { isFebruaryAndLeapYear, useHandleError } from "~/lib/utils-client";
+import { isFebruaryAndLeapYear } from "~/lib/utils-client";
 import { SignupSchema, type TSignupSchema } from "~/lib/types";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
@@ -27,8 +27,6 @@ export default function FormBody({
   const formData = methods.getValues();
   const watch = methods.watch();
   const zodEmail = z.string().email();
-
-  const { handleError } = useHandleError();
 
   // countries & states
   const countries = countries_data;
@@ -54,7 +52,7 @@ export default function FormBody({
       onError: (error) => {
         methods.setError("username", { message: "Username already exists!" });
         setUsernameIsValid(false);
-        handleError({ msg: error.message });
+        // TODO: give visual feedback on error
       },
       onSuccess: (data) => {
         if (!data)
@@ -70,7 +68,7 @@ export default function FormBody({
       onError: (error) => {
         methods.setError("email", { message: "Email already exists!" });
         setEmailIsValid(false);
-        handleError({ msg: error.message });
+        // TODO: give visual feedback on error
       },
       onSuccess: (data) => {
         if (!data) {
