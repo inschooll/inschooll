@@ -1,42 +1,3 @@
-/* .mainCvr {
-  position: relative;
-
-  .mainChild_1 {
-    position: inherit;
-  }
-}
-.mainCvr > div {
-  float: left;
-  position: relative;
-}
-.mainCvr > div:first-child {
-  width: 65%;
-}
-.mainCvr > div:nth-child(2) {
-  position: fixed;
-  z-index: 2;
-  top: 0;
-  right: 0;
-  bottom: auto;
-  left: auto;
-  width: 300px;
-  height: 150px;
-}
-
-
-*/
-@media screen and (max-width: 1025px) {
-  :root {
-    --left-side-bar-width: 0;
-  }
-  .mainCvr {
-    --parent_width: 100%;
-    --child2_width: 0px;
-  }
-  .mainChild_2 {
-    display: none;
-  }
-}
 
 .mainCvr {
   background-color: orange;
@@ -63,3 +24,40 @@
   }
 }
 
+.allCardCvr {
+  position: relative;
+  overflow: hidden;
+  --wh: 9rem;
+
+  .timeContainer {
+    position: relative;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .hourCardContainer {
+    position: relative;
+    overflow: auto;
+  
+    .HourCardEachCvr {
+      min-width:var(--wh);
+      height: var(--wh);
+    }
+  }
+}
+
+@media screen and (max-width: 1025px) {
+  :root {
+    --left-side-bar-width: 0;
+  }
+  .mainCvr {
+    --parent_width: 100%;
+    --child2_width: 0px;
+  }
+  .mainChild_2 {
+    display: none;
+  }
+}
