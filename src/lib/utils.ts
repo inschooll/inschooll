@@ -41,3 +41,27 @@ export const getNumberPrefix = (value: number) => {
       return value + 'th';
   }
 }
+
+export const roundFloat = (value: number, round=1) => {
+  const result = Math.ceil(value * 10) / 10
+  return result.toFixed(round);
+}
+
+export const currentHourMinuteSeconds = () => {
+  const date = new Date();
+  
+  return {
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+    seconds: date.getSeconds(),
+  }
+}
+
+/**
+ * pads 0 to the start and returns it only if value is less than 10
+ * @param value the number value to be padded e.g 1 -> 01
+ * @returns if value is 0, 1, ... 9, it suffixes 0 giving you 00, 01, ..., 09
+ */
+export const formatTimePadStart = (value: number) => {
+  return value.toString().padStart(2, "0")
+}
