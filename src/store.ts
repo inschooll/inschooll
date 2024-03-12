@@ -4,12 +4,13 @@ import { create } from 'zustand';
 type leftSidebarStore = {
   isActive: boolean,
   isMobileActive: boolean,
-  setMobileActive: (isMobileActive: boolean) => void
+  setIsActive: (isActive: boolean) => void
+  setMobileIsActive: (isMobileActive: boolean) => void
 }
 
 export const useLeftSidebarStore = create<leftSidebarStore>((set) => ({
   isActive: true,
   isMobileActive: false,
-  setActive: (isActive: boolean) => set({isActive}),
-  setMobileActive: (isMobileActive: boolean) => set({isMobileActive}),
+  setIsActive: (isActive: boolean) => set({isActive}),
+  setMobileIsActive: (isMobileActive: boolean) => set({isMobileActive}),
 }));

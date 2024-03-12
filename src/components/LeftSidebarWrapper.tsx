@@ -6,7 +6,7 @@ import { useLeftSidebarStore } from "~/store";
 export default function LeftSidebarWrapper({sidebarClassName} : {sidebarClassName: string}) {
   const isActive = useLeftSidebarStore((state) => state.isActive);
   const isMobileActive = useLeftSidebarStore((state) => state.isMobileActive);
-  const setMobileActive = useLeftSidebarStore((state) => state.setMobileActive);
+  const setMobileActive = useLeftSidebarStore((state) => state.setMobileIsActive);
 
   const disableMobileSidebar = () => setMobileActive(false);
 
