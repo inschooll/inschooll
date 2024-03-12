@@ -1,9 +1,11 @@
 "use client";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import "../page.css";
+import HourCardList from "./hour-card-list";
+import TimeList from "./time-list";
 
-const HoursData = [
+export const HoursData = [
   "12am",
   "2am",
   "4am",
@@ -19,98 +21,72 @@ const HoursData = [
 ];
 
 export default function Timeline() {
-  const { timeContainerRef, hourCardContainerRef } = useScrollTimelineSync();
+  const {
+    scrollRef1: timeContainerRef,
+    scrollRef2: hourCardContainerRef,
+    scrollRef3: tickContainerRef,
+  } = useSyncScroll();
 
   return (
     <div className="pt-4">
-      <div
-        className="flex overflow-auto"
-        ref={timeContainerRef}
-        style={{ scrollbarWidth: "none" }}
-      >
-        {HoursData.map((hour) => (
-          <HourCardTime key={hour} time={hour} />
-        ))}
-      </div>
-      <div
-        className="mt-1 flex overflow-auto rounded-lg border border-cc-border"
-        ref={hourCardContainerRef}
-        style={{ scrollbarWidth: "none" }}
-      >
-        {HoursData.map((hour) => (
-          <HourCard key={hour} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function HourCardTime({ time }: { time: string }) {
-  return (
-    <div className="w-36 shrink-0">
-      <p className="text-sm font-medium text-cc-content/60">{time}</p>
+      <TimeList ref={timeContainerRef} />
+      <HourCardList ref={hourCardContainerRef} ref2={tickContainerRef} />
     </div>
   );
 }
 
 /**
- * An hour card holds 2 hours
- * @returns jsx
+ * This hook basically ensures the scroll position of ref1, ref2 and ref3 stay in sync.
+ * If one ref scolls, the other 2 scroll to match (sync with) it
+ *
+ * @returns scrollRef1, scrollRef2
  */
-function HourCard() {
-  return (
-    <div className="HourCardEachCvr size-36 shrink-0 border-r border-cc-border" />
-  );
-}
-
-function useScrollTimelineSync() {
-  const timeContainerRef = useRef<HTMLDivElement>(null);
-  const hourCardContainerRef = useRef<HTMLDivElement>(null);
+function useSyncScroll() {
+  const [scrollRef1, scrollRef2, scrollRef3] = [
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+  ];
 
   useEffect(() => {
-    // Apply hourCardContainer scroll position to timeContainer scroll position
-    const updateTimeContainerPosition = (event: Event) => {
+    // Ensure the scroll for ref1, ref2 and ref3 are in sync
+    const updateScrollRef = (
+      event: Event,
+      ref1: React.RefObject<HTMLDivElement>,
+      ref2: React.RefObject<HTMLDivElement>,
+    ) => {
       if (!(event.target instanceof Element)) return;
-      if (!timeContainerRef.current) return;
 
       // sync scroll
       const scrollLeft = event.target?.scrollLeft;
-      timeContainerRef.current.scrollLeft = scrollLeft;
+      if (ref1.current) {
+        ref1.current.scrollLeft = scrollLeft;
+      }
+      if (ref2.current) {
+        ref2.current.scrollLeft = scrollLeft;
+      }
     };
 
-    // Apply timeContainer scroll position to hourCardContainer scroll position
-    const updateHourCardContainerPosition = (event: Event) => {
-      if (!(event.target instanceof Element)) return;
-      if (!hourCardContainerRef.current) return;
+    // update scroll ref functions
+    const updateScroll1 = (e: Event) =>
+      updateScrollRef(e, scrollRef2, scrollRef3);
+    const updateScroll2 = (e: Event) =>
+      updateScrollRef(e, scrollRef1, scrollRef3);
+    const updateScroll3 = (e: Event) =>
+      updateScrollRef(e, scrollRef1, scrollRef2);
 
-      // sync scroll
-      const scrollLeft = event.target?.scrollLeft;
-      hourCardContainerRef.current.scrollLeft = scrollLeft;
-    };
+    // call specific sync function for each ref scroll event
+    scrollRef1.current?.addEventListener("scroll", updateScroll1);
+    scrollRef2.current?.addEventListener("scroll", updateScroll2);
+    scrollRef3.current?.addEventListener("scroll", updateScroll3);
 
-    // as we scroll the hourCardContainer, apply same scroll to timeContainer
-    hourCardContainerRef.current?.addEventListener(
-      "scroll",
-      updateTimeContainerPosition,
-    );
-
-    // as we scroll the timeContainer, apply same scroll to hourCardContainer
-    timeContainerRef.current?.addEventListener(
-      "scroll",
-      updateHourCardContainerPosition,
-    );
-
+    // clean refs up
     return () => {
-      hourCardContainerRef.current?.removeEventListener(
-        "scroll",
-        updateTimeContainerPosition,
-      );
-      timeContainerRef.current?.removeEventListener(
-        "scroll",
-        updateTimeContainerPosition,
-      );
+      scrollRef1.current?.removeEventListener("scroll", updateScroll1);
+      scrollRef2.current?.removeEventListener("scroll", updateScroll2);
+      scrollRef3.current?.removeEventListener("scroll", updateScroll3);
     };
   }, []);
 
-  return { timeContainerRef, hourCardContainerRef };
+  return { scrollRef1, scrollRef2, scrollRef3 };
 }
