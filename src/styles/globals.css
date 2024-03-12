@@ -24,7 +24,7 @@
   :root {
     /* width */
     --left-side-bar-width: 16rem;
-    --right-dashboard-side-bar-width: 16rem;
+    --right-dashboard-side-bar-width: 18rem;
 
     /* colors */
     --background: 0 0% 100%;
