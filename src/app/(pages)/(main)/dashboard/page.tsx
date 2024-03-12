@@ -3,8 +3,10 @@ import { Button } from "~/components/ui/button";
 import icons from "~/lib/constants/icons";
 import DashboardNavbar from "./components/dashboard-navbar";
 
+import DashboardRightSidebar from "./components/right-sidebar";
 import Timeline from "./components/timeline";
 import "./page.css";
+import DashboardMainWrapper from "./components/dashboard-main-wrapper";
 
 export default function Dashboard() {
   return (
@@ -12,13 +14,13 @@ export default function Dashboard() {
       {/* <main className="mainCvr"> */}
       <main className="">
         <div className="lg:flex">
-          <div className="px-4 lg:w-[calc(100%-var(--right-dashboard-side-bar-width))]">
+          <DashboardMainWrapper>
             <DashboardNavbar />
 
-            <DashboardBody />
+            <TimelineHeader />
 
             <Timeline />
-          </div>
+          </DashboardMainWrapper>
           {/* Right sidebar */}
           <DashboardRightSidebar />
         </div>
@@ -27,7 +29,7 @@ export default function Dashboard() {
   );
 }
 
-function DashboardBody() {
+function TimelineHeader() {
   return (
     <div className="bg-red-5000 flex flex-1 gap-4">
       {/* Date & My Day */}
@@ -53,10 +55,3 @@ function DashboardBody() {
   );
 }
 
-function DashboardRightSidebar({}) {
-  return (
-    <div className="h-screen w-[var(--right-dashboard-side-bar-width)] bg-orange-300">
-      side bar
-    </div>
-  );
-}

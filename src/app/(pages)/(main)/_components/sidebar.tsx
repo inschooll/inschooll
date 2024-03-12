@@ -45,7 +45,7 @@ export default function Sidebar({ className, onSidebarButtonClick }: SidebarProp
   return (
     <nav
       className={cn(
-        "h-full w-64 shrink-0 overflow-auto border-r-[2px] border-cc-border-main bg-cc-background-sub",
+        "h-full w-64 shrink-0 overflow-auto border-r border-cc-border-main bg-cc-background-sub",
         className,
       )}
     >
