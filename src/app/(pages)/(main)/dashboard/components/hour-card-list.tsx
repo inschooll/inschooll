@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { setInterval } from "timers";
+import React, { useEffect, useState } from "react";import { setInterval } from "timers";
 import { currentHourMinuteSeconds, formatTimePadStart } from "~/lib/utils";
 import { HoursData } from "./timeline";
 
