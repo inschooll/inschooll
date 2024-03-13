@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { HoursData } from "./timeline";
-import { cn, currentHourMinuteSeconds, formatTimePadStart, roundFloat } from "~/lib/utils";
 import { setInterval } from "timers";
+import { currentHourMinuteSeconds, formatTimePadStart } from "~/lib/utils";
+import { HoursData } from "./timeline";
 
 const SECONDS_PER_MINUTE = 60;
 export const HOUR_CARD_SIZE = 144;   // px
@@ -21,8 +21,9 @@ const HourCardList = React.forwardRef<HTMLDivElement, {ref2: React.RefObject<HTM
           <HourCard key={hour} />
         ))}
         <div
-          className={"position absolute bottom-0 w-[1px] bg-cc-content/80"}
+          className={"position absolute bottom-0 w-[1px] bg-cc-content/80 transition delay-400 duration-500 fade-in-10"}
           style={{
+            opacity: tickPosition ? 1 : 0,
             left: `${tickPosition}px`,
             height: `${HOUR_CARD_SIZE}px`
           }}
@@ -30,8 +31,8 @@ const HourCardList = React.forwardRef<HTMLDivElement, {ref2: React.RefObject<HTM
       </div>
       <div className="relative h-8 bg-sky-20 overflow-auto" ref={ref2} style={{scrollbarWidth: 'none'}}>
           <div className="font-semibold" style={{width: `${HOUR_CARD_SIZE * 12}px`}}>
-            <div className="absolute top-0 -translate-x-1/2" style={{left: `${tickPosition}px`,}}>
-              <p className="text-sm">{formatTimePadStart(tickTime.hour)}:{formatTimePadStart(tickTime.minute)}</p>
+            <div className="absolute top-0 -translate-x-1/2 transition duration-1000 fade-in-5" style={{left: `${tickPosition}px`,}}>
+              {!!tickTime && <p className="text-sm">{formatTimePadStart(tickTime.hour)}:{formatTimePadStart(tickTime.minute)}</p>}
             </div>
           </div>
       </div>
@@ -56,8 +57,8 @@ function HourCard() {
 
 function useLatestTickInfo() {
     // tick is the line indicating the current time of the day
-    const [tickTime, setTickTime] = useState({hour: new Date().getHours() % 12, minute: new Date().getMinutes()});
-    const [tickPosition, setTickPosition] = useState(0);
+    const [tickTime, setTickTime] = useState<{hour:number, minute: number}>();
+    const [tickPosition, setTickPosition] = useState<number>();
   
     const getTotalMinutes = (hours: number, minutes: number) => {
       return hours * SECONDS_PER_MINUTE + minutes;
