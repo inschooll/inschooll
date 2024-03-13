@@ -7,6 +7,7 @@ import DashboardRightSidebar from "./components/right-sidebar";
 import Timeline from "./components/timeline";
 import "./page.css";
 import DashboardMainWrapper from "./components/dashboard-main-wrapper";
+import { currentDayName, currentMonthName, getDaySuffix } from "~/lib/utils";
 
 export default function Dashboard() {
   return (
@@ -30,13 +31,17 @@ export default function Dashboard() {
 }
 
 function TimelineHeader() {
+  const day = new Date().getDate();
+  const dayName = currentDayName();
+  const monthName = currentMonthName();
+
   return (
     <div className="bg-red-5000 flex flex-1 gap-4">
       {/* Date & My Day */}
       <div className="flex-1">
-        <p className="text-cc-content/50">February 7th</p>
+        <p className="text-cc-content/50">{monthName} {getDaySuffix(day)}</p>
         <div className="flex items-end justify-between">
-          <T3 className="font-bold">Wednesday</T3>
+          <T3 className="font-bold">{dayName}</T3>
           {/* today, <> */}
           <div className="flex items-center gap-2">
             <Button variant="secondary" className="h-7">
