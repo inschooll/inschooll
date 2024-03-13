@@ -65,3 +65,38 @@ export const currentHourMinuteSeconds = () => {
 export const formatTimePadStart = (value: number) => {
   return value.toString().padStart(2, "0")
 }
+
+export const currentDayName = () => {
+  const currentDate = new Date();
+  const dayName = new Intl.DateTimeFormat("en-US", {weekday: "long"}).format(currentDate)
+  return dayName
+}
+
+export const currentMonthName = () => {
+  const currentDate = new Date();
+  const monthName = new Intl.DateTimeFormat("en-US", {month: "long"}).format(currentDate)
+  return monthName
+}
+
+/**
+ * prefixes 'st', 'nd', 'rd', or 'th' based on the day 
+ * e.g 1, 2, 3 ..., 31 would result in 1st, 2nd, 3rd, ..., 31st
+ * @param day the particular day 
+ * @returns 
+ */
+export const getDaySuffix = (day: number): string => {
+  if (day >= 11 && day <= 13) {
+    return `${day}th`; // Special case for 11th, 12th, and 13th
+  }
+
+  switch (day % 10) {
+    case 1:
+      return `${day} st`;
+    case 2:
+      return `${day} nd`;
+    case 3:
+      return `${day} rd`;
+    default:
+      return `${day} th`;
+  }
+};
