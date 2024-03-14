@@ -18,14 +18,14 @@ export default function LeftSidebarWrapper({sidebarClassName} : {sidebarClassNam
           <div>
             <Sidebar
               className={cn(
-                "lg:hidden absolute left-1 top-1/2 z-10 block h-[99%] -translate-y-1/2 rounded-lg border border-cc-border shadow-md ", sidebarClassName
+                "lg:hidden absolute z-50 left-1 top-1/2 block h-[99%] -translate-y-1/2 rounded-lg border border-cc-border shadow-md ", sidebarClassName, 'w-[60%] sm:w-[40%]'
               )}
               onSidebarButtonClick={disableMobileSidebar}
             />
           </div>
           {/* background overlay */}
           <div
-            className="lg:hidden absolute h-full w-full bg-cc-content/30 animate-in fade-in"
+            className="lg:hidden absolute z-40 h-full w-full bg-cc-content/30 animate-in fade-in"
             onClick={disableMobileSidebar}
           ></div>
         </>
