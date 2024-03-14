@@ -60,7 +60,7 @@ export const currentHourMinuteSeconds = () => {
 /**
  * pads 0 to the start and returns it only if value is less than 10
  * @param value the number value to be padded e.g 1 -> 01
- * @returns if value is 0, 1, ... 9, it suffixes 0 giving you 00, 01, ..., 09
+ * @returns if value is 0, 1, ... 9, it prefixes 0 giving you 00, 01, ..., 09
  */
 export const formatTimePadStart = (value: number) => {
   return value.toString().padStart(2, "0")
@@ -100,3 +100,24 @@ export const getDaySuffix = (day: number): string => {
       return `${day}th`;
   }
 };
+
+/**
+ * This function takes in an hour (24-hour format) and 
+ * it finds the meridiem(or "am" | "pm") of the hour
+ * @param hour is the 24-hour format
+ * @returns either "am" or "pm"
+ */
+export const getMeridiem = (hour: number) => {
+  return hour < 12 ? "am" : "pm";
+}
+
+export const convert24hrFormatTo12hrFormat = (hour: number) => {
+  return hour % 12 === 0 ? 12 : hour % 12;
+}
+
+export const convert12HourFormatTo24HourFormat = (hour: number, meridiem: "am" | "pm") => {
+  if (meridiem === "am" && hour === 12) return 0;
+  if (meridiem === "pm" && hour === 12) return 12;
+  if (meridiem === "am") return hour;
+  else return hour+12;
+}

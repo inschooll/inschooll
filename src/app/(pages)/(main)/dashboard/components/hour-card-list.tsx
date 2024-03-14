@@ -1,24 +1,39 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { setInterval } from "timers";
-import { currentHourMinuteSeconds, formatTimePadStart } from "~/lib/utils";
+import React, { useEffect } from "react";
+import { formatTimePadStart } from "~/lib/utils";
+import {
+  useAutomaticScrollToMatchTickPositionUpdate,
+  useLatestTickInfo,
+  useUpdateDate,
+  useUpdateUserScrolled,
+} from "../hooks";
 import { HoursData } from "./timeline";
-import { useDateStore } from "~/store";
 
-const SECONDS_PER_MINUTE = 60;
+export const SECONDS_PER_MINUTE = 60;
 export const HOUR_CARD_SIZE = 144; // px
 
 const HourCardList = React.forwardRef<
   HTMLDivElement,
-  { ref2: React.RefObject<HTMLDivElement> }
->(({ ref2 }, ref) => {
+  {
+    ref1: React.RefObject<HTMLDivElement>;
+    ref2: React.RefObject<HTMLDivElement>;
+    scrollPosition: number | null;
+  }
+>(({ ref1, ref2, scrollPosition }) => {
   const { tickPosition, tickTime } = useLatestTickInfo();
+  useAutomaticScrollToMatchTickPositionUpdate(
+    tickTime,
+    tickPosition,
+    ref1.current!,
+  );
+  useUpdateDate(tickTime);
+  useUpdateUserScrolled(scrollPosition);
 
   return (
     <div className="">
       <div
         className="relative mt-1 flex overflow-auto rounded-lg border border-cc-border"
-        ref={ref}
+        ref={ref1}
         style={{ scrollbarWidth: "none" }}
       >
         {HoursData.map((hour) => (
@@ -49,9 +64,10 @@ const HourCardList = React.forwardRef<
             style={{ left: `${tickPosition}px` }}
           >
             {!!tickTime && (
-              <p className="text-sm">
-                {formatTimePadStart(tickTime.hour)}:
+              <p className="text-xs">
+                {tickTime.meridiem == "am" ? formatTimePadStart(tickTime.hour) : tickTime.hour}:
                 {formatTimePadStart(tickTime.minute)}
+                {/* {tickTime.meridiem} */}
               </p>
             )}
           </div>
@@ -79,65 +95,3 @@ function HourCard() {
   );
 }
 
-function useLatestTickInfo() {
-  // tick is the line indicating the current time of the day
-  const [tickTime, setTickTime] = useState<{ hour: number; minute: number }>();
-  const [tickPosition, setTickPosition] = useState<number>();
-  const updateDate = useDateStore(state => state.updateDate);
-
-  useEffect(() => {
-    const getTotalMinutes = (hours: number, minutes: number) => {
-      return hours * SECONDS_PER_MINUTE + minutes;
-    };
-
-    const updateTickPosition = (totalMinutesSoFar: number) => {
-      // calculate size of HourCardContainer
-      const numberOfHourCards = 12;
-      const totalHourCardContainerSize = HOUR_CARD_SIZE * numberOfHourCards;
-
-      // calculate current tick position
-      const totalMinutesInaDay = 60 * 24;
-      const percent = totalMinutesSoFar / totalMinutesInaDay;
-      const currentTickPosition = percent * totalHourCardContainerSize;
-      const intResult = Math.trunc(currentTickPosition);
-
-      // update tick position
-      setTickPosition(intResult);
-    };
-
-    const cb = () => {
-      // update tick time
-      const { hour, minute, seconds } = currentHourMinuteSeconds();
-      setTickTime({ hour: hour % 12, minute });
-
-      // update tick position
-      const totalMinutesSoFar = getTotalMinutes(hour, minute);
-      updateTickPosition(totalMinutesSoFar);
-
-      console.log(hour, ":", minute, ":", seconds);
-
-      // update date store if it is a new day
-      if (hour === 0 && minute === 0) {
-        updateDate();
-      }
-    };
-    // set initial tickPosition
-    cb();
-
-    // seconds left to the next minute
-    const { seconds } = currentHourMinuteSeconds();
-    const secondsLeft = SECONDS_PER_MINUTE - seconds;
-
-    // update tick position the next time minute turns to 00
-    // e.g 5:57, 5:58, 5:59, 6:00(UPDATE)
-    const timeoutId = setTimeout(() => {
-      cb();
-
-      const intervalId = setInterval(cb, SECONDS_PER_MINUTE * 1000);
-      return () => clearInterval(intervalId);
-    }, secondsLeft * 1000);
-
-    return () => clearTimeout(timeoutId);
-  }, []);
-  return { tickPosition, tickTime };
-}

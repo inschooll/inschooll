@@ -49,3 +49,18 @@ export const useDateStore = create<dateStore>((set) => ({
     set({day: new Date().getDate(), month: currentMonthName(), dayName: currentDayName()})
   }
 }))
+
+// User Scrolled
+type timelineStore = {
+  userScrolled: boolean,
+  updateUserScrolled: (scrolled: boolean) => void
+}
+
+/**
+ * This store helps keep track of whether or not a user scrolled 
+ * through their timeline
+*/
+export const useTimelineStore = create<timelineStore>((set) => ({
+  userScrolled: false,
+  updateUserScrolled: (scrolled: boolean) => set({userScrolled: scrolled})
+}));
