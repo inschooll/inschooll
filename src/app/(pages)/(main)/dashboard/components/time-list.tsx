@@ -1,5 +1,5 @@
 import React from "react";
-import { HoursData } from "./timeline";
+import { HoursData } from "./cards-list";
 import { HOUR_CARD_SIZE } from "./hour-card-list";
 
 const TimeList = React.forwardRef<HTMLDivElement>((_, ref) => {
