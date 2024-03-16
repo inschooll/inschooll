@@ -31,7 +31,7 @@ export default function InfoBox(props: {
       <div className='shrink-0'>
         {icon ?? <></>}
       </div>
-      <p className="">{props.text}</p>
+      <p>{props.text}</p>
     </div>
   );
 }
