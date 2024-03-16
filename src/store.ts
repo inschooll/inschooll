@@ -58,7 +58,9 @@ type timelineStore = {
 
 /**
  * This store helps keep track of whether or not a user scrolled 
- * through their timeline
+ * through their timeline (Timeline is a feature on the dashboard that 
+ * shows a list of hours card - it holds events a user has for the day,
+ * events such as classes, meetings and co)
 */
 export const useTimelineStore = create<timelineStore>((set) => ({
   userScrolled: false,
