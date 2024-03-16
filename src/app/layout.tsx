@@ -32,7 +32,7 @@ export default function RootLayout({
       <body
         className={`h-full bg-cc-background font-sans text-cc-content ${inter.className} antialiased`}
       >
-        <NextTopLoader showSpinner={false} color="#54a0ff" shadow={""} height={1.5}  />
+        <NextTopLoader showSpinner={false} color="#54a0ff" shadow={""} height={2}  />
         <AppHotKeys>
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </AppHotKeys>
