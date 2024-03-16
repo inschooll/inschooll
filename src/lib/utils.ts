@@ -115,9 +115,30 @@ export const convert24hrFormatTo12hrFormat = (hour: number) => {
   return hour % 12 === 0 ? 12 : hour % 12;
 }
 
+/**
+ * This util function converts 12 hour format to 24 hour format hour and returns the hour
+ * @param hour The 12-hour format hour to be converted
+ * @param meridiem The meridiem is either "am" or "pm"
+ * @returns 24-hour hour format e.g  5pm --> 17
+ */
 export const convert12HourFormatTo24HourFormat = (hour: number, meridiem: "am" | "pm") => {
   if (meridiem === "am" && hour === 12) return 0;
   if (meridiem === "pm" && hour === 12) return 12;
   if (meridiem === "am") return hour;
   else return hour+12;
+}
+
+export const getStartEndDateRange = (start: Date, end: Date) => {
+  const startHr_24HrFormat = start.getHours();
+  const startHour = convert24hrFormatTo12hrFormat(startHr_24HrFormat);
+  const startMinute = start.getMinutes();
+  
+  const endHr_24HrFormat = end.getHours();
+  const endHour = convert24hrFormatTo12hrFormat(endHr_24HrFormat);
+  const endMinute = end.getMinutes();
+
+  // meridiem
+  const meridiem = endHr_24HrFormat < 12 ? "AM" : "PM";
+
+  return `${startHour}:${formatTimePadStart(startMinute)} - ${endHour}:${formatTimePadStart(endMinute)} ${meridiem}`
 }
