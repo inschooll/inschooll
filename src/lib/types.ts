@@ -82,3 +82,5 @@ export const DepartmentSchema = z.object({
   lastAccredited: z.string().optional(),
 });
 export type TDepartmentSchema = z.infer<typeof DepartmentSchema>;
+
+export type TTickTime = { hour: number; minute: number; meridiem: "am" | "pm" };
