@@ -1,6 +1,6 @@
 import React from 'react'
 import TopNavbar from '~/components/navbar/navbar'
-import { FormBody } from './components/FormBody';
+import { FormBody } from './_components/FormBody';
 
 export default function CreateSchoolPage() {
   return (
