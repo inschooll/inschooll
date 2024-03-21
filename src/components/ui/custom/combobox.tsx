@@ -16,23 +16,44 @@ import {
 } from "~/components/ui/popover";
 import { cn } from "~/lib/utils";
 
-export type ComboboxFrameworksProps = { value: string; label: string }[];
+export type ComboboxFrameworksProps = { value: string; label: string };
 
 export type ComboboxProps = {
   defaultValue?: string;
   searchPlaceholder?: string;
-  frameworks: ComboboxFrameworksProps;
+  frameworks: ComboboxFrameworksProps[];
+  defaultSelectedFramework?: ComboboxFrameworksProps,
   searchNotFoundMsg?: string;
+  className?: string;
+  onChange?: (i: number) => void;
 };
 export function Combobox({
   defaultValue = "Select ...",
+  defaultSelectedFramework,
   frameworks,
   searchPlaceholder = "Search ...",
-  searchNotFoundMsg = 'None found.',
+  searchNotFoundMsg = "None found.",
+  className,
+  onChange,
 }: ComboboxProps) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<ComboboxFrameworksProps[0] | null>(null);
+  const [selectedFramework, setSelectedFramework] = useState<ComboboxFrameworksProps|undefined>(defaultSelectedFramework);
 
+  const selectFramework = (i: number) => {
+    const framework = frameworks[i];
+
+    // if selection is the same - cancel selection
+    if (framework?.label === selectedFramework?.label.toLocaleLowerCase()) {
+      setSelectedFramework(undefined);
+      setOpen(false);
+      return;
+    }
+
+    // select new framework
+    setSelectedFramework(framework);
+    onChange && onChange(i);
+    setOpen(false);
+  }
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -40,10 +61,10 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn("w-[200px] justify-between truncate", className, {'text-cc-content/70': !selectedFramework})}
         >
-          {selected
-            ? frameworks.find((framework) => framework.value === selected.value)?.label
+          {selectedFramework
+            ? selectedFramework.value
             : defaultValue}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -52,22 +73,20 @@ export function Combobox({
         <Command>
           <CommandInput placeholder={searchPlaceholder} className="h-9" />
           <CommandEmpty>{searchNotFoundMsg}</CommandEmpty>
-          <CommandGroup>
-            {frameworks.map((framework) => (
+          <CommandGroup className="max-h-64 overflow-auto">
+            {frameworks.map((framework, i) => (
               <CommandItem
                 key={framework.value}
                 value={framework.label}
-                onSelect={(currentLabel) => {
-                  // currentLabel is already by default converted to lowercase
-                  setSelected(currentLabel === selected?.label.toLocaleLowerCase() ? null : framework);
-                  setOpen(false);
-                }}
+                onSelect={() => selectFramework(i)}
               >
                 {framework.label}
                 <CheckIcon
                   className={cn(
                     "ml-auto h-4 w-4",
-                    selected?.value === framework.value ? "opacity-100" : "opacity-0",
+                    selectedFramework?.value === framework.value
+                      ? "opacity-100"
+                      : "opacity-0",
                   )}
                 />
               </CommandItem>
