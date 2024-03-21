@@ -21,7 +21,7 @@ export default function Input({ label, description, ...props }: InputProps) {
   if (props.isValid != undefined && props.isLoading != undefined)
     padRight = "pr-8";
 
-  let methods: UseFormReturn<FieldValues, unknown, undefined> | undefined =
+  let methods: UseFormReturn<FieldValues, unknown, FieldValues> | undefined =
     useFormContext();
   if (!props.name) methods = undefined;
 
@@ -44,7 +44,7 @@ export default function Input({ label, description, ...props }: InputProps) {
           {...props}
           alt={props.isValid === false ? "invalid" : undefined}
           className={cn(
-            "focus:border-1 rounded-md border-2 border-cc-border-main bg-cc-input-bg px-2 py-1.5 text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 focus:border-cc-primary-main ",
+            "rounded border focus:ring-2 ring-cc-primary/50 box-border border-cc-border-main bg-cc-input-bg px-2 py-1.5 text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 focus:border-cc-primary-main ",
             padRight,
             props.className,
           )}
@@ -59,7 +59,7 @@ export default function Input({ label, description, ...props }: InputProps) {
           >
             <svg
               aria-hidden="true"
-              className="h-3.5 w-3.5 animate-spin fill-cc-primary text-cc-content-main"
+              className="h-3.5 w-3.5 animate-spin fill-cc-primary text-cc-content"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
