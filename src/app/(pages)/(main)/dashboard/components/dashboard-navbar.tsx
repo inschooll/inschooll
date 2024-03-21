@@ -37,7 +37,7 @@ function SidebarActivatorAndAppLogo({className} : {className: string}) {
 
       {/* Logo */}
       <Link href={links.dashboard}>
-        <AppLogo size="sm" showAppName={false} />
+        <AppLogo size="sm" full={false} />
       </Link>
     </div>
   );

@@ -37,7 +37,7 @@ function MenuActivatorAndLogo() {
 
       {/* Logo */}
       <Link href={links.dashboard}>
-        <AppLogo size="lg" showAppName={false} />
+        <AppLogo size="lg" full={false} />
       </Link>
 
       {/* School btn */}
