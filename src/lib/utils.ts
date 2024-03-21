@@ -142,3 +142,15 @@ export const getStartEndDateRange = (start: Date, end: Date) => {
 
   return `${startHour}:${formatTimePadStart(startMinute)} - ${endHour}:${formatTimePadStart(endMinute)} ${meridiem}`
 }
+
+
+export const getAcronym = (name?: string, limit=3) => {
+  if (name && name.length <= limit) return name.toUpperCase();
+  // e.g input -> Bingham Nestle school
+  //     output -> BNU
+  return name
+    ?.split(" ")
+    .map((value, i) => (i < limit ? value[0] : ""))
+    .join("")
+    .toUpperCase();
+};
