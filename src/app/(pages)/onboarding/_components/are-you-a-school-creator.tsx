@@ -1,9 +1,16 @@
 "use client";
 import { useContext, useState } from "react";
 import { T2 } from "~/components/texts/title";
-import { ChooseContainer, OnboardingButton, OnboardingContext, OnboardingTitleAndDescription } from "../page";
+import { ChooseContainer, OnboardingButton, OnboardingTitleAndDescription } from "../page";
 import SchoolBenefits from "./school-benefits";
+import { OnboardingContext } from "~/lib/context";
 
+/**
+ * This component asks users whether they want to create a school or not. And the next 
+ * component displayed when the user clicks the continue button would depend on the 
+ * user selection
+ * @returns 
+ */
 export default function AreYouASchoolCreator() {
   const displayNextComponent = useContext(OnboardingContext);
   const [selectedIndex, setSelectedIndex] = useState<number>();

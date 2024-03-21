@@ -8,9 +8,12 @@ import {
 import Link from "next/link";
 import links from "~/lib/constants/links";
 
+/**
+ * This component displays a container with texts outlining 
+ * the benefits of creating a school
+ * @returns 
+ */
 export default function SchoolBenefits() {
-  // const displayNextComponent = useContext(OnboardingContext);
-  // const [nextComponent, setNextComponent] = useState<React.ReactNode>();
   const benefits: string | React.ReactNode[] = [
     "Inschooll facilitates the management of academic activities between students and lecturers.",
     "Empowers faculties and departments with a suite of powerful tools that help improve organization, record-keeping, and more.",

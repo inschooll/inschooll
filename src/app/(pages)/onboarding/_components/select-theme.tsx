@@ -4,10 +4,15 @@ import AreYouASchoolCreator from "./are-you-a-school-creator";
 import {
   ChooseContainer,
   OnboardingButton,
-  OnboardingContext,
   OnboardingTitleAndDescription,
 } from "../page";
+import { OnboardingContext } from "~/lib/context";
 
+/**
+ * This component allows users to select between dark mode and light mode 
+ * and it has a Continue button that allows users proceed to the next component
+ * @returns 
+ */
 export default function SelectTheme() {
   const displayNextComponent = useContext(OnboardingContext);
   const nextComponent = <AreYouASchoolCreator />;

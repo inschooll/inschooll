@@ -3,10 +3,16 @@ import { useContext } from "react";
 import { Logo } from "~/components/app_logo";
 import { T1 } from "~/components/texts/title";
 import constants from "~/lib/constants/constants";
-import { OnboardingButton, OnboardingContext } from "../page";
+import { OnboardingButton } from "../page";
 import SelectTheme from "./select-theme";
+import { OnboardingContext } from "~/lib/context";
 
 
+/**
+ * This component displays the welcome message such as Welcome to <appName>
+ * and shows a Continue button for displaying of the next component
+ * @returns 
+ */
 export default function Welcome() {
   const displayNextComponent = useContext(OnboardingContext);
   const nextComponent = <SelectTheme />;

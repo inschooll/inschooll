@@ -1,11 +1,10 @@
 "use client";
-import React, { createContext, useState } from "react";
+import React, { useState } from "react";
 import { T2 } from "~/components/texts/title";
 import { Button } from "~/components/ui/button";
+import { OnboardingContext } from "~/lib/context";
 import { cn } from "~/lib/utils";
 import Welcome from "./_components/welcome";
-
-export const OnboardingContext = createContext<(v: React.ReactNode) => void | undefined>();
 
 /**
  * This is the official onboarding screen and it works with the below components
@@ -13,11 +12,13 @@ export const OnboardingContext = createContext<(v: React.ReactNode) => void | un
  * SelectTheme
  * AreYouASchoolCreator
  *  - Yes -> SchoolBenefit -> New Page
- *  - No -> 
+ *  - No ->
  * @returns
  */
 export default function Page() {
-  const [componentHistory, setComponentHistory] = useState<React.ReactNode[]>([]);
+  const [componentHistory, setComponentHistory] = useState<React.ReactNode[]>(
+    [],
+  );
   const [component, setComponent] = useState<React.ReactNode>(null);
 
   const displayComponent = (newDisplayComponent: React.ReactNode) => {
@@ -38,30 +39,44 @@ export default function Page() {
       <main>
         <div className="">
           <div className=" bg-lime-2000 mx-auto flex h-screen flex-col items-center justify-center space-y-5 md:max-w-2xl">
-            <div className="px-4 md:px-0 py-20">{component ?? <Welcome />}</div>
+            <div className="px-4 py-20 md:px-0">{component ?? <Welcome />}</div>
           </div>
 
-          <div className="absolute bottom-5 left-1/2 -translate-x-1/2">
-            <div className="flex gap-5">
-              {Array(5)
-                .fill("")
-                .map((_, i) => (
-                  <div
-                    key={i}
-                    className={cn("size-2 rounded-full bg-cc-content/20", {
-                      "cursor-pointer bg-cc-primary/50":
-                        i < componentHistory.length,
-                      "cursor-pointer bg-cc-primary":
-                        i === componentHistory.length,
-                    })}
-                    onClick={bottomNavClick.bind(null, i)}
-                  />
-                ))}
-            </div>
-          </div>
+          <BottomNav
+            length={5}
+            componentHistory={componentHistory}
+            onClick={(i) => bottomNavClick(i)}
+          />
         </div>
       </main>
     </OnboardingContext.Provider>
+  );
+}
+
+function BottomNav(props: {
+  length: number;
+  componentHistory: unknown[];
+  onClick: (i: number) => void;
+}) {
+  const dots = Array(props.length).fill("");
+
+  const Dot = ({ i }: { i: number }) => (
+    <div
+      key={i}
+      className={cn("size-2 rounded-full bg-cc-content/20", {
+        "cursor-pointer bg-cc-primary/50": i < props.componentHistory.length,
+        "cursor-pointer bg-cc-primary": i === props.componentHistory.length,
+      })}
+      onClick={() => props.onClick(i)}
+    />
+  );
+  
+  return (
+    <div className="absolute bottom-5 left-1/2 -translate-x-1/2">
+      <div className="flex gap-5">
+        {dots.map((_, i) => (<Dot key={i} i={i} />))}
+      </div>
+    </div>
   );
 }
 
@@ -81,6 +96,11 @@ export function OnboardingButton({
   );
 }
 
+/**
+ * This is a container that can be selected or deselected
+ * @param props 
+ * @returns 
+ */
 export function ChooseContainer(props: {
   children: React.ReactNode | string;
   className?: string;
@@ -104,19 +124,21 @@ export function ChooseContainer(props: {
   );
 }
 
+/**
+ * This is a component that displays a bold title and a 
+ * description beneath the bold title
+ * @param props 
+ * @returns 
+ */
 export function OnboardingTitleAndDescription(props: {
   title: string;
-  description: string;
-  className: string;
+  description?: string;
+  className?: string;
 }) {
   return (
-    <div className={cn("text-center space-y-3 md:space-y-5", props.className)}>
+    <div className={cn("space-y-3 text-center md:space-y-5", props.className)}>
       <T2>{props.title}</T2>
-      <p className="sm:text-lg text-cc-content/70">{props.description}</p>
+      {!!props.description && <p className="text-cc-content/70 sm:text-lg">{props.description}</p>}
     </div>
   );
 }
-
-
-
-
