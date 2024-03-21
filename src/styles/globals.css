@@ -9,6 +9,9 @@
 }
 
 @layer components {
+  .app-box-shadow {
+    @apply border border-cc-border shadow-[0_0_20px_0px_rgba(0,0,0,0.1)];
+  }
   .app-hover {
     @apply  transition duration-200 hover:bg-cc-border-main/50 active:bg-cc-border-main/90;
   }
