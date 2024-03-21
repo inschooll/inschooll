@@ -1,9 +1,11 @@
 export type monthsType = 'January' | 'February' | 'March' | 'April' | 'May' | 'June' | 'July' | 'August' | 'September' | 'October' | 'November' | 'December';
 
 const constants = {
-  appName: "InSchool",
+  appName: "Inschooll",
   // appLogo: "https://utfs.io/f/ecb463d0-4e19-4bc4-83fa-f05fb2325369-veo7dd.svg",
   appLogo: "https://utfs.io/f/79739ac0-4aa3-44e2-b126-32fbfae5c379-1zbfv.png",
+  educationLevels: ["Primary", "Secondary", "Tertiary"],
+  schoolTypes: ["Public", "Private"],
   tokenName: "auth-token",
   months: [
     "January",
