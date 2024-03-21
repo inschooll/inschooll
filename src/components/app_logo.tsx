@@ -1,14 +1,16 @@
 import { Gabarito } from "next/font/google";
+import constants from "~/lib/constants/constants";
 import { cn } from "~/lib/utils";
 
 const gabarito = Gabarito({ subsets: ["latin"] });
 
 type TSize = "sm" | "md" | "lg";
 
-type AppLogoProps = { size?: TSize; showAppName?: boolean; className?: string };
+type AppLogoProps = { size?: TSize; full?: boolean; className?: string, logoClassName?: string};
 
-const AppLogo = ({ size = "md", showAppName = true, className }: AppLogoProps) => {
+const AppLogo = ({ size = "md", full = true, className, logoClassName }: AppLogoProps) => {
   const sizes = getSizes(size);
+
   return (
     <div
       className={cn(
@@ -16,10 +18,35 @@ const AppLogo = ({ size = "md", showAppName = true, className }: AppLogoProps) =
         className,
       )}
     >
-      <div className="w-5 sm:w-7">
+      <Logo />
+      <p className={cn(sizes.fontSize, gabarito.className)}>{constants.appName}</p>
+    </div>
+  );
+};
+
+export default AppLogo;
+
+function getSizes(size: TSize) {
+  switch (size) {
+    case "sm":
+      return { svgHeight: "25", svgWidth: "28", fontSize: "text-xl" };
+    case "md":
+      return { svgHeight: "28", svgWidth: "31", fontSize: "" };
+    case "lg":
+      return { svgHeight: "30", svgWidth: "34", fontSize: "" };
+    default:
+      return { svgHeight: "35", svgWidth: "39", fontSize: "" };
+  }
+}
+
+type LogoProps = {className?: string};
+
+export function Logo(props: LogoProps) {
+  return (
+    <div className={cn("w-5 sm:w-7", props.className)}>
         <svg
-          width={sizes?.svgWidth}
-          height={sizes?.svgHeight}
+          width={25}
+          height={28}
           viewBox="0 0 328 350"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -89,24 +116,5 @@ const AppLogo = ({ size = "md", showAppName = true, className }: AppLogoProps) =
           </defs>
         </svg>
       </div>
-      {showAppName && (
-        <p className={cn(sizes.fontSize, gabarito.className)}>Inschool</p>
-      )}
-    </div>
   );
-};
-
-export default AppLogo;
-
-function getSizes(size: TSize) {
-  switch (size) {
-    case "sm":
-      return { svgHeight: "25", svgWidth: "28", fontSize: "text-xl" };
-    case "md":
-      return { svgHeight: "28", svgWidth: "31", fontSize: "" };
-    case "lg":
-      return { svgHeight: "30", svgWidth: "34", fontSize: "" };
-    default:
-      return { svgHeight: "35", svgWidth: "39", fontSize: "" };
-  }
 }
