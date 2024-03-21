@@ -79,7 +79,7 @@ const MainSection = ({
 }) => {
   const [belongsToADepartment, setBelongsToADepartment] = useState(false);
   const [isAccredited, setIsAccredited] = useState(false);
-  const departments: ComboboxFrameworksProps = [
+  const departments: ComboboxFrameworksProps[] = [
     { label: "Computer Science", value: "1" },
     { label: "Cyber Security", value: "2" },
   ];
