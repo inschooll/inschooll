@@ -28,18 +28,20 @@ export const getLevelTitle = (value: number) => {
   }
 };
 
-export const getNumberPrefix = (value: number) => {
-
-  switch (value) {
-    case 1:
-      return '1st';
-    case 2:
-      return '2nd';
-    case 3:
-      return '3rd';
-    default:
-      return value + 'th';
-  }
+/**
+ * Takes a number and returns that number prefixed with 'st', 'nd', 'rd', 'th' etc
+ * @param value 
+ * @returns e.g 1st, 2nd, 3rd, 4th ...
+ */
+export const numberPositionPrefix = (value: number) => {
+  if (value === 1) return value + 'st';
+  if (value === 2) return value + 'nd';
+  if (value === 3) return value + 'rd';
+  if (value >= 4 && value <=  20) return value + 'th';
+  if (value % 10.5 ===  0) return value + 'st';
+  if (value % 11 ===  0) return value + 'nd';
+  if (value % 11.5 ===  0) return value + 'rd';
+  return value + 'th';
 }
 
 export const roundFloat = (value: number, round=1) => {
@@ -154,3 +156,15 @@ export const getAcronym = (name?: string, limit=3) => {
     .join("")
     .toUpperCase();
 };
+
+export const setTheme = (theme: "dark" | "light" | "system") => {
+  document.cookie = `theme=${theme}`;
+  const htmlTag = document.querySelector("html");
+  htmlTag?.setAttribute("data-theme", theme);
+}
+
+export const getTheme = () => {
+  const htmlTag = document.querySelector("html");
+  const theme = htmlTag?.getAttribute("data-theme");
+  return theme;
+}
