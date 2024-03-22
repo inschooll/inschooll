@@ -29,7 +29,7 @@ export default function Input({ label, description, ...props }: InputProps) {
     <div className="relative">
       {/* label */}
       {!!label && (
-        <InputLabel
+        <LabelAndDescription
           label={label}
           description={description}
           minLength={props.minLength}
@@ -107,13 +107,14 @@ export default function Input({ label, description, ...props }: InputProps) {
   );
 }
 
-export const InputLabel = ({
+export const LabelAndDescription = ({
   label,
+  className,
   ...props
 }: { label: string } & Omit<InputProps, "label">) => {
   return (
     <div
-      className={cn("pb-2", {
+      className={cn("pb-2", className, {
         "flex items-center justify-between": props.minLength ?? props.maxLength,
       })}
     >

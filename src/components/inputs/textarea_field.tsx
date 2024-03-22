@@ -1,6 +1,6 @@
 'use client';
 import React, { type TextareaHTMLAttributes, type DetailedHTMLProps } from "react";
-import { InputDescription, InputErrorMessage, InputLabel } from "./input";
+import { InputDescription, InputErrorMessage, LabelAndDescription } from "./input";
 import { useFormContext } from "react-hook-form";
 
 export type TextareaProps = {
@@ -15,7 +15,7 @@ export default function TextareaField({...props}: TextareaProps) {
   return (
     <div>
       {/* label */}
-      {props.label && (<InputLabel label={props.label} description={props.description} minLength={props.minLength} maxLength={props.maxLength} required={props.required} />)}
+      {props.label && (<LabelAndDescription label={props.label} description={props.description} minLength={props.minLength} maxLength={props.maxLength} required={props.required} />)}
 
       <textarea
         rows={props.rows ?? 8}

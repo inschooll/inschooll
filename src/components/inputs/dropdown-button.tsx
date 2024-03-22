@@ -9,7 +9,7 @@ import {
   DropdownMenuRadioGroup,
 } from "../ui/dropdown-menu";
 import { ScrollArea } from "../ui/scroll-area";
-import { InputDescription, InputErrorMessage, InputLabel } from "./input";
+import { InputDescription, InputErrorMessage, LabelAndDescription } from "./input";
 import { cn } from "~/lib/utils";
 
 type IconAndTitleProp = { icon?: React.ReactNode; title: string };
@@ -67,7 +67,7 @@ export default function DropdownButton({options, ...props}: DropdownButtonProps)
   return (
     <div>
       {/* label */}
-      {props.label && (<InputLabel label={props.label} required={props.required} description={props.description} />)}
+      {props.label && (<LabelAndDescription label={props.label} required={props.required} description={props.description} />)}
 
       <DropdownMenu>
         <DropdownMenuTrigger className={cn("min-w-52", props.className)}>
