@@ -7,6 +7,8 @@ import {
   OnboardingTitleAndDescription,
 } from "../page";
 import { OnboardingContext } from "~/lib/context";
+import { getTheme, setTheme } from "~/lib/utils";
+import constants from "~/lib/constants/constants";
 
 /**
  * This component allows users to select between dark mode and light mode 
@@ -14,25 +16,28 @@ import { OnboardingContext } from "~/lib/context";
  * @returns 
  */
 export default function SelectTheme() {
-  const displayNextComponent = useContext(OnboardingContext);
+  const {displayNewComponent: displayNextComponent} = useContext(OnboardingContext);
   const nextComponent = <AreYouASchoolCreator />;
   const [isDark, setIsDark] = useState<boolean>();
 
   useEffect(() => {
-    const htmlTag = document.querySelector("html");
-    const theme = htmlTag?.getAttribute("data-theme");
+    const theme = getTheme();
 
     // update current theme
-    if (theme == "light") setIsDark(false);
-    else if (theme == "dark") setIsDark(true);
-    else setIsDark(false);
+    if (theme == "dark") {
+      setIsDark(true);
+      setTheme(constants.theme.dark);
+    }
+    else {
+      setIsDark(false)
+      setTheme(constants.theme.light);
+    }
+    
   }, []);
 
   const updateSelection = (isDark: boolean) => {
     setIsDark(isDark);
-    // update theme
-    const htmlTag = document.querySelector("html");
-    htmlTag?.setAttribute("data-theme", isDark ? "dark" : "light");
+    setTheme(isDark ? constants.theme.dark : constants.theme.light);
   };
 
   return (
@@ -62,7 +67,7 @@ export default function SelectTheme() {
       </div>
 
       <OnboardingButton
-        onClick={displayNextComponent.bind(null, nextComponent)}
+        onClick={displayNextComponent?.bind(null, nextComponent)}
       />
     </>
   );
