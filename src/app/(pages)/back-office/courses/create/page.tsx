@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 import { FormProvider, useForm, type UseFormReturn } from "react-hook-form";
 import { LuTrash2 } from "react-icons/lu";
 import { MdAdd } from "react-icons/md";
-import Input, { InputLabel } from "~/components/inputs/input";
+import Input, { LabelAndDescription } from "~/components/inputs/input";
 import TextareaField from "~/components/inputs/textarea_field";
 import { Button } from "~/components/ui/button";
 import {
@@ -121,7 +121,7 @@ const MainSection = ({
           onChange={(e) => setBelongsToADepartment(e.target.checked)}
         />
         <div>
-          <InputLabel
+          <LabelAndDescription
             label="This course belongs to a particular department"
             description="Even though a course belongs to a particular department, it can still be taken by other departments except that option is disabled"
           />
@@ -142,7 +142,7 @@ const MainSection = ({
           onChange={(e) => setBelongsToADepartment(e.target.checked)}
         />
         <div>
-          <InputLabel
+          <LabelAndDescription
             label="This course belongs to a particular department"
             description="Even though a course belongs to a particular department, it can still be taken by other departments except that option is disabled"
           />
@@ -157,7 +157,7 @@ const MainSection = ({
 
       {/*  Level */}
       <div>
-        <InputLabel
+        <LabelAndDescription
           label="Level"
           description="The level that this course belongs to"
         />
@@ -166,7 +166,7 @@ const MainSection = ({
 
       {/*  Semester */}
       <div>
-        <InputLabel
+        <LabelAndDescription
           label="Semester"
           description="The semester that this course belongs to"
         />

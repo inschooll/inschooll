@@ -1,6 +1,6 @@
 import {
   InputErrorMessage,
-  InputLabel,
+  LabelAndDescription,
 } from "~/components/inputs/input";
 import {
   Combobox,
@@ -39,7 +39,7 @@ export default function EducationLevel_SchoolType_EstablishmentDate(props: CompP
   return (
     <div className="flex flex-col gap-5 md:flex-row">
       <div className="flex-1">
-        <InputLabel
+        <LabelAndDescription
           label="Education Level"
           description="The level of education of the school"
         />
@@ -54,7 +54,7 @@ export default function EducationLevel_SchoolType_EstablishmentDate(props: CompP
         )}
       </div>
       <div className="flex-1">
-        <InputLabel label="School type" description="The type of school" />
+        <LabelAndDescription label="School type" description="The type of school" />
         <Combobox
           defaultValue="Select the school type"
           frameworks={frameworkSchoolType}
@@ -66,7 +66,7 @@ export default function EducationLevel_SchoolType_EstablishmentDate(props: CompP
         )}
       </div>
       <div className="flex-1">
-        <InputLabel
+        <LabelAndDescription
           label="Establishment date"
           description="When the school was established"
         />

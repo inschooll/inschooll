@@ -2,7 +2,7 @@ import { useState } from "react";
 import { countries_data } from "scripts/data/countries_data";
 import {
   InputErrorMessage,
-  InputLabel,
+  LabelAndDescription,
 } from "~/components/inputs/input";
 import {
   Combobox,
@@ -47,7 +47,7 @@ export default function CountryAndStateFields(props: {
     <div className="grid grid-cols-2 gap-5">
       {/* country */}
       <div>
-        <InputLabel
+        <LabelAndDescription
           label="Country"
           description="The country the school is located at"
         />
@@ -63,7 +63,7 @@ export default function CountryAndStateFields(props: {
       </div>
       {/* state */}
       <div>
-        <InputLabel
+        <LabelAndDescription
           label="State"
           description="The state the school is located at"
         />

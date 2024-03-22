@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { OnboardingTitleAndDescription } from "~/app/(pages)/onboarding/page";
 import InfoBox from "~/components/cards/InfoBox";
 import Divider from "~/components/divider";
-import Input, { InputLabel } from "~/components/inputs/input";
+import Input, { LabelAndDescription } from "~/components/inputs/input";
 import TextareaField from "~/components/inputs/textarea_field";
 import { Button } from "~/components/ui/button";
 import { useToast } from "~/components/ui/use-toast";
@@ -207,7 +207,7 @@ export function FormBody() {
 
             {/* Website */}
             <div>
-              <InputLabel
+              <LabelAndDescription
                 label="Website"
                 description="The official website of the school"
               />

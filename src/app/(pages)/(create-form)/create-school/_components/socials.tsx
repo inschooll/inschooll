@@ -1,7 +1,8 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { CgRemove } from "react-icons/cg";
-import Input, { InputLabel } from "~/components/inputs/input";
+import { AddButton } from "~/components/buttons/composite-buttons";
+import Input, { LabelAndDescription } from "~/components/inputs/input";
 import { Button } from "~/components/ui/button";
 
 
@@ -31,7 +32,7 @@ export default function Socials() {
 
   return (
     <div>
-      <InputLabel
+      <LabelAndDescription
         label="Socials"
         description="The different social medias of the school"
       />
@@ -45,17 +46,7 @@ export default function Socials() {
           />
         ))}
       </div>
-      <Button
-        className="mt-3"
-        variant={"secondary"}
-        type="button"
-        onClick={addNewField}
-      > 
-      <div className="flex items-center space-x-1">
-        <Plus size={18} />
-        <span>Add another</span>
-      </div>
-      </Button>
+      <AddButton className="mt-3" title="Add another" onClick={addNewField} />
     </div>
   );
 }
