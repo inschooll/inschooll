@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { MdOutlineLightMode } from "react-icons/md";
 import { FaDesktop } from "react-icons/fa";
-import { getCookie, setCookie } from "cookies-next";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Command, CommandGroup, CommandItem } from "../ui/command";
 import { Check } from "lucide-react";
-import { cn } from "~/lib/utils";
-import type { Ttheme } from "~/app/utils/types";
+import { cn, getTheme, setTheme } from "~/lib/utils";
+import type { Ttheme } from "~/lib/types";
 
 
 const frameworks = [
@@ -33,25 +32,18 @@ const frameworks = [
 ];
 
 export default function ChangeThemeButtons() {
-  const getTheme = () => getCookie("theme") as Ttheme;
   const [open, setOpen] = useState(false);
-  const [theme, setTheme] = useState(getTheme);
   const [selectedFramework, setSelectedFramework] = useState(frameworks[0]);
 
   useEffect(() => {
+    // set default selected theme framework (icon & text)
+    const theme = getTheme();
     setSelectedFramework(() => {
       if (theme === frameworks[0]?.value) return frameworks[0];
       if (theme === frameworks[1]?.value) return frameworks[1];
       return frameworks[2];
     })
   }, [])
-
-  const updateTheme = (theme: Ttheme) => {
-    const html = document.documentElement;
-    html.setAttribute("data-theme", theme);
-    setCookie("theme", theme);
-    setTheme(theme);
-  };
 
   return (
     <div>
@@ -73,7 +65,7 @@ export default function ChangeThemeButtons() {
                   className={cn("flex items-center justify-between")}
                   onSelect={(currentValue) => {
                     setSelectedFramework(framework);
-                    updateTheme(currentValue as Ttheme);
+                    setTheme(currentValue as Ttheme);
                     setOpen(false);
                   }}
                 >
