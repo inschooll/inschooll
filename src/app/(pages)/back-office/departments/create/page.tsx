@@ -5,7 +5,7 @@ import { FormProvider, useForm, type UseFormReturn } from "react-hook-form";
 import { LuTrash2 } from "react-icons/lu";
 import { MdAdd } from "react-icons/md";
 import DropdownButton from "~/components/inputs/dropdown-button";
-import Input, { InputLabel } from "~/components/inputs/input";
+import Input, { LabelAndDescription } from "~/components/inputs/input";
 import TextareaField from "~/components/inputs/textarea_field";
 import NavbarWithIndex from "~/components/navbar-with-index";
 import { Button } from "~/components/ui/button";
@@ -88,7 +88,7 @@ const MainSection = ({
           onChange={(e) => setHasCode(e.target.checked)}
         />
         <div>
-          <InputLabel
+          <LabelAndDescription
             label="This department has a code"
             description="The department code is a unique identifier used for identifying a particular department within a faculty"
           />
@@ -105,7 +105,7 @@ const MainSection = ({
           onChange={(e) => setHasHod(e.target.checked)}
         />
         <div>
-          <InputLabel
+          <LabelAndDescription
             label="This department has a HOD (Head of Department)"
             description="The Head of Department is the academic leader of the department"
           />
@@ -188,7 +188,7 @@ const MainSection = ({
           onChange={(e) => setIsAccredited(e.target.checked)}
         />
         <div>
-          <InputLabel
+          <LabelAndDescription
             label="This department is accredited"
             description="Accreditation is the recognition from an accrediting agency that an institution maintains a high level of educational standards"
           />
