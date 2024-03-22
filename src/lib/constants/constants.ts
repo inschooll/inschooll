@@ -7,6 +7,7 @@ const constants = {
   educationLevels: ["Primary", "Secondary", "Tertiary"],
   schoolTypes: ["Public", "Private"],
   tokenName: "auth-token",
+  theme: {dark: 'dark', light: 'light', system: 'system'} as const,
   months: [
     "January",
     "February",
