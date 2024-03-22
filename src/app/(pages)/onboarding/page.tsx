@@ -5,80 +5,49 @@ import { Button } from "~/components/ui/button";
 import { OnboardingContext } from "~/lib/context";
 import { cn } from "~/lib/utils";
 import Welcome from "./_components/welcome";
+import { useOnboarding } from "~/lib/hooks";
+import DotsNavbar from "./_components/dots-navbar";
 
 /**
- * This is the official onboarding screen and it works with the below components
- * Welcome
- * SelectTheme
- * AreYouASchoolCreator
- *  - Yes -> SchoolBenefit -> New Page
- *  - No ->
+ * This is the official onboarding screen and it it initially displays the Welcome component
+ * 
+ * Order of components displayed are as follows:
+ * - Welcome
+ * - SelectTheme
+ * - AreYouASchoolCreator
+ *  - - Yes -> SchoolBenefit -> New Page
+ *  - - No ->
  * @returns
  */
 export default function Page() {
-  const [componentHistory, setComponentHistory] = useState<React.ReactNode[]>(
-    [],
-  );
-  const [component, setComponent] = useState<React.ReactNode>(null);
-
-  const displayComponent = (newDisplayComponent: React.ReactNode) => {
-    setComponentHistory((comps) => [...comps, component]);
-    setComponent(newDisplayComponent);
-  };
-
-  const bottomNavClick = (i: number) => {
-    if (i >= componentHistory.length) return;
-    setComponent(componentHistory[i]);
-
-    // remove preceding components from history
-    setComponentHistory((components) => components.slice(0, i));
-  };
+  const {handleDisplayNewComponent, component, componentHistory, bottomNavClick} = useOnboarding();
 
   return (
-    <OnboardingContext.Provider value={displayComponent}>
+    <OnboardingContext.Provider value={{displayNewComponent: handleDisplayNewComponent}}>
       <main>
-        <div className="">
-          <div className=" bg-lime-2000 mx-auto flex h-screen flex-col items-center justify-center space-y-5 md:max-w-2xl">
-            <div className="px-4 py-20 md:px-0">{component ?? <Welcome />}</div>
-          </div>
+          <OnboardingWrapper>
+            {component ?? <Welcome />}
+          </OnboardingWrapper>
 
-          <BottomNav
-            length={5}
+          <DotsNavbar
+            numberOfDots={5}
             componentHistory={componentHistory}
             onClick={(i) => bottomNavClick(i)}
           />
-        </div>
       </main>
     </OnboardingContext.Provider>
   );
 }
 
-function BottomNav(props: {
-  length: number;
-  componentHistory: unknown[];
-  onClick: (i: number) => void;
-}) {
-  const dots = Array(props.length).fill("");
-
-  const Dot = ({ i }: { i: number }) => (
-    <div
-      key={i}
-      className={cn("size-2 rounded-full bg-cc-content/20", {
-        "cursor-pointer bg-cc-primary/50": i < props.componentHistory.length,
-        "cursor-pointer bg-cc-primary": i === props.componentHistory.length,
-      })}
-      onClick={() => props.onClick(i)}
-    />
-  );
-  
+export const OnboardingWrapper = ({
+  children,
+}: React.HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="absolute bottom-5 left-1/2 -translate-x-1/2">
-      <div className="flex gap-5">
-        {dots.map((_, i) => (<Dot key={i} i={i} />))}
-      </div>
+    <div className="relative bg-lime-2000 mx-auto flex min-h-dvh flex-col items-center justify-center space-y-5 lg:max-w-3xl">
+      <div className="px-4 py-36 md:px-0">{children}</div>
     </div>
   );
-}
+};
 
 export function OnboardingButton({
   title,
