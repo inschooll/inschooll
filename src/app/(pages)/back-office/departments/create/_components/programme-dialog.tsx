@@ -2,7 +2,7 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { LuTrash2 } from "react-icons/lu";
-import Input, { InputLabel } from "~/components/inputs/input";
+import Input, { LabelAndDescription } from "~/components/inputs/input";
 import { T5 } from "~/components/texts/title";
 import {
   Accordion,
@@ -13,7 +13,7 @@ import {
 import { Button } from "~/components/ui/button";
 import SelectCombo, { SelectComboFrameworksProps } from "~/components/ui/custom/select-combo";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { cn, getLevelTitle, getNumberPrefix } from "~/lib/utils";
+import { cn, getLevelTitle, numberPositionPrefix } from "~/lib/utils";
 import { useSemesterContext } from "../page";
 
 const degreeOptions: SelectComboFrameworksProps = [
@@ -55,7 +55,7 @@ export default function AddProgrammeDialog() {
         <div className="flex h-screen flex-col gap-5 px-3 py-5 md:px-6">
           {/* Degree type */}
           <div>
-            <InputLabel
+            <LabelAndDescription
               label="Degree type"
               description="The qualification awarded to a student upon successful completion of the programme"
             />
@@ -73,7 +73,7 @@ export default function AddProgrammeDialog() {
 
           {/* Years of enrollment options */}
           <div>
-            <InputLabel
+            <LabelAndDescription
               label="Years of enrollment options"
               description="The different years enrollment options students can uniquely enroll in for this particular programme"
             />
@@ -215,7 +215,7 @@ const LevelAccordion = ({
             {Array(context.semesterCount)
               .fill("_")
               .map((_, index) => (
-                <Semester key={index} value={`${getNumberPrefix(index+1)} semester`} showContent={index === 0} />
+                <Semester key={index} value={`${numberPositionPrefix(index+1)} semester`} showContent={index === 0} />
               ))}
           </div>
         </div>
