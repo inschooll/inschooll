@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { SectionTitle } from "../../_components/section-title";
-import Input, { InputLabel } from "~/components/inputs/input";
+import Input, { LabelAndDescription } from "~/components/inputs/input";
 import { Button } from "~/components/ui/button";
 import TextareaField from "~/components/inputs/textarea_field";
 import DropdownButton from "~/components/inputs/dropdown-button";
@@ -40,7 +40,7 @@ export default function Page() {
               onChange={(e) => setHasCode(e.target.checked)}
             />
             <div>
-              <InputLabel
+              <LabelAndDescription
                 label="This faculty has a code"
                 description="The faculty code is a unique identifier used for identifying a particular faculty within a faculty"
               />
@@ -111,7 +111,7 @@ export default function Page() {
           <div className="flex gap-2">
             <Input type="checkbox" className="mt-2" onChange={e => setIsAccredited(e.target.checked)} />
             <div>
-              <InputLabel
+              <LabelAndDescription
                 label="This department is accredited"
                 description="Accreditation is the recognition from an accrediting agency that an institution maintains a high level of educational standards"
               />
