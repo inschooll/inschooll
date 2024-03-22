@@ -1,17 +1,15 @@
 "use client";
 import { Check } from "lucide-react";
 import React from "react";
-import {
-  OnboardingButton,
-  OnboardingTitleAndDescription
-} from "../page";
+import { OnboardingButton, OnboardingTitleAndDescription } from "../page";
 import Link from "next/link";
 import links from "~/lib/constants/links";
+import OnboardingCard from "./onboarding-card";
 
 /**
- * This component displays a container with texts outlining 
+ * This component displays a container with texts outlining
  * the benefits of creating a school
- * @returns 
+ * @returns
  */
 export default function SchoolBenefits() {
   const benefits: string | React.ReactNode[] = [
@@ -30,14 +28,11 @@ export default function SchoolBenefits() {
           title="School creation benefits"
           description="Inschooll literally gives your school super powers."
         />
-        <div className="px-7 py-5 rounded-lg max-w-xl text-left divide-y divide-cc-border app-box-shadow">
+        <OnboardingCard>
           {benefits.map((text, i) => (
-            <div className="py-6 flex gap-10 items-center" key={i}>
-              <Check className="text-cc-green shrink-0" size={20} />
-              <p className="text-cc-content/70">{text}</p>
-            </div>
+            <BenefitTile key={i}>{text}</BenefitTile>
           ))}
-        </div>
+        </OnboardingCard>
       </div>
 
       <Link href={links.createSchool}>
@@ -46,3 +41,12 @@ export default function SchoolBenefits() {
     </>
   );
 }
+
+const BenefitTile = ({ children }: { children: React.ReactNode | string }) => {
+  return (
+    <div className="flex items-center gap-10 py-6">
+      <Check className="shrink-0 text-cc-green" size={20} />
+      <p className="text-cc-content/70">{children}</p>
+    </div>
+  );
+};
