@@ -14,7 +14,7 @@ import { OnboardingContext } from "~/lib/context";
  * @returns 
  */
 export default function Welcome() {
-  const displayNextComponent = useContext(OnboardingContext);
+  const {displayNewComponent: displayNextComponent} = useContext(OnboardingContext);
   const nextComponent = <SelectTheme />;
 
   return (
@@ -32,7 +32,7 @@ export default function Welcome() {
       </div>
 
       <OnboardingButton
-        onClick={displayNextComponent.bind(null, nextComponent)}
+        onClick={displayNextComponent?.bind(null, nextComponent)}
       />
     </>
   );
