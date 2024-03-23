@@ -23,17 +23,17 @@ export default function SchoolBenefits() {
 
   return (
     <>
-      <div className="space-y-8 text-center">
-        <OnboardingTitleAndDescription
-          title="School creation benefits"
-          description="Inschooll literally gives your school super powers."
-        />
-        <OnboardingCard>
+      <OnboardingTitleAndDescription
+        title="School creation benefits"
+        description="Inschooll literally gives your school super powers."
+      />
+      <OnboardingCard>
+        <div className="divide-y divide-cc-border">
           {benefits.map((text, i) => (
             <BenefitTile key={i}>{text}</BenefitTile>
           ))}
-        </OnboardingCard>
-      </div>
+        </div>
+      </OnboardingCard>
 
       <Link href={links.createSchool}>
         <OnboardingButton title="Create school" />
