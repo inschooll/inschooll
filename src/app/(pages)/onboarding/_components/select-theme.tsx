@@ -42,28 +42,26 @@ export default function SelectTheme() {
 
   return (
     <>
-      <div className="space-y-8 text-center ">
-        <OnboardingTitleAndDescription
-          title="Pick your style"
-          description="You can always change this later in the application."
-        />
+      <OnboardingTitleAndDescription
+        title="Pick your style"
+        description="You can always change this later in the application."
+      />
 
-        <div className="rounded-lg md:flex">
-          <ChooseContainer
-            className="rounded-t-sm sm:rounded-t-none md:rounded-l-lg"
-            isSelected={!isDark}
-            onClick={updateSelection.bind(null, false)}
-          >
-            <Light className="scale-[.8]" />
-          </ChooseContainer>
-          <ChooseContainer
-            className="rounded-b-sm sm:rounded-b-none md:rounded-r-lg"
-            isSelected={isDark}
-            onClick={updateSelection.bind(null, true)}
-          >
-            <Dark className="scale-[.8]" />
-          </ChooseContainer>
-        </div>
+      <div className="rounded-lg md:flex">
+        <ChooseContainer
+          className="rounded-t-sm sm:rounded-t-none md:rounded-l-lg"
+          isSelected={!isDark}
+          onClick={updateSelection.bind(null, false)}
+        >
+          <Light className="scale-[.8]" />
+        </ChooseContainer>
+        <ChooseContainer
+          className="rounded-b-sm sm:rounded-b-none md:rounded-r-lg"
+          isSelected={isDark}
+          onClick={updateSelection.bind(null, true)}
+        >
+          <Dark className="scale-[.8]" />
+        </ChooseContainer>
       </div>
 
       <OnboardingButton
