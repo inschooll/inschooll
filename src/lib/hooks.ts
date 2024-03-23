@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useToast } from "~/components/ui/use-toast";
 
 export const useDebounce = <T>(value: T, delay = 1000) => {
   const [dValue, setDValue] = useState<T>(value);
@@ -54,3 +55,35 @@ export const useOnboarding = () => {
     bottomNavClick,
   };
 };
+
+/**
+ * This hook is used to add new fields to {@link fieldsList}, remove fields, and update specific fields
+ * @param defaultFieldItem This is the defaultItem that is added to {@link fieldsList} whenever the {@link addNewField} function is called
+ * @param maxFieldListLength This is the maximum fields list length we are unable to exceed
+ * @returns
+ */
+export function useManageFields<T>(defaultFieldItem: T, maxFieldListLength = 8) {
+  const [fieldsList, setFieldsList] = useState<T[]>([defaultFieldItem]);
+  const { toast } = useToast();
+
+  const addNewField = () => {
+    if (fieldsList.length === maxFieldListLength) {
+      return toast({ description: "Maximum fields count reached!" });
+    }
+    setFieldsList((prev) => [...prev, defaultFieldItem]);
+  };
+
+  const removeFieldAt = (i: number) => {
+    const newFields = fieldsList.filter((_, index) => index !== i);
+    console.log({ newFields });
+    setFieldsList(newFields);
+  };
+
+  const updateFieldAt = (item: T, i: number) => {
+    const newList = [...fieldsList];
+    newList[i] = item;
+    setFieldsList(newList);
+  };
+
+  return { fieldsList, addNewField, removeFieldAt, updateFieldAt };
+}
