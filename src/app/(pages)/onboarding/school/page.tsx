@@ -16,14 +16,14 @@ export default function Page() {
     componentHistory,
     bottomNavClick,
   } = useOnboarding();
-  const dotsCount = 5;
+  const dotsCount = 11;
 
   return (
     <OnboardingContext.Provider
       value={{ displayNewComponent: handleDisplayNewComponent }}
     >
       <main>
-        <div className="">
+        <>
           <OnboardingWrapper>
             {component ?? <SemesterSetup />}
           </OnboardingWrapper>
@@ -33,7 +33,7 @@ export default function Page() {
             componentHistory={componentHistory}
             onClick={(i) => bottomNavClick(i)}
           />
-        </div>
+        </>
       </main>
     </OnboardingContext.Provider>
   );
