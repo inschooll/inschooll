@@ -6,7 +6,7 @@ import {
 } from "~/components/inputs/input";
 import {
   Combobox,
-  type ComboboxFrameworksProps,
+  type ComboboxFrameworks,
 } from "~/components/ui/custom/combobox";
 
 
@@ -16,7 +16,7 @@ export default function CountryAndStateFields(props: {
   updateMethod: (k: string, v: string) => void;
 }) {
   // framework: country
-  const frameworkCountry: ComboboxFrameworksProps[] = countries_data.map(
+  const frameworkCountry: ComboboxFrameworks[] = countries_data.map(
     (country) => ({
       label: country.name,
       value: country.name,
@@ -27,7 +27,7 @@ export default function CountryAndStateFields(props: {
   const [states, setStates] = useState(countries_data[0]!.states);
 
   // framework: country
-  const frameworkState: ComboboxFrameworksProps[] = states.map((state) => ({
+  const frameworkState: ComboboxFrameworks[] = states.map((state) => ({
     label: state.name,
     value: state.name,
   }));

@@ -4,7 +4,7 @@ import {
 } from "~/components/inputs/input";
 import {
   Combobox,
-  type ComboboxFrameworksProps,
+  type ComboboxFrameworks,
 } from "~/components/ui/custom/combobox";
 import DatePicker from "~/components/ui/custom/DatePicker";
 import constants from "~/lib/constants/constants";
@@ -17,9 +17,9 @@ type CompProps = {
 };
 
 export default function EducationLevel_SchoolType_EstablishmentDate(props: CompProps) {
-  const frameworkEducationLevel: ComboboxFrameworksProps[] =
+  const frameworkEducationLevel: ComboboxFrameworks[] =
     constants.educationLevels.map((level) => ({ label: level, value: level }));
-  const frameworkSchoolType: ComboboxFrameworksProps[] =
+  const frameworkSchoolType: ComboboxFrameworks[] =
     constants.schoolTypes.map((type) => ({ label: type, value: type }));
 
   const selectEducationLevel = (i: number) => {

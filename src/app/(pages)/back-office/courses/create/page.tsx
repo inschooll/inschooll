@@ -9,7 +9,7 @@ import TextareaField from "~/components/inputs/textarea_field";
 import { Button } from "~/components/ui/button";
 import {
   Combobox,
-  type ComboboxFrameworksProps,
+  type ComboboxFrameworks,
 } from "~/components/ui/custom/combobox";
 import SelectCombo, {
   type SelectComboFrameworksProps,
@@ -79,7 +79,7 @@ const MainSection = ({
 }) => {
   const [belongsToADepartment, setBelongsToADepartment] = useState(false);
   const [isAccredited, setIsAccredited] = useState(false);
-  const departments: ComboboxFrameworksProps[] = [
+  const departments: ComboboxFrameworks[] = [
     { label: "Computer Science", value: "1" },
     { label: "Cyber Security", value: "2" },
   ];

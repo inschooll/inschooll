@@ -43,8 +43,8 @@ export const OnboardingWrapper = ({
   children,
 }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="relative bg-lime-2000 mx-auto flex min-h-dvh flex-col items-center justify-center space-y-5 lg:max-w-3xl">
-      <div className="px-4 py-36 md:px-0">{children}</div>
+    <div className="relative bg-lime-2000 mx-auto flex min-h-dvh flex-col items-center justify-center space-y-5 md:max-w-2xl">
+      <div className="px-4 py-28">{children}</div>
     </div>
   );
 };
@@ -105,7 +105,7 @@ export function OnboardingTitleAndDescription(props: {
   className?: string;
 }) {
   return (
-    <div className={cn("space-y-3 text-center md:space-y-5", props.className)}>
+    <div className={cn("space-y-3 text-center md:space-y-5 pb-8", props.className)}>
       <T2>{props.title}</T2>
       {!!props.description && <p className="text-cc-content/70 sm:text-lg">{props.description}</p>}
     </div>
