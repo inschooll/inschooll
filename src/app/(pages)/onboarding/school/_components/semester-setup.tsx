@@ -50,46 +50,45 @@ export default function SemesterSetup() {
     updateFieldsCount,
     fieldsDataList: semestersList,
     updateFieldAt: updateSemesterAt
-  } = useAddField<TSemester>(defaultSemesterItem);
+  } = useManageFieldsWithCount<TSemester>(defaultSemesterItem);
 
   const onSubmit = () => {
     // TODO: Ensure the fields are valid before submission
     console.log(semestersList);
     
-    displayNextComponent?.bind(null, nextComponent);
+    displayNextComponent && displayNextComponent(nextComponent);
   }
 
   return (
     <>
-      <div className="space-y-8 text-center">
-        <OnboardingTitleAndDescription
-          title="Semester setup"
-          description="Start and end date of the semester, breaks, exams."
+      <OnboardingTitleAndDescription
+        title="Semester setup"
+        description="Start and end date of the semester, breaks, exams."
+      />
+      
+      <OnboardingCard>
+        {/* Semesters per year */}
+        <NumberOfSemestersModifier
+          count={fieldsCount}
+          updateCount={updateFieldsCount}
         />
-        <OnboardingCard>
-          {/* Semesters per year */}
-          <NumberOfSemestersModifier
-            count={fieldsCount}
-            updateCount={updateFieldsCount}
-          />
 
-          <Divider className="my-5" />
+        <Divider className="my-5" />
 
 
-          <Accordion type="single" collapsible className="w-full rounded-md">
-            {semestersList.map((semester, i) => (
-              <SemesterAccordion
-                key={i}
-                title={numberPositionPrefix(i + 1)}
-                isFirst={i === 0}
-                isLast={i === semestersList.length - 1}
-                semesterData={semester}
-                updateSemesterData={(semesterData) => updateSemesterAt(semesterData, i)}
-              />
-            ))}
-          </Accordion>
-        </OnboardingCard>
-      </div>
+        <Accordion type="single" collapsible className="w-full rounded-md">
+          {semestersList.map((semester, i) => (
+            <SemesterAccordion
+              key={i}
+              title={numberPositionPrefix(i + 1)}
+              isFirst={i === 0}
+              isLast={i === semestersList.length - 1}
+              semesterData={semester}
+              updateSemesterData={(semesterData) => updateSemesterAt(semesterData, i)}
+            />
+          ))}
+        </Accordion>
+      </OnboardingCard>
 
       <OnboardingButton
         onClick={onSubmit}
@@ -136,12 +135,13 @@ const NumberOfSemestersModifier = ({
  * @param defaultFieldsCount The number of fields
  * @returns 
  */
-function useAddField<T>(defaultFieldItem: T, defaultFieldsCount = 1) {
+function useManageFieldsWithCount<T>(defaultFieldItem: T, defaultFieldsCount = 1) {
   const { toast } = useToast();
-  const [fieldsCount, setFieldsCount] = useState(defaultFieldsCount);
+  const [fieldsCount, setFieldsCount] = useState<number>(defaultFieldsCount);
   const [fieldsDataList, setFieldsData] = useState<T[]>([defaultFieldItem]);
 
-  // This method updates the fields count and ensures the fields count and the length of the fieldsData stay the same
+  // This method updates the fields count and ensures the fields 
+  // count and the length of the fieldsData stay the same
   const updateFieldsCount = (count: number) => {
     // Ensure count is not less tan 1 or greater than 8
     if (count > 8) {
