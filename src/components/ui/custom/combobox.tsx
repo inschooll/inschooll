@@ -16,13 +16,13 @@ import {
 } from "~/components/ui/popover";
 import { cn } from "~/lib/utils";
 
-export type ComboboxFrameworksProps = { value: string; label: string };
+export type ComboboxFrameworks = { value: string; label: string };
 
 export type ComboboxProps = {
   defaultValue?: string;
   searchPlaceholder?: string;
-  frameworks: ComboboxFrameworksProps[];
-  defaultSelectedFramework?: ComboboxFrameworksProps,
+  frameworks: ComboboxFrameworks[];
+  defaultSelectedFramework?: ComboboxFrameworks,
   searchNotFoundMsg?: string;
   className?: string;
   onChange?: (i: number) => void;
@@ -37,7 +37,7 @@ export function Combobox({
   onChange,
 }: ComboboxProps) {
   const [open, setOpen] = useState(false);
-  const [selectedFramework, setSelectedFramework] = useState<ComboboxFrameworksProps|undefined>(defaultSelectedFramework);
+  const [selectedFramework, setSelectedFramework] = useState<ComboboxFrameworks|undefined>(defaultSelectedFramework);
 
   const selectFramework = (i: number) => {
     const framework = frameworks[i];
