@@ -18,9 +18,6 @@
   .app-hover-slight {
     @apply  transition duration-200 hover:bg-cc-border-main/20 active:bg-cc-border-main/50;
   }
-  .app-hover-slight {
-    @apply  transition duration-200 hover:bg-cc-border-main/20;
-  }
   .app-transition {
     @apply transition duration-200
   }
