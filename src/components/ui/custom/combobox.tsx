@@ -25,6 +25,7 @@ export type ComboboxProps = {
   defaultSelectedFramework?: ComboboxFrameworks,
   searchNotFoundMsg?: string;
   className?: string;
+  disableSearch?: boolean;
   onChange?: (i: number) => void;
 };
 export function Combobox({
@@ -35,6 +36,7 @@ export function Combobox({
   searchNotFoundMsg = "None found.",
   className,
   onChange,
+  disableSearch = false,
 }: ComboboxProps) {
   const [open, setOpen] = useState(false);
   const [selectedFramework, setSelectedFramework] = useState<ComboboxFrameworks|undefined>(defaultSelectedFramework);
@@ -61,7 +63,7 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn("w-[200px] justify-between truncate", className, {'text-cc-content/70': !selectedFramework})}
+          className={cn("w-[200px] font-normal justify-between truncate", className, {'text-cc-content/70': !selectedFramework})}
         >
           {selectedFramework
             ? selectedFramework.value
@@ -71,7 +73,7 @@ export function Combobox({
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder={searchPlaceholder} className="h-9" />
+          {!disableSearch && (<CommandInput placeholder={searchPlaceholder} className="h-9" />)}
           <CommandEmpty>{searchNotFoundMsg}</CommandEmpty>
           <CommandGroup className="max-h-64 overflow-auto">
             {frameworks.map((framework, i) => (
