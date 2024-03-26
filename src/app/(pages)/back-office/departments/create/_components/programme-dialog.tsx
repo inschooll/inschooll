@@ -1,6 +1,6 @@
 "use client";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LuTrash2 } from "react-icons/lu";
 import Input, { LabelAndDescription } from "~/components/inputs/input";
 import { T5 } from "~/components/texts/title";
@@ -13,8 +13,8 @@ import {
 import { Button } from "~/components/ui/button";
 import SelectCombo, { type SelectComboFrameworksProps } from "~/components/ui/custom/select-combo";
 import { ScrollArea } from "~/components/ui/scroll-area";
+import { SemesterContext as SemesterCountContext } from "~/lib/context";
 import { cn, getLevelTitle, numberPositionPrefix } from "~/lib/utils";
-import { useSemesterContext } from "../page";
 
 const degreeOptions: SelectComboFrameworksProps = [
   {value: '1', label: "Associate degree"},
@@ -175,7 +175,7 @@ const LevelAccordion = ({
   isFirst: boolean;
   isLast: boolean;
 }) => {
-  const context = useSemesterContext();
+  const context = useContext(SemesterCountContext);
 
   return (
     <AccordionItem value={level}>
@@ -212,7 +212,7 @@ const LevelAccordion = ({
           
           {/* Semesters */}
           <div className="border border-border rounded-lg">
-            {Array(context.semesterCount)
+            {Array(context?.semesterCount)
               .fill("_")
               .map((_, index) => (
                 <Semester key={index} value={`${numberPositionPrefix(index+1)} semester`} showContent={index === 0} />

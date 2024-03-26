@@ -6,3 +6,5 @@ type TOnboardingContext = {
 };
 
 export const OnboardingContext = createContext<TOnboardingContext>({});
+
+export const SemesterContext = createContext<{semesterCount: number} | null>(null);
