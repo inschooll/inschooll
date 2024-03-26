@@ -8,12 +8,13 @@ import {
 } from "~/components/ui/custom/combobox";
 import DatePicker from "~/components/ui/custom/DatePicker";
 import constants from "~/lib/constants/constants";
+import type { TSchoolSchema } from "~/lib/types";
 
 type CompProps = {
   educationLevelErrorMsg?: string;
   schoolTypeErrorMsg?: string;
   establishmentDateErrorMsg?: string;
-  updateMethod: (k: string, v: string) => void;
+  updateMethod: (k: keyof TSchoolSchema, v: string) => void;
 };
 
 export default function EducationLevel_SchoolType_EstablishmentDate(props: CompProps) {

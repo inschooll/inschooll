@@ -1,4 +1,3 @@
-import { Plus } from "lucide-react";
 import { useState } from "react";
 import { CgRemove } from "react-icons/cg";
 import { AddButton } from "~/components/buttons/composite-buttons";

@@ -1,16 +1,16 @@
 'use client';
 import React from "react";
 import LeftSidebarWrapper from "~/components/LeftSidebarWrapper";
-import StyleAdder from "./style-adder";
-import { useLeftSidebarStore } from "~/store";
 import { cn } from "~/lib/utils";
+import { useLeftSidebarStore } from "~/store";
+import StyleAdder from "./style-adder";
 
 export interface LayoutProps {
   children: React.ReactNode;
   params: { school: string };
 }
 
-export default function Layout({ children, params }: LayoutProps) {
+export default function Layout({ children }: LayoutProps) {
   const isLeftSidebarActive = useLeftSidebarStore(state => state.isActive);
 
   return (
