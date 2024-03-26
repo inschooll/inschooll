@@ -24,7 +24,7 @@ type TSemester = {
   semesterCount: number;
 };
 
-export const SemesterContext = createContext<TSemester | null>(null);
+const SemesterContext = createContext<TSemester | null>(null);
 
 export const useSemesterContext = () => {
   const context = useContext(SemesterContext);
