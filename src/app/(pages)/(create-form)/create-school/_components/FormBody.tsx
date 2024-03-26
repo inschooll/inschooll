@@ -19,6 +19,7 @@ import CountryAndStateFields from "./country-state-fields";
 import EducationLevel_SchoolType_EstablishmentDate from "./educationlevel-schooltype-establishmentdate";
 import PhoneNumbers from "./phone-numbers";
 import Socials from "./socials";
+import { useDebounce } from "~/lib/hooks";
 
 export function FormBody() {
   const { toast } = useToast();
@@ -59,25 +60,16 @@ export function FormBody() {
 
   // TODO: implement useDebounce instead
   // make school name request only when user has not typed a character in 2 seconds
-  const [shouldMakeNameRequest, setShouldMakeNameRequest] = useState(false);
+  const debouncedName = useDebounce(watch.name);
   useEffect(() => {
-    setSchoolNameIsValid(undefined);
     const acronym = getAcronym(formData.name);
     methods.setValue("acronym", acronym ?? "");
-    const timerId = setTimeout(() => setShouldMakeNameRequest(true), 2000);
-    return () => clearTimeout(timerId);
-  }, [watch.name]);
-
-  useEffect(() => console.log("Is Loading", nameIsLoading), [nameIsLoading]);
+  }, [formData.name, methods, watch.name]);
 
   useEffect(() => {
-    if (shouldMakeNameRequest) {
-      // make API request. check if school with name exists
-      schoolByNameExist({ name: formData.name });
-      // Reset shouldMakeRequest
-      setShouldMakeNameRequest(false);
-    }
-  }, [shouldMakeNameRequest, formData.name, schoolByNameExist]);
+    console.log('Request sent!!!')
+    schoolByNameExist({ name: formData.name });
+  }, [debouncedName, formData.name, schoolByNameExist]);
 
   // displays an error container with a message at the top of the form
   const [inputErrorMessage, setInputErrorMessage] = useState("");
@@ -106,7 +98,7 @@ export function FormBody() {
     });
   };
 
-  const updateMethod = (key: string, value: string) => {
+  const updateMethod = (key: keyof TSchoolSchema, value: string) => {
     methods.setValue(key, value);
   };
 
@@ -125,7 +117,7 @@ export function FormBody() {
         />
 
         {!!inputErrorMessage && (
-          <InfoBox text={inputErrorMessage} type="error" />
+          <InfoBox text={inputErrorMessage} variant="error" />
         )}
 
         <div className="mt-10 px-5">

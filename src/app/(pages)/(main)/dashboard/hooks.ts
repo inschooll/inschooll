@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { setInterval } from "timers";
+import { type TTickTime } from "~/lib/types";
 import {
   convert12HourFormatTo24HourFormat,
   convert24hrFormatTo12hrFormat,
@@ -12,7 +13,6 @@ import {
   HOUR_CARD_SIZE,
   SECONDS_PER_MINUTE,
 } from "./components/hour-card-list";
-import { type TTickTime } from "~/lib/types";
 
 
 /**
@@ -262,6 +262,7 @@ export function useSyncScroll() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       scrollRef3.current?.removeEventListener("scroll", updateScroll3);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { scrollRef1, scrollRef2, scrollRef3, scrollPosition };

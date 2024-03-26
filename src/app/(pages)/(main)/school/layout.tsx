@@ -1,14 +1,13 @@
-import React from "react";
-import BreadCrumbs from "../_components/breadcrumbs";
-import links from "~/lib/constants/links";
 import Image from "next/image";
-import images from "~/lib/constants/images";
-import { buttonVariants } from "~/components/ui/button";
 import Link from "next/link";
-import { T2 } from "~/components/texts/title";
-import Navbar from "~/components/navbar";
+import React from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { TbBuilding } from "react-icons/tb";
+import Navbar from "~/components/navbar";
+import { T2 } from "~/components/texts/title";
+import { buttonVariants } from "~/components/ui/button";
+import images from "~/lib/constants/images";
+import links from "~/lib/constants/links";
 
 export default function Layout({children} : { children: React.ReactNode}) {
   // const breadCrumbData = { school: links.school };

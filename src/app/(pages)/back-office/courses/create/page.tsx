@@ -78,7 +78,6 @@ const MainSection = ({
   methods: UseFormReturn<TDepartmentSchema>;
 }) => {
   const [belongsToADepartment, setBelongsToADepartment] = useState(false);
-  const [isAccredited, setIsAccredited] = useState(false);
   const departments: ComboboxFrameworks[] = [
     { label: "Computer Science", value: "1" },
     { label: "Cyber Security", value: "2" },

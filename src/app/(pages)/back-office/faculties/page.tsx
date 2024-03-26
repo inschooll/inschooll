@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { IoMdAdd } from "react-icons/io";
-import links from "~/lib/constants/links";
-import Input from "~/components/inputs/input";
-import { SectionTitle } from "../_components/section-title";
-import { buttonVariants } from "~/components/ui/button";
 import { MdAdd } from "react-icons/md";
+import Input from "~/components/inputs/input";
+import { buttonVariants } from "~/components/ui/button";
+import links from "~/lib/constants/links";
+import { SectionTitle } from "../_components/section-title";
 
 export default function Page() {
   return (
