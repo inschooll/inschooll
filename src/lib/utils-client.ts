@@ -3,7 +3,6 @@
 import assert from "assert";
 import type { monthsType } from "~/lib/constants/constants";
 import errorMessages from "~/lib/constants/error-messages";
-import successMessages from "~/lib/constants/success-messages";
 
 export async function uploadImage({ file, getPresignedURL }: UploadImageProp) {
   const {

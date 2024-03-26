@@ -42,16 +42,11 @@ export const SchoolSchema = z.object({
   state: z.string().min(1, 'State is required'),
   address: z.string().min(1, 'Address is required'),
   email: z.string().min(1, 'Email is required'),
-  phone1: z.string().min(1, 'Phone1 is required'),
-  phone2: z.string().optional(),
-  phone3: z.string().optional(),
+  phoneNumbers: z.array(z.string().min(1, 'Phone number is required')),
   website: z.string().min(1, 'Website is required'),
-  facebook: z.string().min(1, 'Facebook is required'),
-  twitter: z.string().min(1, 'Twitter is required'),
-  instagram: z.string().min(1, 'Instagram is required'),
+  socials: z.array(z.string().min(1, 'Social handle is required'))
 });
 export type TSchoolSchema = z.infer<typeof SchoolSchema>
-
 export const FacultySchema = z.object({
   name: z.string().min(1, "Faculty name is required"),
   code: z.string().optional(),

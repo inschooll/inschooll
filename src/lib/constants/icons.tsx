@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const icons = {
   // left: ({defaultProps}: Omit<LucideIcon, '$$typeof'>) => <ChevronLeft {...defaultProps} />,

@@ -1,12 +1,11 @@
 "use client";
 
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
-  useReactTable,
+  useReactTable
 } from "@tanstack/react-table";
-import { classNames } from "node_modules/react-easy-crop/helpers";
 
 import {
   Table,

@@ -1,5 +1,6 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import type { TSegment } from "~/app/(pages)/onboarding/school/_components/id-number-setup";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -167,4 +168,66 @@ export const getTheme = () => {
   const htmlTag = document.querySelector("html");
   const theme = htmlTag?.getAttribute("data-theme");
   return theme;
+}
+
+/**
+ * This util function takes in a list of segments, and converts 
+ * each segment into a pattern (one that we can store in our 
+ * database and retrieve in the future to use it in matching 
+ * an id to see if an Id is valid or not. It can also be used 
+ * to know how to rightly generate id numbers for students and staffs)
+ * [] - encapsulates a segment
+ * 
+ * {} - min & max length
+ * <> - special characters
+ * <<>> - characters
+ * () - db relationships
+ * .. - a-zA-Z (fixed)
+ * 
+ * @return e.g "[BHU][/][(acronym of school name)][(code of faculty)][(unique number based on staff in department)][(year of admission | all digits)]"
+ */
+export const generateIdPattern = (segments: TSegment[]) => {
+  let result = '';
+  segments.map((segment) => {
+    result += '[';
+
+    // fixed value
+    if (segment.type === "fixed") {
+      result += segment.fixedValue;
+    }
+    // acronym of
+    if (segment.type === "acronym") {
+      result += `(acronym of ${segment.acronymOf})`;
+    }
+    // alphabets
+    if (segment.type === "alphabets") {
+      result += `{<<alphabets>> {${segment.maxLength},${segment.minLength}}<${segment.specialCharacters}>)`;
+    }
+    // alphanumeric
+    if (segment.type === "alphanumeric") {
+      result += `{<<alphanumeric>>${segment.maxLength},${segment.minLength}}<${segment.specialCharacters}>)`;
+    }
+    // numbers
+    if (segment.type === "numbers") {
+      result += `{<<numbers>>${segment.maxLength},${segment.minLength}}<${segment.specialCharacters}>)`;
+    }
+    // code
+    if (segment.type === "code") {
+      result += `(code of ${segment.codeOf})`;
+    }
+    // unique number
+    if (segment.type === "unique number") {
+      result += `(unique number based on ${segment.basedOn} in ${segment.in})`;
+    }
+    // year of
+    if (segment.type === "year") {
+      result += `(year of ${segment.yearOf} | ${segment.shouldInclude})`;
+    }
+
+    result += ']';
+
+    return result;
+  });
+  
+  return result;
 }
