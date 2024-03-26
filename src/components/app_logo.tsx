@@ -8,7 +8,7 @@ type TSize = "sm" | "md" | "lg";
 
 type AppLogoProps = { size?: TSize; full?: boolean; className?: string, logoClassName?: string};
 
-const AppLogo = ({ size = "md", full = true, className, logoClassName }: AppLogoProps) => {
+const AppLogo = ({ size = "md", className }: AppLogoProps) => {
   const sizes = getSizes(size);
 
   return (

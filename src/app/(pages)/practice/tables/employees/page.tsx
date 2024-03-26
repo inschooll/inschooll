@@ -1,6 +1,5 @@
-import React from 'react'
-import { DataTable } from './data-table'
-import { Employee, columns } from './columns'
+import { type Employee, columns } from './columns';
+import { DataTable } from './data-table';
 
 const employees: Employee[] = [
   {
