@@ -1,4 +1,3 @@
-import links from "~/lib/constants/links";
 
 
 type SchoolPageProps = {

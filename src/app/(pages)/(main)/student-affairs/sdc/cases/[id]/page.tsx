@@ -1,4 +1,4 @@
-import { UserTableNRDP, UserTableNRDSPA } from "~/app/(pages)/(main)/_components/tables/user-tables";
+import { UserTableNRDSPA } from "~/app/(pages)/(main)/_components/tables/user-tables";
 import { T6 } from "~/components/texts/title";
 
 export default function Body() {

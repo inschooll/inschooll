@@ -1,12 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { HiMenu } from "react-icons/hi";
-import images from "~/lib/constants/images";
-import links from "~/lib/constants/links";
-import AppLogo from "~/components/app_logo";
+import { Logo } from "~/components/app_logo";
 import Navbar from "~/components/navbar";
 import { Button } from "~/components/ui/button";
+import images from "~/lib/constants/images";
+import links from "~/lib/constants/links";
 
 export default function BackOfficeHeader() {
   const navItems = [{ text: "/", href: links.backoffice.main }];
@@ -37,7 +36,7 @@ function MenuActivatorAndLogo() {
 
       {/* Logo */}
       <Link href={links.dashboard}>
-        <AppLogo size="lg" full={false} />
+        <Logo size="lg"/>
       </Link>
 
       {/* School btn */}

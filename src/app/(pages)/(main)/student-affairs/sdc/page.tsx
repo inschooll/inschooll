@@ -1,15 +1,10 @@
-import React from "react";
+import Link from "next/link";
 import { T4, T5 } from "~/components/texts/title";
 import links from "~/lib/constants/links";
-import Link from "next/link";
-import {CaseTableTTO} from "../../_components/tables/cases-tables";
 import BreadCrumbsAndTitle from "../../_components/breadcrumbs-and-title";
+import { CaseTableTTO } from "../../_components/tables/cases-tables";
 
-export default function SDCCases({
-  params,
-}: {
-  params: { school: string };
-}) {
+export default function SDCCases() {
   const breadCrumbData = {'Student Affairs': links.studentAffairs, 'SDC': links.sdc};
   return (
     <main>
@@ -17,14 +12,14 @@ export default function SDCCases({
 
       {/* sdc, src, right side bar */}
       <div className="mt-12 grid grid-cols-12 gap-4 px-7">
-        <MainContent schoolName={params.school} />
+        <MainContent />
         <RightSidebar />
       </div>
     </main>
   );
 }
 
-function MainContent({schoolName}: {schoolName: string}) {
+function MainContent() {
   return (
     <div className="col-span-8">
       {/* sdc & src box */}

@@ -48,6 +48,7 @@ export default function GradingSection () {
     const total = gradingItems.reduce((acc, item) => acc + item.grade, 0);
     return total;
   };
+  getTotalGrade();
 
   const updateGradingItemAtIndex = (i: number, gradingItem: TGradingItem) => {
     const newGradingItems = [...gradingItems];
