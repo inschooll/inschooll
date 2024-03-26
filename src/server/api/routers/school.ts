@@ -1,15 +1,14 @@
-import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { school, user_school_role } from "~/server/db/schema";
-import { randomUUID } from "crypto";
-import roles from "~/lib/constants/roles";
-import { asc } from "drizzle-orm";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
-import { bucketName, s3Client } from "./aws";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { TRPCClientError } from "@trpc/client";
+import { randomUUID } from "crypto";
+import { asc } from "drizzle-orm";
+import { z } from "zod";
 import errorMessages from "~/lib/constants/error-messages";
 import { SchoolSchema } from "~/lib/types";
+import { school } from "~/server/db/schema";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { bucketName, s3Client } from "./aws";
 
 const schoolOptionalType = {
   id: z.string(),
@@ -61,23 +60,26 @@ export const schoolRouter = createTRPCRouter({
       const data = {
         id: randomUUID(),
         ...input,
-        cover: input.coverKey,
-        logo: input.logoKey,
-        websiteUrl: input.website,
-        twitterUrl: input.twitter,
-        instagramUrl: input.instagram,
-        facebookUrl: input.facebook,
+        cover: input.coverKey ?? "",
+        logo: input.logoKey ?? "",
+        // websiteUrl: input.website,
+        // twitterUrl: input.twitter,
+        // instagramUrl: input.instagram,
+        // facebookUrl: input.facebook,
 
         country_id: country.id,
         state_id: state.id,
+
         // chancellor_id: ctx.session.user.id,
       };
 
       // create school
+      // TODO: Fix school creation
       const newSchool = await ctx.db.insert(school).values(data);
       const newSchoolData = await ctx.db.query.school.findFirst({
         where: (school, { eq }) => eq(school.name, input.name),
       });
+      newSchoolData;
 
       // TODO: Integrate roles: create user_school_role relationship
       // STEP 1: add roles via defaultDBValues script
@@ -95,7 +97,7 @@ export const schoolRouter = createTRPCRouter({
       // await ctx.db.insert(user_school_role).values(userSchoolRole);
 
       // return new school
-      return newSchool.insertId;
+      return newSchool;
     }),
   getAll: protectedProcedure
     .input(z.object(getAllTypes))

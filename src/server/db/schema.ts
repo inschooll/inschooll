@@ -1,7 +1,6 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { create } from "domain";
 import { sql } from "drizzle-orm";
 import { index, int,  sqliteTableCreator, text, unique } from "drizzle-orm/sqlite-core";
 
@@ -38,31 +37,28 @@ export const user = createTable("user", {
   username_idx: index("username_idx").on(table.username),
   email_idx: index("email_idx").on(table.email),
 }));
-export const userInsertType = typeof user.$inferInsert;
+export type userInsertType = typeof user.$inferInsert;
 
 
 export const school = createTable("school", {
   id: text("id", { length: 256 }).notNull().primaryKey(),
   name: text("name", { length: 256 }).unique().notNull(),
-  about: text("about", { length: 5000 }).notNull(),
-  motto: text("motto", { length: 256 }).notNull(),
   acronym: text("acronym", { length: 5 }).notNull(),
+  motto: text("motto", { length: 256 }).notNull(),
+  about: text("about", { length: 2000 }).notNull(),
   cover: text("cover", { length: 256 }).notNull(),
   logo: text("logo", { length: 256 }).notNull(),
   address: text("address", { length: 256 }).notNull(),
   email: text("email", { length: 256 }).notNull(),
-  phone1: text("phone1", { length: 20 }).notNull(),
-  phone2: text("phone2", { length: 20 }),
-  phone3: text("phone3", { length: 20 }),
-  website_url: text("website_url", { length: 256 }),
-  twitter_url: text("twitter_url", { length: 256 }),
-  instagram_url: text("instagram_url", { length: 256 }),
-  facebook_url: text("facebook_url", { length: 256 }),
+  website: text("website", { length: 256 }).notNull(),
+  // Education Level
+  // School Type
+  // Establishment date
 
-  // chancellor_id: text("chancellor_id", { length: 256 }).references(() => user.id, {onDelete: 'set null'}),
-  // vice_chancellor_id: text("vice_chancellor_id", { length: 256 }).references(() => user.id, {onDelete: 'set null'}),
+  // Tables
+  // - Phone numbers
+  // - Socials
 
-  // TODO: Add fields
   country_id: text("country_id", { length: 256 }).references(() => country.id, {onDelete: 'set null'}),
   state_id: text("state_id", { length: 256 }).references(() => state.id, {onDelete: 'set null'}),
 
@@ -70,6 +66,7 @@ export const school = createTable("school", {
   updatedAt: int("updatedAt", { mode: "timestamp" }),
 });
 
+export type SchoolTableType = typeof school.$inferInsert;
 
 // FACULTY
 export const faculty = createTable(

@@ -210,7 +210,7 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: .4rem;
   height: .4rem;
 }
@@ -226,7 +226,7 @@ body {
   background-color: rgb(var(--color-scrollbar));
   opacity: .8;
   border-radius: 10px;
-}
+} */
 
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
