@@ -1,7 +1,5 @@
 "use client";
 import { useState } from "react";
-// TODO: use zod instead of validator
-import { isEmail } from "validator";
 import InfoBox from "~/components/cards/InfoBox";
 import Input from "~/components/inputs/input";
 import errorMessages from "~/lib/constants/error-messages";
@@ -11,6 +9,7 @@ import { api } from "~/trpc/react";
 // import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
+import { z } from 'zod';
 import { Button } from "~/components/ui/button";
 import { LoginSchema, type TLoginSchema } from "~/lib/types";
 
@@ -18,6 +17,8 @@ type LoginFormBodyProps = {
   updateAuthToken: (token: string) => void;
   defaultEmail?: string;
 };
+
+const EmailSchema = z.string().email();
 
 export default function LoginFormBody(props: LoginFormBodyProps) {
   // store
@@ -49,7 +50,8 @@ export default function LoginFormBody(props: LoginFormBodyProps) {
 
   const onSubmit = (data: TLoginSchema) => {
     let [username, email] = ["", ""];
-    if (isEmail(data.emailOrUsername)) email = data.emailOrUsername;
+    // use zod to check if it is an email
+    if (EmailSchema.safeParse(data.emailOrUsername).success) email = data.emailOrUsername;
     else username = data.emailOrUsername;
 
     login({ username, email, password: data.password });
@@ -158,7 +160,7 @@ function ForgotPasswordForm({
           disabled={isLoading}
           onClick={() => {
             if (!email) return;
-            if (!isEmail(email)) {
+            if (!EmailSchema.safeParse(email).success) {
               setSuccessMsg("");
               return setInputErrorMessage(errorMessages.invalidEmail);
             }
