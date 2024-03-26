@@ -5,12 +5,10 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "~/components/ui/select";
 import { cn } from "~/lib/utils";
-
 export type SelectComboFrameworksProps = {
   avatar?: string;
   value: string;
