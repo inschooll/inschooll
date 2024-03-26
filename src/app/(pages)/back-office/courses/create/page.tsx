@@ -1,6 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 import { FormProvider, useForm, type UseFormReturn } from "react-hook-form";
 import { LuTrash2 } from "react-icons/lu";
 import { MdAdd } from "react-icons/md";
@@ -15,26 +15,12 @@ import SelectCombo, {
   type SelectComboFrameworksProps,
 } from "~/components/ui/custom/select-combo";
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
+import { SemesterContext } from "~/lib/context";
 import { DepartmentSchema, type TDepartmentSchema } from "~/lib/types";
 import { SectionTitle } from "../../_components/section-title";
 import GradingSection from "./_component/grading-section";
 import AddModuleDialog from "./_component/modules-dialog";
 
-type TSemester = {
-  semesterCount: number;
-};
-
-const SemesterContext = createContext<TSemester | null>(null);
-
-export const useSemesterContext = () => {
-  const context = useContext(SemesterContext);
-  if (context === null)
-    throw new Error(
-      "useSemesterContext must be used within a SemesterContext provider",
-    );
-
-  return context;
-};
 
 export default function Page() {
   const methods = useForm<TDepartmentSchema>({
