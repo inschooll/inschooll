@@ -11,7 +11,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
-import SelectCombo, { SelectComboFrameworksProps } from "~/components/ui/custom/select-combo";
+import SelectCombo, { type SelectComboFrameworksProps } from "~/components/ui/custom/select-combo";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { cn, getLevelTitle, numberPositionPrefix } from "~/lib/utils";
 import { useSemesterContext } from "../page";

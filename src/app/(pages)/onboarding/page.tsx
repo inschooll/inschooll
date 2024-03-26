@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { T2 } from "~/components/texts/title";
-import { Button } from "~/components/ui/button";
+import { Button, type ButtonProps } from "~/components/ui/button";
 import { OnboardingContext } from "~/lib/context";
-import { cn } from "~/lib/utils";
-import Welcome from "./_components/welcome";
 import { useOnboarding } from "~/lib/hooks";
+import { cn } from "~/lib/utils";
 import DotsNavbar from "./_components/dots-navbar";
+import Welcome from "./_components/welcome";
 
 /**
  * This is the official onboarding screen and it it initially displays the Welcome component
@@ -50,15 +50,11 @@ export const OnboardingWrapper = ({
 };
 
 export function OnboardingButton({
-  title,
-  onClick,
-}: {
-  title?: string;
-  onClick?: () => void;
-}) {
+  title, className, ...props
+}: ButtonProps) {
   return (
-    <div className="mx-auto w-full pt-10 md:w-96">
-      <Button size={"lg"} className="w-full rounded-sm py-6" onClick={onClick}>
+    <div className={cn("mx-auto w-full pt-10 md:w-96", className)}>
+      <Button size={"lg"} className="w-full rounded-sm py-6" {...props}>
         {title ?? "Continue"}
       </Button>
     </div>
