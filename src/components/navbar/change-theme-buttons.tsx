@@ -1,13 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
-import { MdOutlineDarkMode } from "react-icons/md";
-import { MdOutlineLightMode } from "react-icons/md";
-import { FaDesktop } from "react-icons/fa";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Command, CommandGroup, CommandItem } from "../ui/command";
 import { Check } from "lucide-react";
-import { cn, getTheme, setTheme } from "~/lib/utils";
+import { useEffect, useState } from "react";
+import { FaDesktop } from "react-icons/fa";
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import type { Ttheme } from "~/lib/types";
+import { cn, getTheme, setTheme } from "~/lib/utils";
+import { Command, CommandGroup, CommandItem } from "../ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 
 const frameworks = [
@@ -58,7 +57,7 @@ export default function ChangeThemeButtons() {
         <PopoverContent className="w-[150px] p-0">
           <Command>
             <CommandGroup>
-              {frameworks.map((framework, i) => (
+              {frameworks.map((framework) => (
                 <CommandItem
                   key={framework.value}
                   value={framework.value}

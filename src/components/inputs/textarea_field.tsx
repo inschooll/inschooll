@@ -1,7 +1,7 @@
 'use client';
-import React, { type TextareaHTMLAttributes, type DetailedHTMLProps } from "react";
-import { InputDescription, InputErrorMessage, LabelAndDescription } from "./input";
+import { type DetailedHTMLProps, type TextareaHTMLAttributes } from "react";
 import { useFormContext } from "react-hook-form";
+import { InputErrorMessage, LabelAndDescription } from "./input";
 
 export type TextareaProps = {
   label?: string,
@@ -22,7 +22,7 @@ export default function TextareaField({...props}: TextareaProps) {
         className={
           "focus:border-1 resize-none w-full rounded border focus:ring-2 ring-cc-primary/50 bg-cc-input-bg px-2 py-1.5 text-cc-input-text outline-none transition-colors duration-200 placeholder:font-normal placeholder:text-cc-content-main/20 border-cc-border-main focus:border-cc-primary-main"
         }
-        {...methods?.register(props.name!) }
+        {...methods?.register(props.name!)}
         {...props}
       />
 

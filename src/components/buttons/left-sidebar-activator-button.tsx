@@ -1,8 +1,6 @@
 'use client';
-import { FaAnglesLeft } from "react-icons/fa6";
 import { HiMenu } from "react-icons/hi";
 import { useLeftSidebarStore } from "~/store";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 export default function LeftSidebarActivatorButton({}) {
   // grab zustand store data, and update functions
