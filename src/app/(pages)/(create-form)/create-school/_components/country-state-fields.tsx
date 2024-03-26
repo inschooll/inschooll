@@ -8,12 +8,13 @@ import {
   Combobox,
   type ComboboxFrameworks,
 } from "~/components/ui/custom/combobox";
+import type { TSchoolSchema } from "~/lib/types";
 
 
 export default function CountryAndStateFields(props: {
   countryErrorMsg?: string;
   stateErrorMsg?: string;
-  updateMethod: (k: string, v: string) => void;
+  updateMethod: (k: keyof TSchoolSchema, v: string) => void;
 }) {
   // framework: country
   const frameworkCountry: ComboboxFrameworks[] = countries_data.map(

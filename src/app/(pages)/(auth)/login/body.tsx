@@ -2,10 +2,10 @@
 import { useState } from "react";
 // TODO: use zod instead of validator
 import { isEmail } from "validator";
-import errorMessages from "~/lib/constants/error-messages";
-import successMessages from "~/lib/constants/success-messages";
 import InfoBox from "~/components/cards/InfoBox";
 import Input from "~/components/inputs/input";
+import errorMessages from "~/lib/constants/error-messages";
+import successMessages from "~/lib/constants/success-messages";
 import { getErrorMessage } from "~/lib/utils-client";
 import { api } from "~/trpc/react";
 // import { useRouter } from "next/navigation";
@@ -60,11 +60,9 @@ export default function LoginFormBody(props: LoginFormBodyProps) {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           {inputErrorMessage ? (
-            <InfoBox text={inputErrorMessage} type="error" />
-          ) : (
-            <></>
-          )}
-          {successMsg ? <InfoBox text={successMsg} type="success" /> : <></>}
+            <InfoBox text={inputErrorMessage} variant="error" />
+          ) : (<></>)}
+          {successMsg ? <InfoBox text={successMsg} variant="success" /> : <></>}
 
           <div className="flex flex-col gap-2">
             {/* email or username */}
@@ -91,8 +89,7 @@ export default function LoginFormBody(props: LoginFormBodyProps) {
               size={"default"}
               type="submit"
               className="w-full"
-              // TODO: Integrate loading in shadcn button
-              // isLoading={isLoading}
+              disabled={isLoading}
             >
               Log in
             </Button>
@@ -135,11 +132,11 @@ function ForgotPasswordForm({
     <>
       <form>
         {inputErrorMessage ? (
-          <InfoBox text={inputErrorMessage} type="error" />
+          <InfoBox text={inputErrorMessage} variant="error" />
         ) : (
           <></>
         )}
-        {successMsg ? <InfoBox text={successMsg} type="success" /> : <></>}
+        {successMsg ? <InfoBox text={successMsg} variant="success" /> : <></>}
 
         {/* email or username */}
         <Input
@@ -158,8 +155,7 @@ function ForgotPasswordForm({
           size={"default"}
           type="button"
           className="w-full rounded"
-          // TODO: Integrate loading in shadcn button
-          // isLoading={isLoading}
+          disabled={isLoading}
           onClick={() => {
             if (!email) return;
             if (!isEmail(email)) {

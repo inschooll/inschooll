@@ -121,19 +121,6 @@ export default function Home() {
                   Start today
                 </Button>
               </Link>
-
-              {/* <button className="bg-black shadow hover:shadow-none text-white hover:bg-gray-900 py-2 px-2 text-sm rounded-[4px] font-semibold">
-                <div className="flex justify-around bg-redl-600 px-12 w-full">
-                  <p className=" whitespace-nowrap">Start today</p>
-
-                  <div className="flex items-center justify-end bg-lime-300 ">
-                    <div className="inline-block h-5 w-1 bg-white"></div>
-                    <div className="inline-block">
-                      <Image src={constants.doubleArrowUp} alt="double arrow icon facing up" width={10} height={10} />
-                    </div>
-                  </div>
-                </div>
-              </button> */}
             </div>
           </div>
         </div>

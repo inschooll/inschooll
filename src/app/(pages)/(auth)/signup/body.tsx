@@ -34,8 +34,6 @@ export default function FormBody({
 
   const {
     mutate: signup,
-    isLoading,
-    isError,
   } = api.auth.signup.useMutation({
     onError: (err) => {
       console.log(err);
@@ -52,6 +50,7 @@ export default function FormBody({
       onError: (error) => {
         methods.setError("username", { message: "Username already exists!" });
         setUsernameIsValid(false);
+        console.log(error);
         // TODO: give visual feedback on error
       },
       onSuccess: (data) => {
@@ -68,6 +67,7 @@ export default function FormBody({
       onError: (error) => {
         methods.setError("email", { message: "Email already exists!" });
         setEmailIsValid(false);
+        console.log(error);
         // TODO: give visual feedback on error
       },
       onSuccess: (data) => {
@@ -147,7 +147,7 @@ export default function FormBody({
         })}
       >
         {!!inputErrorMessage && (
-          <InfoBox text={inputErrorMessage} type="error" />
+          <InfoBox text={inputErrorMessage} variant={"error"} />
         )}
 
         <div className="mt-5 grid grid-cols-2 gap-4">

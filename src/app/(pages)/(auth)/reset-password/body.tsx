@@ -59,8 +59,8 @@ export default function ResetPasswordForm(props: { userId: string }) {
     <>
       <div className="mt-5">
         <form>
-          {inputErrorMessage ? <InfoBox text={inputErrorMessage} type="error" /> : <></>}
-          {successMsg ? <InfoBox text={successMsg} type="success" /> : <></>}
+          {inputErrorMessage ? <InfoBox text={inputErrorMessage} variant="error" /> : <></>}
+          {successMsg ? <InfoBox text={successMsg} variant="success" /> : <></>}
 
           <div className="flex flex-col gap-2">
             {/* new password */}

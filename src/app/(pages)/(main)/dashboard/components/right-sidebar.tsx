@@ -1,7 +1,6 @@
 "use client";
-import { ChevronDown, PanelRight } from "lucide-react";
-import React, { useState } from "react";
-import { cn } from "~/lib/utils";
+import { PanelRight } from "lucide-react";
+import { useState } from "react";
 import { useRightDashboardSidebarStore } from "~/store";
 import DashboardCalendar from "./dashboard-calendar";
 import CoursesSection from "./right-sidebar-components/couses-section";

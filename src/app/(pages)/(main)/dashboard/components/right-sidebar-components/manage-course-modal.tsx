@@ -1,14 +1,13 @@
 "use client";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { Button } from "~/components/ui/button";
-import { DialogHeader } from "~/components/ui/dialog";
-import { ScrollArea } from "~/components/ui/scroll-area";
-import TitleAndDescription from "./text-and-description";
-import { ColumnDef } from "@tanstack/react-table";
-import images from "~/lib/constants/images";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Avatar } from "~/components/avatar-username";
-import { DataTable } from "~/components/ui/custom/data-table";
 import Divider from "~/components/divider";
+import { Button } from "~/components/ui/button";
+import { DataTable } from "~/components/ui/custom/data-table";
+import { DialogHeader } from "~/components/ui/dialog";
+import images from "~/lib/constants/images";
+import TitleAndDescription from "./text-and-description";
 
 type CourseUser = { avatar: string; name: string };
 type Course = {
@@ -73,9 +72,9 @@ const columns: ColumnDef<Course>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-2">
-          <Avatar url={(row.getValue("lecturer") as CourseUser).avatar} />
+          <Avatar url={(row.getValue("lecturer") satisfies CourseUser).avatar} />
           <p className="font-medium text-cc-content/70">
-            {(row.getValue("lecturer") as CourseUser).name}
+            {(row.getValue("lecturer") satisfies CourseUser).name}
           </p>
         </div>
       );
